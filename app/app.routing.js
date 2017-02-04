@@ -1,7 +1,9 @@
 "use strict";
 var router_1 = require('@angular/router');
+// component
 var MainPage_component_1 = require('./components/Main/MainPage.component');
 var DJ_component_1 = require('./components/DJ/DJ.component');
+var track_component_1 = require('./components/track/track.component');
 var appRoutes = [
     {
         path: '',
@@ -10,6 +12,10 @@ var appRoutes = [
     {
         path: 'DJ/:id',
         component: DJ_component_1.DJComponent
+    },
+    {
+        path: 'tracklist/:id',
+        component: track_component_1.trackComponent
     }
 ];
 exports.appRoutingProviders = [];

@@ -12,21 +12,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var platform_browser_1 = require('@angular/platform-browser');
 var http_1 = require('@angular/http');
+var forms_1 = require('@angular/forms');
 // component
 var app_component_1 = require('./app.component');
 var navbar_component_1 = require('./components/navbar/navbar.component');
 var MainPage_component_1 = require('./components/Main/MainPage.component');
 var DJ_component_1 = require('./components/DJ/DJ.component');
+var track_component_1 = require('./components/track/track.component');
 var app_routing_1 = require('./app.routing');
 var AppModule = (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule, app_routing_1.routing, http_1.HttpModule],
+            imports: [platform_browser_1.BrowserModule, app_routing_1.routing, http_1.HttpModule, forms_1.FormsModule],
             declarations: [app_component_1.AppComponent,
                 navbar_component_1.NavbarComponent,
                 MainPage_component_1.MainPageComponent,
+                track_component_1.trackComponent,
                 DJ_component_1.DJComponent],
             bootstrap: [app_component_1.AppComponent]
         }), 

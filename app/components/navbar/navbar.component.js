@@ -11,7 +11,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var NavbarComponent = (function () {
     function NavbarComponent() {
+        this.List = [{ 'name': 'DJ' }, { 'name': 'tracklist' }];
+        this.selectedList = this.List[0];
+        this.selected = '';
     }
+    NavbarComponent.prototype.ngOnInit = function () {
+        document.getElementById("temp").style.marginTop = "7px";
+        document.getElementById("temp").style.width = "30%";
+        document.getElementById("tempad").style.marginTop = "7px";
+        document.getElementById("select").style.marginTop = "7px";
+    };
+    NavbarComponent.prototype.search = function (event) {
+        if (this.selected == "tracklist") {
+            $('#temptracklist')[0].click();
+        }
+        else {
+            $('#tempad')[0].click();
+        }
+    };
+    NavbarComponent.prototype.onClick = function (event) {
+        if (this.selected == "tracklist") {
+            $('#temptracklist')[0].click();
+        }
+        else {
+            $('#tempad')[0].click();
+        }
+    };
+    NavbarComponent.prototype.onChange = function (event) {
+        this.selected = event.name;
+    };
     NavbarComponent = __decorate([
         core_1.Component({
             moduleId: module.id,

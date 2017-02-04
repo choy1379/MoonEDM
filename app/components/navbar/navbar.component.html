@@ -9,19 +9,22 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Moon-EDM</a>
+      <a class="navbar-brand" href="#">MoonEDM</a>
     </div>
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li> <a routerLink="/">Home</a></li>
+    <select id = "select" class = "form-control" [(ngModel)]="selectedList" (ngModelChange)="onChange($event)" >
+      <option *ngFor="let list of List" [ngValue]="list"> {{list.name}} </option>
+    </select>
       </ul>
-      <form class="navbar-form navbar-left" >
-        <div class="form-group">
-          <input #searchDJ (keyup)="$event" type="text"class="form-control" placeholder="Search DJ" >
+      <!--<form class="navbar-form navbar-left">-->
+        <div id = "temp" class="nav navbar-nav">
+          <input #searchDJ (keyup.enter)="search(searchDJ.value)" (keyup)="$event" type="text"class="form-control" placeholder="Search DJ" >
         </div>
-        <a class="btn btn-default" routerLink="/DJ/{{searchDJ.value}}">검색</a>
-      </form>
+        <a id = "tempad" class="btn btn-default" routerLink="/DJ/{{searchDJ.value}}" (click)="onClick($event)" >검색</a>
+        <a id = "temptracklist" class="btn btn-default" routerLink="/tracklist/{{searchDJ.value}}" style="display:none"></a>
+      <!--</form>-->
     </div>
   </div>
 </nav>

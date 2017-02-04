@@ -1,8 +1,9 @@
 import {ModuleWithProviders} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
-
+// component
 import {MainPageComponent} from './components/Main/MainPage.component';
 import {DJComponent} from './components/DJ/DJ.component';
+import {trackComponent} from './components/track/track.component'
 const appRoutes: Routes = [
     {
         path:'',
@@ -11,11 +12,11 @@ const appRoutes: Routes = [
     {
         path:'DJ/:id',
         component:DJComponent
+    },
+    {
+        path:'tracklist/:id',
+        component:trackComponent
     }
-    // {
-    //     path:'collect',
-    //     component:CollectComponent
-    // }
     //  {
     //     path:'collect',
     //     component:searchgridComponent

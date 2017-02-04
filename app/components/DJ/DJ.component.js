@@ -15,16 +15,55 @@ var DJComponent = (function () {
     function DJComponent(router, http) {
         this.router = router;
         this.http = http;
+        this.DJlist = new Array();
+        this.tempPlaylist = new Array();
     }
     DJComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.router.params.subscribe(function (params) {
-            console.log(params);
+            _this.loading = true;
             var headers = new http_1.Headers();
             headers.append('Content-Type', 'application/json');
             _this.http.post('http://localhost:4100/searchDJ', params, { headers: headers }).subscribe(function (res) {
-                console.log(res);
+                _this.loading = false;
+                _this.DJlist = res.json().data;
+                document.getElementById("portfolio").style.display = 'inline';
             });
+        });
+    };
+    DJComponent.prototype.imgClick = function (res) {
+        var _this = this;
+        this.tempPlaylist = [];
+        document.getElementById(res.list).setAttribute('href', '#Playlist');
+        this.loading = true;
+        var headers = new http_1.Headers();
+        var playList = 'playList=' + res.Detail;
+        headers.append('Content-Type', 'application/X-www-form-urlencoded');
+        this.http.post('http://localhost:4100/searchPlaylist', playList, { headers: headers }).subscribe(function (res) {
+            _this.tempPlaylist = res.json().data;
+            _this.loading = false;
+            console.log(_this.tempPlaylist);
+        });
+    };
+    DJComponent.prototype.playlistclick = function (res, event) {
+        document.getElementById(res.tbcell).style.display = 'inline';
+        document.getElementById(res.iframe).setAttribute('src', res.videoID);
+    };
+    DJComponent.prototype.downloadclick = function (res, event) {
+        var _this = this;
+        console.log(res.videoURL);
+        this.loading = true;
+        var headers = new http_1.Headers();
+        var query = {
+            "videoURL": res.videoURL,
+            "videoName": res.track
+        };
+        headers.append('Content-Type', 'application/json');
+        this.http.post('http://localhost:4100/youtube_dl', query, { headers: headers }).subscribe(function (res) {
+            _this.loading = false;
+            var url = res.json().URL;
+            console.log(url);
+            window.open(url);
         });
     };
     DJComponent = __decorate([
