@@ -29,7 +29,7 @@ constructor(  private router:ActivatedRoute,private http:Http){
                  console.log(this.tracklist[0].iframe)
                  document.getElementById('tracklistframe').setAttribute('src',this.tracklist[0].videoID)
                 //  document.getElementById('trackframe').setAttribute('src',this.tracklist[0].videoID);
-
+                
             });
         });
     }
