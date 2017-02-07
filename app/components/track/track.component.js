@@ -24,7 +24,7 @@ var trackComponent = (function () {
             // this.loading = true 
             var headers = new http_1.Headers();
             headers.append('Content-Type', 'application/json');
-            _this.http.post('https://still-gorge-46596.herokuapp.com/youtube_dl_one', params, { headers: headers }).subscribe(function (res) {
+            _this.http.post('https://moonedm.herokuapp.com/youtube_dl_one', params, { headers: headers }).subscribe(function (res) {
                 //track ,videoURL
                 _this.tracklist = res.json().data;
                 console.log(_this.tracklist[0].iframe);
@@ -41,7 +41,7 @@ var trackComponent = (function () {
             "videoURL": this.tracklist[0].videoURL
         };
         headers.append('Content-Type', 'application/json');
-        this.http.post('https://still-gorge-46596.herokuapp.com/youtube_dl', query, { headers: headers }).subscribe(function (res) {
+        this.http.post('https://moonedm.herokuapp.com/youtube_dl', query, { headers: headers }).subscribe(function (res) {
             var url = res.json().URL;
             _this.loading = false;
             console.log(url);
