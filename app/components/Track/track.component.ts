@@ -23,7 +23,7 @@ constructor(  private router:ActivatedRoute,private http:Http){
             // this.loading = true 
             var headers = new Headers(); 
             headers.append('Content-Type', 'application/json');
-            this.http.post('http://localhost:4100/youtube_dl_one',params,{headers: headers}).subscribe((res) => {
+            this.http.post('https://still-gorge-46596.herokuapp.com/youtube_dl_one',params,{headers: headers}).subscribe((res) => {
                 //track ,videoURL
                  this.tracklist = res.json().data
                  console.log(this.tracklist[0].iframe)
@@ -43,7 +43,7 @@ constructor(  private router:ActivatedRoute,private http:Http){
                             "videoURL" : this.tracklist[0].videoURL
                             }
                 headers.append('Content-Type', 'application/json');
-                this.http.post('http://localhost:4100/youtube_dl',query,{headers: headers}).subscribe((res) => {
+                this.http.post('https://still-gorge-46596.herokuapp.com/youtube_dl',query,{headers: headers}).subscribe((res) => {
                     var url = res.json().URL
                     this.loading = false
                     console.log(url)

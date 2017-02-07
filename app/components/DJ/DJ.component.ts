@@ -28,7 +28,7 @@ constructor(   private router:ActivatedRoute,private http:Http){
 
             var headers = new Headers(); 
             headers.append('Content-Type', 'application/json');
-            this.http.post('http://localhost:4100/searchDJ',params,{headers: headers}).subscribe((res) => {
+            this.http.post('https://still-gorge-46596.herokuapp.com/searchDJ',params,{headers: headers}).subscribe((res) => {
 
                  this.loading = false
 
@@ -47,13 +47,12 @@ constructor(   private router:ActivatedRoute,private http:Http){
           var headers = new Headers(); 
            var playList = 'playList=' + res.Detail;
             headers.append('Content-Type', 'application/X-www-form-urlencoded');
-            this.http.post('http://localhost:4100/searchPlaylist',playList,{headers: headers}).subscribe((res) => {
+            this.http.post('https://still-gorge-46596.herokuapp.com/searchPlaylist',playList,{headers: headers}).subscribe((res) => {
                 this.tempPlaylist = res.json().data
                 this.loading = false
                 console.log(this.tempPlaylist)
             });
             
-                  
       }
       playlistclick(res:any,event:any)
       {
@@ -71,7 +70,7 @@ constructor(   private router:ActivatedRoute,private http:Http){
                           "videoName" :  res.track
                         }
             headers.append('Content-Type', 'application/json');
-            this.http.post('http://localhost:4100/youtube_dl',query,{headers: headers}).subscribe((res) => {
+            this.http.post('https://still-gorge-46596.herokuapp.com/youtube_dl',query,{headers: headers}).subscribe((res) => {
                 this.loading = false
                 var url = res.json().URL
                 console.log(url)
