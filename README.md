@@ -1,6 +1,6 @@
 0.1 버전  
 
-개인수집목록 추후예정 
+MoonEDM
 =======
 MEAN Stack 
 

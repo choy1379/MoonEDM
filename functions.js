@@ -12,7 +12,7 @@ functions = {
         DJsearch: function(req, res) {
                 config.DJarr = []
                 var DJname = req.body.id
-                var url = 'http://www.1001tracklists.com/dj/'+DJname+'/index.html'
+                var url = 'https://www.1001tracklists.com/dj/'+DJname+'/index.html'
                 var Spooky = require('spooky');
                 var spooky = new Spooky({
                         casper: {
@@ -207,7 +207,7 @@ functions = {
                                                                                 else {
                                                                                 youtubelist = new Object()
                                                                                 // youtubelist.videoID = result.items[0].id.videoId, null, 1
-                                                                                youtubelist.videoID =  "http://www.youtube.com/embed/"+result.items[0].id.videoId+"?enablejsapi=1&theme=light&showinfo=0"
+                                                                                youtubelist.videoID =  "https://www.youtube.com/embed/"+result.items[0].id.videoId+"?enablejsapi=1&theme=light&showinfo=0"
                                                                                 youtubelist.track = result.items[0].snippet.title, null, 1
                                                                                 youtubelist.count = count++
                                                                                 youtubelist.tbcell = randomString()
@@ -241,7 +241,7 @@ functions = {
                 var offliberty = require('offliberty');
                 var videoURL = req.body.videoURL 
                 console.log('Requesting...');
-                offliberty.off('http://www.youtube.com/watch?v='+videoURL, function (err, downloadUrl) {
+                offliberty.off('https://www.youtube.com/watch?v='+videoURL, function (err, downloadUrl) {
                 console.log(err || downloadUrl);
                 res.json({success: true, URL:downloadUrl});
                 });
@@ -272,7 +272,7 @@ functions = {
                         }
                         else {
                                 youtubelist = new Object()
-                                youtubelist.videoID =  "http://www.youtube.com/embed/"+result.items[0].id.videoId+"?enablejsapi=1&theme=light&showinfo=0"
+                                youtubelist.videoID =  "https://www.youtube.com/embed/"+result.items[0].id.videoId+"?enablejsapi=1&theme=light&showinfo=0"
                                 youtubelist.track = result.items[0].snippet.title, null, 1
                                 youtubelist.videoURL = result.items[0].id.videoId
                                 youtubelist.tbcell = randomString()
