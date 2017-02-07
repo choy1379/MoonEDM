@@ -12,7 +12,7 @@ functions = {
         DJsearch: function(req, res) {
                 config.DJarr = []
                 var DJname = req.body.id
-                var url = 'https://www.1001tracklists.com/dj/'+DJname+'/index.html'
+                var url = 'http://www.1001tracklists.com/dj/'+DJname+'/index.html'
                 var Spooky = require('spooky');
                 var spooky = new Spooky({
                         casper: {
