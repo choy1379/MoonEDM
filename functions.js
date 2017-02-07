@@ -4,7 +4,9 @@ var express = require('express');
 var router = express.Router();
 var YouTube = require('youtube-node');
 var ytdl = require('ytdl-core');
+
 var fs = require('fs');
+var youtubeStream = require('youtube-audio-stream')
 functions = {
 
         DJsearch: function(req, res) {
@@ -279,54 +281,26 @@ functions = {
                                 res.json({success: true, data:config.youtubedl_one});
                              }
                         });
-          },
-          toMp3 : function(req, res, next)
-          {
-               
-                var id = req.body.videoURL; // extra param from front end
-
-                var url = 'https://www.youtube.com/watch?v=' + id;
-                stream = ytdl(url, {quality: 'highest'});
-
-                stream.on('info', function (info, data) {
-        
-
-                // if file is bigger than limit
-                active = true;
-
-                res.writeHead(200, {
-                        'Content-disposition': 'attachment; filename=test',
-                        'Content-Type': 'video/mp4'
-                });
-
-                console.log('Downloading ' + 'test' + ' ...');
-
-                stream.pipe(res);
-
-                req.on('close', function (chunk) {
-                        console.log('request cancelled');
-                        stream.unpipe(res);
-                        stream.end();
-                        res.end();
-                });
-
-                stream.on('data', function (chunk) {
-                        console.log('got %d bytes of data', chunk.length);
-                });
-
-
-                stream.on('end', function () {
-                        console.log('stream ended');
-                        active = false;
-                        res.end();
-                });
-                });
-         
-          }       
+          }
+   
         }
 module.exports = functions;
 
-
+        // 나중에 
+        //   toMp3 : function(req, res)
+        //   {
+       
+        //         var id = req.body.videoURL; // extra param from front end
+        //         var url = 'https://www.youtube.com/watch?v=' + id;
+        //         try {
+        //         youtubeStream(url).pipe(res)
+        //         } catch (exception) {
+        //         res.status(500).send(exception)
+        //         }
+                
+              
+         
+        //   }    
         // foreach 스킵할때 사용 
         // ex 
         // 0: a
@@ -362,3 +336,38 @@ module.exports = functions;
         // }, function() {
         //     console.log('ALL done')
         // })
+
+
+        // youtube mp4 다운 
+        // stream = ytdl(url, {quality: 'highest'});
+
+        // stream.on('info', function (info, data) {
+        
+
+
+        // res.writeHead(200, {
+        //         'Content-disposition': 'attachment; filename=' + 'asd.mp4',
+        //         'Content-Type': 'video/mp4'
+        // });
+
+        // console.log('Downloading ' + 'test' + 'asd.mp4');
+        
+        // stream.pipe(res);
+
+        // req.on('close', function (chunk) {
+        //         console.log('request cancelled');
+        //         stream.unpipe(res);
+        //         stream.end();
+        //         res.end();
+        // });
+
+        // stream.on('data', function (chunk) {
+        //         console.log('got %d bytes of data', chunk.length);
+        // });
+
+
+        // stream.on('end', function () {
+        //         console.log('stream ended');
+        //         res.end();
+        // });
+        // });

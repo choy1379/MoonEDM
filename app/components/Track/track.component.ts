@@ -35,30 +35,29 @@ constructor(  private router:ActivatedRoute,private http:Http){
     }
     downloadclick(event:any)
     {
-        //   this.loading = true 
-           var headers = new Headers(); 
-            var query = {
-                         "videoURL" : this.tracklist[0].videoURL
-                        }
-            headers.append('Content-Type', 'application/json');
-            this.http.post('http://localhost:4100/toMp3',query,{headers: headers}).subscribe((res) => {
-                 console.log(res)
-                // var url = res.json().URL
-                //  this.loading = false
-                // console.log(url)
-                // window.open(url)
-            });
-    //  this.loading = true 
-    //        var headers = new Headers(); 
-    //         var query = {
-    //                      "videoURL" : this.tracklist[0].videoURL
-    //                     }
-    //         headers.append('Content-Type', 'application/json');
-    //         this.http.post('http://localhost:4100/youtube_dl',query,{headers: headers}).subscribe((res) => {
-    //             var url = res.json().URL
-    //              this.loading = false
-    //             console.log(url)
-    //             window.open(url)
-    //         });
+
+
+        this.loading = true 
+            var headers = new Headers(); 
+                var query = {
+                            "videoURL" : this.tracklist[0].videoURL
+                            }
+                headers.append('Content-Type', 'application/json');
+                this.http.post('http://localhost:4100/youtube_dl',query,{headers: headers}).subscribe((res) => {
+                    var url = res.json().URL
+                    this.loading = false
+                    console.log(url)
+                    window.open(url)
+                });
     }
 }
+        // 나중에 
+        //   this.loading = true 
+        //    var headers = new Headers(); 
+        //     var query = {
+        //                  "videoURL" : this.tracklist[0].videoURL
+        //                 }
+        //     headers.append('Content-Type', 'application/json');
+        //     this.http.post('http://localhost:4100/toMp3',query,{headers: headers}).subscribe((res) => {
+        //         console.log(res)
+        //     });

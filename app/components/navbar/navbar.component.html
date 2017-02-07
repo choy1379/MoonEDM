@@ -22,7 +22,7 @@
         <div id = "temp" class="nav navbar-nav">
           <input #searchDJ (keyup.enter)="search(searchDJ.value)" (keyup)="$event" type="text"class="form-control" placeholder="Search DJ" >
         </div>
-        <a id = "tempad" class="btn btn-default" routerLink="/DJ/{{searchDJ.value}}" (click)="onClick($event)" >검색</a>
+        <a id = "tempad" class="btn btn-default" routerLink="/DJ/{{searchDJ.value}}" >검색</a>
         <a id = "temptracklist" class="btn btn-default" routerLink="/tracklist/{{searchDJ.value}}" style="display:none"></a>
       <!--</form>-->
     </div>
