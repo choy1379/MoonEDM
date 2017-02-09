@@ -23,7 +23,7 @@ constructor(   private router:ActivatedRoute,private http:Http){
 
       ngOnInit(){
         this.router.params.subscribe((params) => {
-
+            console.log(params)
             this.loading = true 
 
             var headers = new Headers(); 
@@ -52,7 +52,6 @@ constructor(   private router:ActivatedRoute,private http:Http){
                 this.loading = false
                 console.log(this.tempPlaylist)
             });
-            
       }
       playlistclick(res:any,event:any)
       {

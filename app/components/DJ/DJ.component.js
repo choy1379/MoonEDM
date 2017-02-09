@@ -21,6 +21,7 @@ var DJComponent = (function () {
     DJComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.router.params.subscribe(function (params) {
+            console.log(params);
             _this.loading = true;
             var headers = new http_1.Headers();
             headers.append('Content-Type', 'application/json');

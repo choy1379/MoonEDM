@@ -1,0 +1,42 @@
+
+<textarea  [(ngModel)] = "textdownload" class="form-control" rows="20"></textarea>
+<a id = 'textdownload' href="#" class="btn btn-default btn-lg" data-toggle="modal" (click)="textdownloadclick(res,$event)">
+<span class="glyphicon glyphicon-download" aria-hidden="true"> 다운로드</span>
+</a>
+
+     <div id = "downloadlist" class="portfolio-modal modal fade"  tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <h2>Play list</h2>
+                            <div *ngIf="loading == true" class="loader">
+                            </div>
+                            <div id = "{{res.track}}" *ngFor="let res of textlist" (click)="textlistclick(res,$event)">
+                                <table class="table table-hover">
+                                    <tr>
+                                        <td>{{res.track}}</td>
+                                    </tr>                 
+                                        <td>
+                                            <div id = "{{res.tbcell}}" style="display:none;">
+                                                <iframe id="{{res.iframe}}" width="100%" height="70%" src=""></iframe> 
+                                                <button id="download" (click)="downloadclick(res,$event)" type="button" class="btn btn-default btn-lg" style="width:100%">
+                                                <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+                                                </button>  
+                                            </div>                                      
+                                        </td>  
+                                </table>  
+                            </div>                     
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

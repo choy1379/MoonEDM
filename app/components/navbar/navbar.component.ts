@@ -23,6 +23,7 @@ export class NavbarComponent implements OnInit{
     }
     search(event:any)
     {
+
         if(this.selected == "tracklist")
         {
             $('#temptracklist')[0].click()
