@@ -3,7 +3,7 @@ MoonEDM
 =======
 MEAN Stack 
 
-Angular2 + Node.js + MongoDB(MLab) + Express 
+Angular2 + Node.js + MongoDB(MLab) + Express + 1001 tracklist
 
 
 원하는 DJ 의 라이브셋 OR DJ 를  검색하고 라이브셋의 트랙리스트 목록을다운받을수있다 
