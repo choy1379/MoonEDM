@@ -4,6 +4,7 @@ var router_1 = require('@angular/router');
 var MainPage_component_1 = require('./components/Main/MainPage.component');
 var DJ_component_1 = require('./components/DJ/DJ.component');
 var track_component_1 = require('./components/track/track.component');
+var textsearch_component_1 = require('./components/textsearch/textsearch.component');
 var appRoutes = [
     {
         path: '',
@@ -16,6 +17,10 @@ var appRoutes = [
     {
         path: 'tracklist/:id',
         component: track_component_1.trackComponent
+    },
+    {
+        path: 'textsearch',
+        component: textsearch_component_1.textsearchComponent
     }
 ];
 exports.appRoutingProviders = [];

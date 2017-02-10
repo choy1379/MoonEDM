@@ -23,34 +23,38 @@ constructor(  private router:ActivatedRoute,private http:Http){
             // this.loading = true 
             var headers = new Headers(); 
             headers.append('Content-Type', 'application/json');
-            this.http.post('https://moonedm.herokuapp.com/youtube_dl_one',params,{headers: headers}).subscribe((res) => {
-                //track ,videoURL
+            this.http.post('http://localhost:4100/youtube_dl_one',params,{headers: headers}).subscribe((res) => {
                  this.tracklist = res.json().data
-                 console.log(this.tracklist[0].iframe)
                  document.getElementById('tracklistframe').setAttribute('src',this.tracklist[0].videoID)
-                //  document.getElementById('trackframe').setAttribute('src',this.tracklist[0].videoID);
-                
             });
         });
     }
     downloadclick(event:any)
     {
-
-
-        this.loading = true 
-            var headers = new Headers(); 
-                var query = {
-                            "videoURL" : this.tracklist[0].videoURL
-                            }
-                headers.append('Content-Type', 'application/json');
-                this.http.post('https://moonedm.herokuapp.com/youtube_dl',query,{headers: headers}).subscribe((res) => {
-                    var url = res.json().URL
-                    this.loading = false
-                    console.log(url)
-                    window.open(url)
-                });
+          this.loading = true 
+           var headers = new Headers(); 
+            var query = {
+                         "videoURL" : this.tracklist[0].videoURL
+                        }
+            headers.append('Content-Type', 'application/json');
+            this.http.post('http://localhost:4100/toMp3',query,{headers: headers}).subscribe((res) => {
+                console.log(res.blob())
+            });
     }
 }
+        // this.loading = true 
+        //     var headers = new Headers(); 
+        //         var query = {
+        //                     "videoURL" : this.tracklist[0].videoURL
+        //                     }
+        //         headers.append('Content-Type', 'application/json');
+        //         this.http.post('http://localhost:4100/youtube_dl',query,{headers: headers}).subscribe((res) => {
+        //             var url = res.json().URL
+        //             this.loading = false
+        //             console.log(url)
+        //             window.open(url)
+        //         });
+
         // 나중에 
         //   this.loading = true 
         //    var headers = new Headers(); 

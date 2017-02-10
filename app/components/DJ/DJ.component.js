@@ -21,10 +21,11 @@ var DJComponent = (function () {
     DJComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.router.params.subscribe(function (params) {
+            console.log(params);
             _this.loading = true;
             var headers = new http_1.Headers();
             headers.append('Content-Type', 'application/json');
-            _this.http.post('https://moonedm.herokuapp.com/searchDJ', params, { headers: headers }).subscribe(function (res) {
+            _this.http.post('http://localhost:4100/searchDJ', params, { headers: headers }).subscribe(function (res) {
                 _this.loading = false;
                 _this.DJlist = res.json().data;
                 document.getElementById("portfolio").style.display = 'inline';
@@ -39,7 +40,7 @@ var DJComponent = (function () {
         var headers = new http_1.Headers();
         var playList = 'playList=' + res.Detail;
         headers.append('Content-Type', 'application/X-www-form-urlencoded');
-        this.http.post('https://moonedm.herokuapp.com/searchPlaylist', playList, { headers: headers }).subscribe(function (res) {
+        this.http.post('http://localhost:4100/searchPlaylist', playList, { headers: headers }).subscribe(function (res) {
             _this.tempPlaylist = res.json().data;
             _this.loading = false;
             console.log(_this.tempPlaylist);
@@ -59,7 +60,7 @@ var DJComponent = (function () {
             "videoName": res.track
         };
         headers.append('Content-Type', 'application/json');
-        this.http.post('https://moonedm.herokuapp.com/youtube_dl', query, { headers: headers }).subscribe(function (res) {
+        this.http.post('http://localhost:4100/youtube_dl', query, { headers: headers }).subscribe(function (res) {
             _this.loading = false;
             var url = res.json().URL;
             console.log(url);

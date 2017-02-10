@@ -4,9 +4,21 @@ var express = require('express');
 var router = express.Router();
 var YouTube = require('youtube-node');
 var ytdl = require('ytdl-core');
-
+ var async = require('async')
 var fs = require('fs');
 var youtubeStream = require('youtube-audio-stream')
+
+function randomString() {
+                var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+                var string_length = 15;
+                var randomstring = '';
+                for (var i=0; i<string_length; i++) {
+                var rnum = Math.floor(Math.random() * chars.length);
+                randomstring += chars.substring(rnum,rnum+1);
+                }
+                //document.randform.randomfield.value = randomstring;
+                return randomstring;
+                }
 functions = {
 
         DJsearch: function(req, res) {
@@ -108,18 +120,6 @@ functions = {
           searchPlaylist: function(req, res) {
                 config.Playlistarr = []
                 config.Youtubearr = [] 
-                function randomString() {
-                                        var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
-                                        var string_length = 15;
-                                        var randomstring = '';
-                                        for (var i=0; i<string_length; i++) {
-                                        var rnum = Math.floor(Math.random() * chars.length);
-                                        randomstring += chars.substring(rnum,rnum+1);
-                                        }
-                                        //document.randform.randomfield.value = randomstring;
-                                        return randomstring;
-                                        }
-
                 var url = 'http://www.1001tracklists.com'+req.body.playList+''
                 var Spooky = require('spooky');
                 var spooky = new Spooky({
@@ -187,10 +187,8 @@ functions = {
                                 //마지막 데이터 짤림방지
                                 config.Playlistarr.push('dummy')
                                 var count = 0
-                                var async = require('async')
                                 var users = config.Playlistarr
-                                // console.log(users)
-
+                                // console.log(users)                               
                                 async.forEachOfLimit(users, 1, function(user, index, cb) {
                                         // console.log(index + ': ' + user)
                                                 async.waterfall([
@@ -249,18 +247,6 @@ functions = {
           },
         youtube_dl_one : function(req,res)
         {
-                       function randomString() {
-                                        var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
-                                        var string_length = 15;
-                                        var randomstring = '';
-                                        for (var i=0; i<string_length; i++) {
-                                        var rnum = Math.floor(Math.random() * chars.length);
-                                        randomstring += chars.substring(rnum,rnum+1);
-                                        }
-                                        //document.randform.randomfield.value = randomstring;
-                                        return randomstring;
-                                        }
-
                         config.youtubedl_one = []
                         var youTube = new YouTube();
 
@@ -281,10 +267,67 @@ functions = {
                                 res.json({success: true, data:config.youtubedl_one});
                              }
                         });
-          }
+          },
+          textdownload : function(req,res) {
+
+                             config.textdownload = []      
+                             trackarr = req.body     
+                             trackarr.push('dummy')                        
+                                async.forEachOfLimit(trackarr, 1, function(user, index, cb) {
+                                                async.waterfall([
+                                                        function(callback) {
+                                                                setTimeout(function() {
+                                                                        var youTube = new YouTube();
+
+                                                                        youTube.setKey('AIzaSyB2QPeJGn6xo9rrjjzZrk9OT33aO-Ubzxo');
+
+                                                                        youTube.search(user, 1, function(error, result) {
+                                                                                if (error) {
+                                                                                console.log(error);
+                                                                                }
+                                                                                else {
+                                                                                youtubelist = new Object()
+                                                                                youtubelist.videoID =  "https://www.youtube.com/embed/"+result.items[0].id.videoId+"?enablejsapi=1&theme=light&showinfo=0"
+                                                                                youtubelist.track = result.items[0].snippet.title, null, 1
+                                                                                youtubelist.tbcell = randomString()
+                                                                                youtubelist.iframe = randomString()
+                                                                                youtubelist.videoURL = result.items[0].id.videoId
+                                                                                config.textdownload.push(youtubelist)
+                                                                                }
+                                                                        });
+                                        
+                                                                        callback(null);
+                                                                        }, 500);
+                                                        }
+                                                        
+                                                ], function (err, result) {
+                                                        cb()
+                                                });
+                                 },
+                                 function() {
+                                console.log('ALL done')
+                                res.json({success: true, data:config.textdownload});
+                                // console.log(config.Youtubearr)
+                                })
+          },
+          toMp3 : function(req, res)
+          {
+       
+                var id = req.body.videoURL; // extra param from front end
+                var url = 'https://www.youtube.com/watch?v=' + id;
+                try {
+                youtubeStream(url).pipe(res)
+                } catch (exception) {
+                res.status(500).send(exception)
+                }
+                
+              
+         
+          }    
    
         }
 module.exports = functions;
+module.exports.randomString = randomString;
 
         // 나중에 
         //   toMp3 : function(req, res)
