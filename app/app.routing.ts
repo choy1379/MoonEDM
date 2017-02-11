@@ -5,6 +5,7 @@ import {MainPageComponent} from './components/Main/MainPage.component';
 import {DJComponent} from './components/DJ/DJ.component';
 import {trackComponent} from './components/track/track.component'
 import {textsearchComponent} from'./components/textsearch/textsearch.component'
+import{playlistComponent} from './components/playlist/playlist.component'
 
 const appRoutes: Routes = [
     {
@@ -22,6 +23,10 @@ const appRoutes: Routes = [
      {
         path:'textsearch',
         component:textsearchComponent
+    },
+    {
+        path:'playlist',
+        component:playlistComponent  
     }
 
 

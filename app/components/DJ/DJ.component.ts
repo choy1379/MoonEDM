@@ -1,7 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import { Router,ActivatedRoute} from '@angular/router';
 import { Http, Headers} from '@angular/http';
-
+import {searchService} from '../../service/search.service';
 
 @Component({
     moduleId:module.id,
@@ -15,28 +15,22 @@ DJlist = new Array();
 tempPlaylist = new Array();
 
 
-constructor(   private router:ActivatedRoute,private http:Http){
+constructor(   private router:ActivatedRoute,private http:Http,private _searchService: searchService){
     }
     
     loading: boolean;
     portfolioModal : string;
-
       ngOnInit(){
         this.router.params.subscribe((params) => {
-            console.log(params)
+            var result : any
             this.loading = true 
 
-            var headers = new Headers(); 
-            headers.append('Content-Type', 'application/json');
-            this.http.post('http://localhost:4100/searchDJ',params,{headers: headers}).subscribe((res) => {
-
+            result = this._searchService.searchDJ(params)
+            result.subscribe(x => {
                  this.loading = false
-
-                 this.DJlist = res.json().data
-
+                 this.DJlist = x.data
                   document.getElementById("portfolio").style.display='inline';
-                 
-                });
+            });
         });
     }
       imgClick(res:any)
@@ -44,13 +38,12 @@ constructor(   private router:ActivatedRoute,private http:Http){
           this.tempPlaylist = []
           document.getElementById(res.list).setAttribute('href','#Playlist')
           this.loading = true 
-          var headers = new Headers(); 
            var playList = 'playList=' + res.Detail;
-            headers.append('Content-Type', 'application/X-www-form-urlencoded');
-            this.http.post('http://localhost:4100/searchPlaylist',playList,{headers: headers}).subscribe((res) => {
-                this.tempPlaylist = res.json().data
+           var result : any
+            result = this._searchService.searchPlaylist(playList)
+            result.subscribe(x => {
+                this.tempPlaylist = x.data
                 this.loading = false
-                console.log(this.tempPlaylist)
             });
       }
       playlistclick(res:any,event:any)
@@ -61,18 +54,16 @@ constructor(   private router:ActivatedRoute,private http:Http){
       }
       downloadclick(res:any,event:any)
       {
-          console.log(res.videoURL)
           this.loading = true 
-           var headers = new Headers(); 
             var query = {
                          "videoURL" : res.videoURL,
                           "videoName" :  res.track
                         }
-            headers.append('Content-Type', 'application/json');
-            this.http.post('http://localhost:4100/youtube_dl',query,{headers: headers}).subscribe((res) => {
+            var result : any 
+            result = this._searchService.youtube_dl(query);
+            result.subscribe(x => {
+                var url = x.URL
                 this.loading = false
-                var url = res.json().URL
-                console.log(url)
                 window.open(url)
             });
             

@@ -62,3 +62,37 @@
   width: 100%;
   height: auto;
 }
+.star-light,
+.star-primary {
+  padding: 0;
+  border: none;
+  border-top: solid 5px;
+  text-align: center;
+  max-width: 250px;
+  margin: 25px auto 30px;
+}
+
+.container {
+  padding-top: 1px;
+  padding-bottom: 55px;
+}
+img {
+  display: block;
+  margin: 0 auto 20px;
+}
+.intro-text .name {
+     text-align: center;
+  display: block;
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 2em;
+}
+ .intro-text .skills {
+  text-align: center;
+    display: block;
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  font-size: 1.25em;
+  font-weight: 300;
+}

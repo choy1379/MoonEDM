@@ -1,6 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import { Router,ActivatedRoute} from '@angular/router';
 import { Http, Headers} from '@angular/http';
+import {searchService} from '../../service/search.service';
 
 
 @Component({
@@ -14,17 +15,16 @@ export class trackComponent implements OnInit {
 tracklist = new Array();
 
 
-constructor(  private router:ActivatedRoute,private http:Http){
+constructor(  private router:ActivatedRoute,private http:Http,private _searchService: searchService){
     }
       loading: boolean;
       ngOnInit(){
+        var result : any
         this.tracklist = []
         this.router.params.subscribe((params) => {
-            // this.loading = true 
-            var headers = new Headers(); 
-            headers.append('Content-Type', 'application/json');
-            this.http.post('http://localhost:4100/youtube_dl_one',params,{headers: headers}).subscribe((res) => {
-                 this.tracklist = res.json().data
+            result = this._searchService.youtube_dl_one(params);
+            result.subscribe(x => {
+                 this.tracklist = x.data
                  document.getElementById('tracklistframe').setAttribute('src',this.tracklist[0].videoID)
             });
         });
@@ -32,13 +32,16 @@ constructor(  private router:ActivatedRoute,private http:Http){
     downloadclick(event:any)
     {
           this.loading = true 
-           var headers = new Headers(); 
+            var result : any
             var query = {
                          "videoURL" : this.tracklist[0].videoURL
                         }
-            headers.append('Content-Type', 'application/json');
-            this.http.post('http://localhost:4100/toMp3',query,{headers: headers}).subscribe((res) => {
-                console.log(res.blob())
+            result = this._searchService.youtube_dl(query);
+            result.subscribe(x => {
+                var url = x.URL
+                this.loading = false
+                window.open(url)
+                this.tracklist = x.data
             });
     }
 }

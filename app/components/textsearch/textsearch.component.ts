@@ -1,7 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import { Router,ActivatedRoute} from '@angular/router';
 import { Http, Headers} from '@angular/http';
-
+import {searchService} from '../../service/search.service';
 
 
 declare  var $:any;
@@ -14,7 +14,7 @@ declare  var $:any;
 })
 
 export class textsearchComponent implements OnInit{ 
-constructor( private http:Http){
+constructor( private http:Http,private _searchService: searchService){
     }
  textdownload: string
  textlist = new Array() 
@@ -34,13 +34,14 @@ constructor( private http:Http){
             }
         }
         document.getElementById('textdownload').setAttribute('href','#downloadlist')
-         var headers = new Headers(); 
-            headers.append('Content-Type', 'application/json');
-            this.http.post('http://localhost:4100/textdownload',tracklist,{headers: headers}).subscribe((res) => {
-                console.log(res.json())
-                this.textlist = res.json().data
+            var result : any
+            result = this._searchService.textdownload(tracklist);
+            result.subscribe(x => {
+                this.textlist = x.data
                 this.loading = false 
             });
+
+
 
     }
     textlistclick(res:any,event:any){
@@ -49,19 +50,18 @@ constructor( private http:Http){
     }
     downloadclick(res:any,event:any){
         this.loading = true 
-           var headers = new Headers(); 
+            var result : any
             var query = {
                          "videoURL" : res.videoURL,
                           "videoName" :  res.track
                         }
-            headers.append('Content-Type', 'application/json');
-            this.http.post('http://localhost:4100/youtube_dl',query,{headers: headers}).subscribe((res) => {
-                this.loading = false 
-                var url = res.json().URL
-                console.log(url)
-                window.open(url)
-              
+            result = this._searchService.youtube_dl(query);     
+            result.subscribe(x => {
+            this.loading = false 
+            var url = x.URL
+            window.open(url)
             });
+
     }
 
   

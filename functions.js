@@ -309,21 +309,7 @@ functions = {
                                 res.json({success: true, data:config.textdownload});
                                 // console.log(config.Youtubearr)
                                 })
-          },
-          toMp3 : function(req, res)
-          {
-       
-                var id = req.body.videoURL; // extra param from front end
-                var url = 'https://www.youtube.com/watch?v=' + id;
-                try {
-                youtubeStream(url).pipe(res)
-                } catch (exception) {
-                res.status(500).send(exception)
-                }
-                
-              
-         
-          }    
+          }
    
         }
 module.exports = functions;
