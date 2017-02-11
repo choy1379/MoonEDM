@@ -4,7 +4,7 @@ import { Http, Headers} from '@angular/http';
 import {searchService} from '../../service/search.service';
 import {Observable} from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
-import { INCREMENT, DECREMENT, RESET,TOGGLE_MENU } from '../../audiograph.service';
+import { INCREMENT, DECREMENT, RESET } from '../../service/audiograph.service';
 
 declare var $audiograph: any
 
@@ -15,7 +15,7 @@ declare var $audiograph: any
     styleUrls: ['playlist.component.css']
 })
 
-export class playlistComponent implements OnInit,AfterViewInit { 
+export class playlistComponent implements OnInit { 
  counter: Observable<any>;
  
 constructor(private store: Store<any>,private router:ActivatedRoute,private http:Http,private _searchService: searchService){
@@ -30,7 +30,7 @@ constructor(private store: Store<any>,private router:ActivatedRoute,private http
     }
 
     toggleMenu(){
-        this.store.dispatch({ type: TOGGLE_MENU });
+        // this.store.dispatch({ type: TOGGLE_MENU });
     }
 
 

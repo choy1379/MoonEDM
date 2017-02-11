@@ -13,7 +13,7 @@ var router_1 = require('@angular/router');
 var http_1 = require('@angular/http');
 var search_service_1 = require('../../service/search.service');
 var store_1 = require('@ngrx/store');
-var audiograph_service_1 = require('../../audiograph.service');
+var audiograph_service_1 = require('../../service/audiograph.service');
 var playlistComponent = (function () {
     function playlistComponent(store, router, http, _searchService) {
         this.store = store;
@@ -29,7 +29,7 @@ var playlistComponent = (function () {
         this.store.dispatch({ type: audiograph_service_1.DECREMENT });
     };
     playlistComponent.prototype.toggleMenu = function () {
-        this.store.dispatch({ type: audiograph_service_1.TOGGLE_MENU });
+        // this.store.dispatch({ type: TOGGLE_MENU });
     };
     playlistComponent = __decorate([
         core_1.Component({

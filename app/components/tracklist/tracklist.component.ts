@@ -3,7 +3,7 @@ import { Router,ActivatedRoute} from '@angular/router';
 import { Http, Headers} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
-import { INCREMENT, DECREMENT, RESET, AUDIOGRAPH_ACTIONS } from '../../audiograph.service';
+import { INCREMENT, DECREMENT, RESET } from '../../audiograph.service';
 
 
 @Component({

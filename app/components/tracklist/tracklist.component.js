@@ -10,7 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var store_1 = require('@ngrx/store');
-var audiograph_service_1 = require('../../audiograph.service');
 var tracklistComponent = (function () {
     function tracklistComponent(store) {
         this.store = store;
@@ -18,10 +17,10 @@ var tracklistComponent = (function () {
     tracklistComponent.prototype.ngOnInit = function () {
     };
     tracklistComponent.prototype.remove = function (track) {
-        this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.REMOVE_TRACK, payload: track });
+        this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.REMOVE_TRACK, payload: track });
     };
     tracklistComponent.prototype.play = function (index) {
-        this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.TARGET_TRACK, payload: index });
+        this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.TARGET_TRACK, payload: index });
     };
     tracklistComponent = __decorate([
         core_1.Component({
