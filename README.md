@@ -1,6 +1,7 @@
 
 # MoonEDM
 =======
+![2017-02-18 6 39 51](https://cloud.githubusercontent.com/assets/17931892/23084343/308ada32-f5a5-11e6-8795-4be906d4f8d6.png)
 
 
 MoonEDM is a music player application built with [Angular 2](https://angular.io/).
