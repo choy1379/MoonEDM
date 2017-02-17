@@ -1,0 +1,133 @@
+@import "../../css/_variables.scss";
+
+.search-results-container{
+  position: absolute;
+  top: 0;
+  margin-top: 180px;
+  width: 40em;
+  left: calc(50% - 20em);
+  background-color: rgba(255, 255, 255, .3);
+  z-index: 50;
+  max-height: calc(85% - 75px);
+  overflow: scroll;
+}
+
+.search-results {
+  position: relative;
+  // top:75px;
+  // margin-top: 75px;
+}
+
+.item {
+  padding:10px 25px;
+  border: 1px solid transparent;
+  border-bottom: 1px solid #efefef;
+  margin-bottom: 6px;
+  background-color: rgba(255, 255, 255, .3);
+  transition: background-color .5s;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: rgba(255, 255, 255, .9);
+    transition: background-color .5s;
+    border: 1px solid #bbb;
+  }
+  
+}
+
+.track {
+  font-size: 1.3em;
+}
+
+.track, .artist {
+  text-shadow: $textshadow;
+}
+
+.play-btn {
+}
+
+.control {
+  cursor: pointer;
+  color: #28b0ed;
+  opacity: .5;
+  transition: opacity .5s;
+  margin-top: 15px;
+  
+  &:hover {
+    opacity: 1;
+    transition: opacity .5s;
+  }
+}
+
+.close-container {
+  position: relative;
+}
+.fa-close {
+  position: absolute;
+  top: 65px;
+  left: calc(65% + 5em);
+  display: block;
+  cursor: pointer;
+}
+
+@media (max-width: 500px) {
+  .fa-close {
+        top: 75px;
+    z-index: 1000;
+    left: calc(50% + 9em);
+  }
+  .search-results-container{
+    width: 21em;
+    left: calc(50% - 11em);
+    
+    .item {
+      .col-xs-11 {
+        width:87.666667%;
+      }
+    }
+  }
+ 
+}
+
+@media (max-width: 375px) {
+  .fa-close {
+        top: 120px;
+    z-index: 1000;
+    left: calc(32% + 5em);
+  }
+  .search-results-container{
+    width: 21em;
+    left: calc(50% - 11em);
+    
+    .item {
+      .col-xs-11 {
+        width:87.666667%;
+      }
+    }
+  }
+ 
+}
+
+@media (max-width: 350px) {
+  .fa-close {
+    left: calc(50% + 8em);
+  }
+  .search-results-container{
+        width: 18em;
+    left: calc(50% - 9em);
+    
+    .item {
+      .col-xs-11 {
+        width:87.666667%;
+      }
+      
+      .track {
+        font-size:1em;
+        
+      }
+      .artist {
+        font-size: .6em;
+      }
+    }
+  }
+}

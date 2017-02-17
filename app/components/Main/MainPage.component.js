@@ -12,6 +12,9 @@ var core_1 = require('@angular/core');
 var MainPageComponent = (function () {
     function MainPageComponent() {
     }
+    MainPageComponent.prototype.ngOnInit = function () {
+        document.querySelector('#canvas').setAttribute('style', 'width:1px');
+    };
     MainPageComponent = __decorate([
         core_1.Component({
             moduleId: module.id,

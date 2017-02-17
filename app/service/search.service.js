@@ -45,6 +45,12 @@ var searchService = (function () {
         return this._http.post('http://localhost:4100/textdownload', params, { headers: headers })
             .map(function (res) { return res.json(); });
     };
+    searchService.prototype.youtube_dl_multiple = function (params) {
+        var headers = new http_1.Headers();
+        headers.append('Content-Type', 'application/X-www-form-urlencoded');
+        return this._http.post('http://localhost:4100/youtube_dl_multiple', params, { headers: headers })
+            .map(function (res) { return res.json(); });
+    };
     searchService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http])

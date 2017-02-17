@@ -6,7 +6,7 @@ import {DJComponent} from './components/DJ/DJ.component';
 import {trackComponent} from './components/track/track.component'
 import {textsearchComponent} from'./components/textsearch/textsearch.component'
 import{playlistComponent} from './components/playlist/playlist.component'
-
+import {tunesplaylistComponent} from './components/tunesplaylist/tunesplaylist.component'
 const appRoutes: Routes = [
     {
         path:'',
@@ -25,8 +25,8 @@ const appRoutes: Routes = [
         component:textsearchComponent
     },
     {
-        path:'playlist',
-        component:playlistComponent  
+        path:'tunesplaylist',
+        component:tunesplaylistComponent  
     }
 
 

@@ -37,4 +37,10 @@ export class searchService{
         return this._http.post('http://localhost:4100/textdownload', params, {headers: headers})
             .map(res => res.json());
     }
+    youtube_dl_multiple(params){
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/X-www-form-urlencoded');
+        return this._http.post('http://localhost:4100/youtube_dl_multiple', params, {headers: headers})
+            .map(res => res.json());
+    }
 }
