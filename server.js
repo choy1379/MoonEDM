@@ -19,7 +19,10 @@ app.post('/searchDJ', functions.DJsearch);
 app.post('/searchPlaylist', functions.searchPlaylist)
 app.post('/youtube_dl',functions.youtube_dl)
 app.post('/youtube_dl_one',functions.youtube_dl_one)
+<<<<<<< HEAD
 app.post('/youtube_dl_multiple',functions.youtube_dl_multiple)
+=======
+>>>>>>> origin/master
 app.post('/textdownload',functions.textdownload)
 app.use(express.static(__dirname));
 app.listen(process.env.PORT || 4100);

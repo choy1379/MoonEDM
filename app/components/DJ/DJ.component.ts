@@ -22,7 +22,11 @@ constructor(   private router:ActivatedRoute,private http:Http,private _searchSe
     portfolioModal : string;
       ngOnInit(){
         this.router.params.subscribe((params) => {
+<<<<<<< HEAD
             var result : any
+=======
+            console.log(params)
+>>>>>>> origin/master
             this.loading = true 
 
             result = this._searchService.searchDJ(params)

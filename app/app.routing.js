@@ -5,7 +5,10 @@ var MainPage_component_1 = require('./components/Main/MainPage.component');
 var DJ_component_1 = require('./components/DJ/DJ.component');
 var track_component_1 = require('./components/track/track.component');
 var textsearch_component_1 = require('./components/textsearch/textsearch.component');
+<<<<<<< HEAD
 var tunesplaylist_component_1 = require('./components/tunesplaylist/tunesplaylist.component');
+=======
+>>>>>>> origin/master
 var appRoutes = [
     {
         path: '',
@@ -22,10 +25,13 @@ var appRoutes = [
     {
         path: 'textsearch',
         component: textsearch_component_1.textsearchComponent
+<<<<<<< HEAD
     },
     {
         path: 'tunesplaylist',
         component: tunesplaylist_component_1.tunesplaylistComponent
+=======
+>>>>>>> origin/master
     }
 ];
 exports.appRoutingProviders = [];

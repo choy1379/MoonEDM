@@ -22,30 +22,42 @@ var navbar_component_1 = require('./components/navbar/navbar.component');
 var MainPage_component_1 = require('./components/Main/MainPage.component');
 var DJ_component_1 = require('./components/DJ/DJ.component');
 var track_component_1 = require('./components/track/track.component');
+<<<<<<< HEAD
 var playlist_component_1 = require('./components/playlist/playlist.component');
 var textsearch_component_1 = require('./components/textsearch/textsearch.component');
 var tunesplaylist_component_1 = require('./components/tunesplaylist/tunesplaylist.component');
 var tunesplaysearch_component_1 = require('./components/tunesplaysearch/tunesplaysearch.component');
 var tunesplaysearchResult_component_1 = require('./components/tunesplaysearchResult/tunesplaysearchResult.component');
+=======
+var textsearch_component_1 = require('./components/textsearch/textsearch.component');
+>>>>>>> origin/master
 var app_routing_1 = require('./app.routing');
 var AppModule = (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         core_1.NgModule({
+<<<<<<< HEAD
             imports: [platform_browser_1.BrowserModule, app_routing_1.routing, http_1.HttpModule, forms_1.FormsModule, forms_1.ReactiveFormsModule,
                 store_1.StoreModule.provideStore({ audiograph: audiograph_service_1.audiograph, tunesplaysearch: tunesplaysearch_service_1.tunesplaysearchReducer })
             ],
+=======
+            imports: [platform_browser_1.BrowserModule, app_routing_1.routing, http_1.HttpModule, forms_1.FormsModule, forms_1.ReactiveFormsModule],
+>>>>>>> origin/master
             declarations: [app_component_1.AppComponent,
                 navbar_component_1.NavbarComponent,
                 MainPage_component_1.MainPageComponent,
                 track_component_1.trackComponent,
                 DJ_component_1.DJComponent,
+<<<<<<< HEAD
                 textsearch_component_1.textsearchComponent,
                 tunesplaylist_component_1.tunesplaylistComponent,
                 playlist_component_1.playlistComponent,
                 tunesplaysearch_component_1.tunesplaysearchComponent,
                 tunesplaysearchResult_component_1.tunesplaysearchResultComponent
+=======
+                textsearch_component_1.textsearchComponent
+>>>>>>> origin/master
             ],
             bootstrap: [app_component_1.AppComponent]
         }), 
