@@ -268,7 +268,6 @@ functions = {
                              }
                         });
           },
-<<<<<<< HEAD
         youtube_dl_multiple : function(req,res)
         {
                         config.youtubedl_multi = []
@@ -296,8 +295,6 @@ functions = {
                         });
           },
           
-=======
->>>>>>> origin/master
           textdownload : function(req,res) {
 
                              config.textdownload = []      

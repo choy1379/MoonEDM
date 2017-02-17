@@ -23,11 +23,7 @@ var DJComponent = (function () {
     DJComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.router.params.subscribe(function (params) {
-<<<<<<< HEAD
             var result;
-=======
-            console.log(params);
->>>>>>> origin/master
             _this.loading = true;
             result = _this._searchService.searchDJ(params);
             result.subscribe(function (x) {

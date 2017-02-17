@@ -10,17 +10,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
-<<<<<<< HEAD
 var search_service_1 = require('../../service/search.service');
 var textsearchComponent = (function () {
     function textsearchComponent(http, _searchService) {
         this.http = http;
         this._searchService = _searchService;
-=======
-var textsearchComponent = (function () {
-    function textsearchComponent(http) {
-        this.http = http;
->>>>>>> origin/master
         this.textlist = new Array();
     }
     textsearchComponent.prototype.ngOnInit = function () {
@@ -36,18 +30,10 @@ var textsearchComponent = (function () {
             }
         }
         document.getElementById('textdownload').setAttribute('href', '#downloadlist');
-<<<<<<< HEAD
         var result;
         result = this._searchService.textdownload(tracklist);
         result.subscribe(function (x) {
             _this.textlist = x.data;
-=======
-        var headers = new http_1.Headers();
-        headers.append('Content-Type', 'application/json');
-        this.http.post('https://moonedm.herokuapp.com/textdownload', tracklist, { headers: headers }).subscribe(function (res) {
-            console.log(res.json());
-            _this.textlist = res.json().data;
->>>>>>> origin/master
             _this.loading = false;
         });
     };
@@ -58,27 +44,15 @@ var textsearchComponent = (function () {
     textsearchComponent.prototype.downloadclick = function (res, event) {
         var _this = this;
         this.loading = true;
-<<<<<<< HEAD
         var result;
-=======
-        var headers = new http_1.Headers();
->>>>>>> origin/master
         var query = {
             "videoURL": res.videoURL,
             "videoName": res.track
         };
-<<<<<<< HEAD
         result = this._searchService.youtube_dl(query);
         result.subscribe(function (x) {
             _this.loading = false;
             var url = x.URL;
-=======
-        headers.append('Content-Type', 'application/json');
-        this.http.post('https://moonedm.herokuapp.com/youtube_dl', query, { headers: headers }).subscribe(function (res) {
-            _this.loading = false;
-            var url = res.json().URL;
-            console.log(url);
->>>>>>> origin/master
             window.open(url);
         });
     };
@@ -89,11 +63,7 @@ var textsearchComponent = (function () {
             templateUrl: 'textsearch.component.html',
             styleUrls: ['textsearch.component.css']
         }), 
-<<<<<<< HEAD
         __metadata('design:paramtypes', [http_1.Http, search_service_1.searchService])
-=======
-        __metadata('design:paramtypes', [http_1.Http])
->>>>>>> origin/master
     ], textsearchComponent);
     return textsearchComponent;
 }());
