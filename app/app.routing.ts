@@ -8,9 +8,12 @@ import {textsearchComponent} from'./components/textsearch/textsearch.component'
 <<<<<<< HEAD
 import{playlistComponent} from './components/playlist/playlist.component'
 import {tunesplaylistComponent} from './components/tunesplaylist/tunesplaylist.component'
+<<<<<<< HEAD
+=======
 =======
 
 >>>>>>> origin/master
+>>>>>>> master
 const appRoutes: Routes = [
     {
         path:'',
@@ -32,8 +35,11 @@ const appRoutes: Routes = [
     {
         path:'tunesplaylist',
         component:tunesplaylistComponent  
+<<<<<<< HEAD
+=======
 =======
 >>>>>>> origin/master
+>>>>>>> master
     }
 
 
