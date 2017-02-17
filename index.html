@@ -8,6 +8,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Polyfill(s) for older browsers -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/g/hint.css@2.4.1(hint.css+hint.min.css)"></link>
+    <script src="js/canvas2image.js" type="text/javascript"></script>
     <script src="node_modules/core-js/client/shim.min.js"></script>
     <script src="node_modules/zone.js/dist/zone.js"></script>
     <script src="node_modules/systemjs/dist/system.src.js"></script>
@@ -16,6 +18,7 @@
       System.import('app').catch(function(err){ console.error(err); });
     </script>
     
+     <link rel="stylesheet" href="./app/css/audiograph/audiograph.css">
     <!-- Bootstrap Core CSS -->
        <link rel="stylesheet" href="https://bootswatch.com/cyborg/bootstrap.min.css">
     <!--<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">-->
@@ -40,13 +43,55 @@
 
     <!-- Theme JavaScript -->
     <script src="js/freelancer.min.js"></script>
-        <script src="systemjs.config.js"></script>
+    <script src="systemjs.config.js"></script>
+    <script src="js/three.js"></script>
+    
   </head>
   <body style="background-image: url(http://cfile28.uf.tistory.com/image/2131F14F589DB7EB1AE0BC);
     background-size: cover;
     background-repeat: no-repeat;
 ">
         <base href="/">
-    <my-app>Loading AppComponent content here ...</my-app>
+      <canvas id="canvas"></canvas>    
+      <div id="intro" class="disable-pointer">
+        <div id="intro-card">
+          <div class="intro-1a">
+            <p class="volume-icon"></p>
+            <p>Turn up your volume!</p>
+          </div>
+          <div class="intro-1b">
+            <p class="song-icon"></p>
+            <p>Now playing <span class="track-name-hint"></span></p>
+          </div>
+          <div class="intro-2">
+            <p>Hold <span class="spacebar">spacebar</span> to load a new track.</p>
+          </div>
+          <div class="intro-3">
+            <p>Release <span class="spacebar">spacebar</span> to play.</p>
+          </div>
+        </div>
+  </div>
+  <div class="track-aligner">
+    <div class="track-container">
+      <div class="track-number"></div>
+      <div class="track-name"></div>
+    </div>
+  </div>
+    <my-app>Loading</my-app>
+    
+  <section class="wrapper" id="loader">
+    <div class="spinner">
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+    </div>
+  </section>
+
+      <script src="js/audiograph.js"></script>
+
   </body>
 </html>

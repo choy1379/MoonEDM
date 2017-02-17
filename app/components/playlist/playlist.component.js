@@ -9,36 +9,40 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
-var http_1 = require('@angular/http');
-var search_service_1 = require('../../service/search.service');
 var store_1 = require('@ngrx/store');
 var audiograph_service_1 = require('../../service/audiograph.service');
 var playlistComponent = (function () {
-    function playlistComponent(store, router, http, _searchService) {
+    function playlistComponent(audiograph, store) {
+        this.audiograph = audiograph;
         this.store = store;
-        this.router = router;
-        this.http = http;
-        this._searchService = _searchService;
-        this.counter = store.select('counter');
+        this.volumeLevel = 0;
+        this.state$ = this.store.select('audiograph');
     }
-    playlistComponent.prototype.increment = function () {
-        this.store.dispatch({ type: audiograph_service_1.INCREMENT });
+    playlistComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        setInterval(function () {
+            _this.volumeLevel++;
+            if (_this.volumeLevel > 2) {
+                _this.volumeLevel = 0;
+            }
+        }, 100);
     };
-    playlistComponent.prototype.decrement = function () {
-        this.store.dispatch({ type: audiograph_service_1.DECREMENT });
+    playlistComponent.prototype.remove = function (track) {
+        this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.REMOVE_TRACK, payload: track });
     };
-    playlistComponent.prototype.toggleMenu = function () {
-        // this.store.dispatch({ type: TOGGLE_MENU });
+    playlistComponent.prototype.play = function (index) {
+        this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.TARGET_TRACK, payload: index });
+        // console.log(this.state$)
     };
     playlistComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: 'playlist',
             templateUrl: 'playlist.component.html',
-            styleUrls: ['playlist.component.css']
+            styleUrls: ['playlist.component.scss'],
+            providers: [audiograph_service_1.AudiographService]
         }), 
-        __metadata('design:paramtypes', [store_1.Store, router_1.ActivatedRoute, http_1.Http, search_service_1.searchService])
+        __metadata('design:paramtypes', [audiograph_service_1.AudiographService, store_1.Store])
     ], playlistComponent);
     return playlistComponent;
 }());

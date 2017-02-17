@@ -1,37 +1,42 @@
-import { Component,OnInit,AfterViewInit } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { Router,ActivatedRoute} from '@angular/router';
 import { Http, Headers} from '@angular/http';
-import {searchService} from '../../service/search.service';
 import {Observable} from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
-import { INCREMENT, DECREMENT, RESET } from '../../service/audiograph.service';
-
-declare var $audiograph: any
+import { AUDIOGRAPH_ACTIONS,AudiographService } from '../../service/audiograph.service';
 
 @Component({
     moduleId:module.id,
     selector: 'playlist',
     templateUrl: 'playlist.component.html',
-    styleUrls: ['playlist.component.css']
+    styleUrls: ['playlist.component.scss'],
+    providers:[AudiographService]
 })
 
-export class playlistComponent implements OnInit { 
- counter: Observable<any>;
- 
-constructor(private store: Store<any>,private router:ActivatedRoute,private http:Http,private _searchService: searchService){
-        this.counter = store.select('counter'); 
-    }
-      increment(){
-        this.store.dispatch({ type: INCREMENT });
-    }
 
-    decrement(){
-        this.store.dispatch({ type: DECREMENT });
-    }
+export class playlistComponent implements OnInit {
+   state$ : Observable<any>
+   volumeLevel: number = 0;
+  constructor(public audiograph: AudiographService,private store: Store<any>) {
+    this.state$ = this.store.select<any>('audiograph')
+  }
+  ngOnInit(){
+  setInterval(() => {
+      this.volumeLevel++;
+      if (this.volumeLevel > 2) {
+        this.volumeLevel = 0;
+      }
+    }, 100);
+  }
 
-    toggleMenu(){
-        // this.store.dispatch({ type: TOGGLE_MENU });
-    }
+  public remove(track: any) {
+    this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.REMOVE_TRACK, payload: track });
+  }
 
+  public play(index: number) {
+    this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.TARGET_TRACK, payload: index });
+    // console.log(this.state$)
+  }
 
 }
+

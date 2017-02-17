@@ -1,0 +1,18 @@
+<div class="fa fa-close" (click)="close()"  *ngIf="(state$ | async)?.showResults"></div>
+<div class="search-results-container" *ngIf="(state$ | async)?.showResults">
+  <ul class="search-results">
+    <li *ngFor="let track of (state$ | async)?.results" class="item">
+      <div class="row">
+        <div class="col-xs-11">
+          <div class="track">{{track.track}}</div>
+        </div>
+        <div class="col-xs-1 control">
+          <a class="play-btn hint--left" data-hint="Add to Playlist" #playbtn (click)="add(track, playbtn)">
+            <i class="fa fa-plus"></i>
+          </a>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+

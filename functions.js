@@ -251,7 +251,7 @@ functions = {
                         var youTube = new YouTube();
 
                         youTube.setKey('AIzaSyB2QPeJGn6xo9rrjjzZrk9OT33aO-Ubzxo');
-
+                        console.log(req.body)
                         youTube.search(req.body.id, 1, function(error, result) {
                         if (error) {
                                 console.log(error);
@@ -268,6 +268,33 @@ functions = {
                              }
                         });
           },
+        youtube_dl_multiple : function(req,res)
+        {
+                        config.youtubedl_multi = []
+                        var youTube = new YouTube();
+
+                        youTube.setKey('AIzaSyB2QPeJGn6xo9rrjjzZrk9OT33aO-Ubzxo');
+                        youTube.search(req.body.track, 20, function(error, result) {
+                        if (error) {
+                                console.log(error);
+                        }
+                        else {
+                                for(var i = 0 ; i<result.items.length; i++)
+                                {
+                                        youtubelist = new Object()
+                                        youtubelist.videoID =  "https://www.youtube.com/embed/"+result.items[i].id.videoId+"?enablejsapi=1&theme=light&showinfo=0"
+                                        youtubelist.track = result.items[i].snippet.title, null, 1
+                                        youtubelist.videoURL = result.items[i].id.videoId
+                                        youtubelist.tbcell = randomString()
+                                        youtubelist.iframe = randomString()
+                                        config.youtubedl_multi.push(youtubelist)
+                                }
+                                        // console.log(config.youtubedl_multi)
+                                        res.json({success: true, data:config.youtubedl_multi});
+                             }
+                        });
+          },
+          
           textdownload : function(req,res) {
 
                              config.textdownload = []      
@@ -325,10 +352,7 @@ module.exports.randomString = randomString;
         //         youtubeStream(url).pipe(res)
         //         } catch (exception) {
         //         res.status(500).send(exception)
-        //         }
-                
-              
-         
+        //         } 
         //   }    
         // foreach 스킵할때 사용 
         // ex 
