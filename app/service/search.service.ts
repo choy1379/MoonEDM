@@ -21,7 +21,11 @@ export class searchService{
     }
     youtube_dl_one(params){
         var headers = new Headers();
+<<<<<<< HEAD
         headers.append('Content-Type', 'application/json');
+=======
+        headers.append('Content-Type', 'application/X-www-form-urlencoded');
+>>>>>>> master
         return this._http.post('https://moonedm.herokuapp.com/youtube_dl_one', params, {headers: headers})
             .map(res => res.json());
     }

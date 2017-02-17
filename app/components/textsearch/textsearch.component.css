@@ -61,6 +61,7 @@
   display: block;
   width: 100%;
   height: auto;
+<<<<<<< HEAD
 }
 .star-light,
 .star-primary {
@@ -95,4 +96,6 @@ img {
   text-transform: uppercase;
   font-size: 1.25em;
   font-weight: 300;
+=======
+>>>>>>> origin/master
 }

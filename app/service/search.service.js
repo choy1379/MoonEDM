@@ -29,7 +29,7 @@ var searchService = (function () {
     };
     searchService.prototype.youtube_dl_one = function (params) {
         var headers = new http_1.Headers();
-        headers.append('Content-Type', 'application/json');
+        headers.append('Content-Type', 'application/X-www-form-urlencoded');
         return this._http.post('http://localhost:4100/youtube_dl_one', params, { headers: headers })
             .map(function (res) { return res.json(); });
     };
