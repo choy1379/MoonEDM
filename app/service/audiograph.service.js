@@ -16,7 +16,7 @@ var selectedTracks = shuffle([
     {
         trackName: 'no way',
         artist: 'wizcalifa',
-        src: 'http://k1.offliberty.com/JGwWNGJdvx8.mp3',
+        src: '',
         frequencies: [[60, 4000], [20, 5000]],
         playing: false,
         active: false
@@ -24,7 +24,7 @@ var selectedTracks = shuffle([
     {
         trackName: 'Strong Look (Codec Remix)',
         artist: 'Jett',
-        src: 'http://k1.offliberty.com/JGwWNGJdvx8.mp3',
+        src: '',
         frequencies: [[60, 4000], [20, 5000]],
         playing: false,
         active: false
