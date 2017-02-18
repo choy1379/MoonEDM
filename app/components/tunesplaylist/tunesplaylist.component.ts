@@ -45,6 +45,6 @@ constructor(private store: Store<any>,private _tunesplaysearchService:tunesplays
     }
   }
   ngAfterViewInit() {
-
+    document.querySelector('#canvas').setAttribute('style','')
   }
 }
