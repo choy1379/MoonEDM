@@ -63,7 +63,7 @@ var AudiographService = (function () {
         this.store = store;
         this.playlist = [];
         this._init = false;
-        audio.src = 'http://k56.offliberty.com/OYhNd_H_AT8.mp3';
+        audio.src = '';
         this.state$ = store.select('audiograph');
         this.state$.subscribe(function (state) {
             if (typeof state.playing !== 'undefined') {

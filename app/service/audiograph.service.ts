@@ -89,7 +89,7 @@ export class AudiographService {
   private _init: boolean = false;
 
   constructor(private store: Store<any>) {
-    audio.src ='http://k56.offliberty.com/OYhNd_H_AT8.mp3';
+    audio.src ='';
     this.state$ = store.select('audiograph');
     this.state$.subscribe((state: IAudiographState) => {
       if (typeof state.playing !== 'undefined') {
