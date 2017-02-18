@@ -16,10 +16,7 @@ var forms_1 = require('@angular/forms');
 var store_1 = require('@ngrx/store');
 var audiograph_service_1 = require('./service/audiograph.service');
 var tunesplaysearch_service_1 = require('./service/tunesplaysearch.service');
-<<<<<<< HEAD
-// component
-=======
->>>>>>> master
+
 var app_component_1 = require('./app.component');
 var navbar_component_1 = require('./components/navbar/navbar.component');
 var MainPage_component_1 = require('./components/Main/MainPage.component');
