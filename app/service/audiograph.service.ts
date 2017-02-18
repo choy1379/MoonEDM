@@ -96,11 +96,11 @@ export class AudiographService {
         console.log(`Toggling playback: ${state.playing}`);
         if(state.playing == true)
         {
-        $audiograph.play()
+        audio.play()
         }
         else
         {
-        $audiograph.pause()
+        audio.pause()
         }
       }   
       // since $audiograph needs same instance, don't lose reference
