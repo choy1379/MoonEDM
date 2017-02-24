@@ -82,73 +82,6 @@ export const AUDIOGRAPH_ACTIONS: IAUDIOGRAPH_ACTIONS = {
   TARGET_TRACK: `[${CATEGORY}] TARGET_TRACK`
 };
 
-@Injectable()
-export class AudiographService {
-  playlist: IPlaylistTrack[] = [];
-  public state$: Observable<any>;
-  private _init: boolean = false;
-
-  constructor(private store: Store<any>) {
-    audio.src ='';
-    this.state$ = store.select('audiograph');
-    this.state$.subscribe((state: IAudiographState) => {
-      if (typeof state.playing !== 'undefined') {
-        console.log(`Toggling playback: ${state.playing}`);
-        if(state.playing == true)
-        {
-        audio.play()
-        }
-        else
-        {
-        audio.pause()
-        }
-      }   
-      // since $audiograph needs same instance, don't lose reference
-      this.playlist.length = 0;
-      for (let item of state.playlist) {
-        this.playlist.push(item);
-      }
-      if (!this._init) {
-        this._init = true;
-        this.init();
-      }
-
-    });
-  }
-
-  init() {
-    $audiograph.init(this.playlist);
-    
-    $audiograph.addListener('playNext', () => {     
-      this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.NEXT_TRACK });
-      // console.log('Audiograph: playNext() function called!');
-    });
-
-    $audiograph.addListener('playPrevious', () => {
-      this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.PREV_TRACK });
-      // console.log('Audiograph: playPrevious() function called!');
-    });
-
-    $audiograph.addListener('playIndex', (index) => {
-      // console.log('Audiograph: playIndex() function called with index "' + index + '"!');
-    });
-
-    $audiograph.addListener('pause', () => {
-      // console.log('Audiograph: pause() function called!');
-    });
-
-    $audiograph.addListener('play', () => {
-      // console.log('Audiograph: play() function called!');
-    });
-
-    $audiograph.addListener('newPalette', (palette) => {
-      console.log('Audiograph: the palette has been changed to - Background color = ' + 
-        palette.backgroundColor + ', Foreground colors = ' + palette.foregroundColors);
-    });
-  }
-
-}
-
 export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographState = initialState, action: Action) => {
   var changeState = () => {
     return Object.assign({}, state, action.payload);
@@ -230,6 +163,74 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
       return state;
   }
 };
+
+@Injectable()
+export class AudiographService {
+  playlist: IPlaylistTrack[] = [];
+  public state$: Observable<any>;
+  private _init: boolean = false;
+
+  constructor(private store: Store<any>) {
+    this.state$ = store.select('audiograph');
+    //audiographReducer -> changestate() -> .subscribe()
+    // state <- IAudiographState
+    this.state$.subscribe((state: IAudiographState) => {
+      if (typeof state.playing !== 'undefined') {
+        console.log(`Toggling playback: ${state.playing}`);
+        if(state.playing == true)
+        {
+        audio.play()
+        }
+        else
+        {
+        audio.pause()
+        }
+      }   
+      // since $audiograph needs same instance, don't lose reference
+      this.playlist.length = 0;
+      for (let item of state.playlist) {
+        this.playlist.push(item);
+      }
+      if (!this._init) {
+        this._init = true;
+        this.init();
+      }
+
+    });
+  }
+
+  init() {
+    $audiograph.init(this.playlist);
+    
+    $audiograph.addListener('playNext', () => {     
+      this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.NEXT_TRACK });
+      // console.log('Audiograph: playNext() function called!');
+    });
+
+    $audiograph.addListener('playPrevious', () => {
+      this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.PREV_TRACK });
+      // console.log('Audiograph: playPrevious() function called!');
+    });
+
+    $audiograph.addListener('playIndex', (index) => {
+      // console.log('Audiograph: playIndex() function called with index "' + index + '"!');
+    });
+
+    $audiograph.addListener('pause', () => {
+      // console.log('Audiograph: pause() function called!');
+    });
+
+    $audiograph.addListener('play', () => {
+      // console.log('Audiograph: play() function called!');
+    });
+
+    $audiograph.addListener('newPalette', (palette) => {
+      console.log('Audiograph: the palette has been changed to - Background color = ' + 
+        palette.backgroundColor + ', Foreground colors = ' + palette.foregroundColors);
+    });
+  }
+
+}
 
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex;

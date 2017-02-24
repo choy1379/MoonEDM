@@ -29,7 +29,7 @@ var textsearchComponent = (function () {
                 tracklist.splice(i, 1);
             }
         }
-        document.getElementById('textdownload').setAttribute('href', '#downloadlist');
+        this._searchService.getDocument('textdownload').setAttribute('href', '#downloadlist');
         var result;
         result = this._searchService.textdownload(tracklist);
         result.subscribe(function (x) {
@@ -38,8 +38,8 @@ var textsearchComponent = (function () {
         });
     };
     textsearchComponent.prototype.textlistclick = function (res, event) {
-        document.getElementById(res.tbcell).style.display = 'inline';
-        document.getElementById(res.iframe).setAttribute('src', res.videoID);
+        this._searchService.getDocument(res.tbcell).style.display = 'inline';
+        this._searchService.getDocument(res.iframe).setAttribute('src', res.videoID);
     };
     textsearchComponent.prototype.downloadclick = function (res, event) {
         var _this = this;

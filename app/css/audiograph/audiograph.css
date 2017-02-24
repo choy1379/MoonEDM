@@ -24,9 +24,10 @@ body {
   margin: 0;
   background: #fff;
   color: #3C3C3C;
-  overflow: hidden;
+  /*overflow: hidden;*/
   font-family: 'NotoSans', 'Helvetica', sans-serif;
   font-size: 16px;
+  -webkit-overflow-scrolling: touch;
 }
 canvas {
   position: absolute;
@@ -36,7 +37,7 @@ canvas {
 }
 
 p {
-  line-height: 10px;
+  /*line-height: 10px;*/
 }
 
 strong {
@@ -55,7 +56,7 @@ strong {
   margin-top: 120px;
   text-align: center;
   width: 100%;
-  height: 100%;
+  height: 80%;
 }
 
 #intro-card {

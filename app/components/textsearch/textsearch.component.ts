@@ -33,7 +33,7 @@ constructor( private http:Http,private _searchService: searchService){
                 tracklist.splice(i, 1);
             }
         }
-        document.getElementById('textdownload').setAttribute('href','#downloadlist')
+        this._searchService.getDocument('textdownload').setAttribute('href','#downloadlist')
             var result : any
             result = this._searchService.textdownload(tracklist);
             result.subscribe(x => {
@@ -45,8 +45,8 @@ constructor( private http:Http,private _searchService: searchService){
 
     }
     textlistclick(res:any,event:any){
-            document.getElementById(res.tbcell).style.display='inline';
-            document.getElementById(res.iframe).setAttribute('src',res.videoID);
+            this._searchService.getDocument(res.tbcell).style.display = 'inline';
+            this._searchService.getDocument(res.iframe).setAttribute('src',res.videoID)
     }
     downloadclick(res:any,event:any){
         this.loading = true 

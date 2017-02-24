@@ -57,68 +57,6 @@ exports.AUDIOGRAPH_ACTIONS = {
     PREV_TRACK: "[" + CATEGORY + "] PREV_TRACK",
     TARGET_TRACK: "[" + CATEGORY + "] TARGET_TRACK"
 };
-var AudiographService = (function () {
-    function AudiographService(store) {
-        var _this = this;
-        this.store = store;
-        this.playlist = [];
-        this._init = false;
-        audio.src = '';
-        this.state$ = store.select('audiograph');
-        this.state$.subscribe(function (state) {
-            if (typeof state.playing !== 'undefined') {
-                console.log("Toggling playback: " + state.playing);
-                if (state.playing == true) {
-                    audio.play();
-                }
-                else {
-                    audio.pause();
-                }
-            }
-            // since $audiograph needs same instance, don't lose reference
-            _this.playlist.length = 0;
-            for (var _i = 0, _a = state.playlist; _i < _a.length; _i++) {
-                var item = _a[_i];
-                _this.playlist.push(item);
-            }
-            if (!_this._init) {
-                _this._init = true;
-                _this.init();
-            }
-        });
-    }
-    AudiographService.prototype.init = function () {
-        var _this = this;
-        $audiograph.init(this.playlist);
-        $audiograph.addListener('playNext', function () {
-            _this.store.dispatch({ type: exports.AUDIOGRAPH_ACTIONS.NEXT_TRACK });
-            // console.log('Audiograph: playNext() function called!');
-        });
-        $audiograph.addListener('playPrevious', function () {
-            _this.store.dispatch({ type: exports.AUDIOGRAPH_ACTIONS.PREV_TRACK });
-            // console.log('Audiograph: playPrevious() function called!');
-        });
-        $audiograph.addListener('playIndex', function (index) {
-            // console.log('Audiograph: playIndex() function called with index "' + index + '"!');
-        });
-        $audiograph.addListener('pause', function () {
-            // console.log('Audiograph: pause() function called!');
-        });
-        $audiograph.addListener('play', function () {
-            // console.log('Audiograph: play() function called!');
-        });
-        $audiograph.addListener('newPalette', function (palette) {
-            console.log('Audiograph: the palette has been changed to - Background color = ' +
-                palette.backgroundColor + ', Foreground colors = ' + palette.foregroundColors);
-        });
-    };
-    AudiographService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [store_1.Store])
-    ], AudiographService);
-    return AudiographService;
-}());
-exports.AudiographService = AudiographService;
 exports.audiograph = function (state, action) {
     if (state === void 0) { state = initialState; }
     var changeState = function () {
@@ -205,6 +143,69 @@ exports.audiograph = function (state, action) {
             return state;
     }
 };
+var AudiographService = (function () {
+    function AudiographService(store) {
+        var _this = this;
+        this.store = store;
+        this.playlist = [];
+        this._init = false;
+        this.state$ = store.select('audiograph');
+        //audiographReducer -> changestate() -> .subscribe()
+        // state <- IAudiographState
+        this.state$.subscribe(function (state) {
+            if (typeof state.playing !== 'undefined') {
+                console.log("Toggling playback: " + state.playing);
+                if (state.playing == true) {
+                    audio.play();
+                }
+                else {
+                    audio.pause();
+                }
+            }
+            // since $audiograph needs same instance, don't lose reference
+            _this.playlist.length = 0;
+            for (var _i = 0, _a = state.playlist; _i < _a.length; _i++) {
+                var item = _a[_i];
+                _this.playlist.push(item);
+            }
+            if (!_this._init) {
+                _this._init = true;
+                _this.init();
+            }
+        });
+    }
+    AudiographService.prototype.init = function () {
+        var _this = this;
+        $audiograph.init(this.playlist);
+        $audiograph.addListener('playNext', function () {
+            _this.store.dispatch({ type: exports.AUDIOGRAPH_ACTIONS.NEXT_TRACK });
+            // console.log('Audiograph: playNext() function called!');
+        });
+        $audiograph.addListener('playPrevious', function () {
+            _this.store.dispatch({ type: exports.AUDIOGRAPH_ACTIONS.PREV_TRACK });
+            // console.log('Audiograph: playPrevious() function called!');
+        });
+        $audiograph.addListener('playIndex', function (index) {
+            // console.log('Audiograph: playIndex() function called with index "' + index + '"!');
+        });
+        $audiograph.addListener('pause', function () {
+            // console.log('Audiograph: pause() function called!');
+        });
+        $audiograph.addListener('play', function () {
+            // console.log('Audiograph: play() function called!');
+        });
+        $audiograph.addListener('newPalette', function (palette) {
+            console.log('Audiograph: the palette has been changed to - Background color = ' +
+                palette.backgroundColor + ', Foreground colors = ' + palette.foregroundColors);
+        });
+    };
+    AudiographService = __decorate([
+        core_1.Injectable(), 
+        __metadata('design:paramtypes', [store_1.Store])
+    ], AudiographService);
+    return AudiographService;
+}());
+exports.AudiographService = AudiographService;
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
     // While there remain elements to shuffle...

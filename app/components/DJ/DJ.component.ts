@@ -16,45 +16,64 @@ tempPlaylist = new Array();
 
 
 constructor(   private router:ActivatedRoute,private http:Http,private _searchService: searchService){
+
     }
     
+
     loading: boolean;
+    modalloading:boolean;
+    downloadloading : boolean;
     portfolioModal : string;
+    playlistModal: boolean;
+    eventid : string
+
       ngOnInit(){
         this.router.params.subscribe((params) => {
             var result : any
             this.loading = true 
-
+            this.playlistModal = true
             result = this._searchService.searchDJ(params)
             result.subscribe(x => {
                  this.loading = false
                  this.DJlist = x.data
-                  document.getElementById("portfolio").style.display='inline';
+                 this._searchService.getDocument('portfolio').style.display='inline'
+
             });
         });
     }
       imgClick(res:any)
       {
           this.tempPlaylist = []
-          document.getElementById(res.list).setAttribute('href','#Playlist')
-          this.loading = true 
+          this._searchService.getDocument(res.list).setAttribute('href','#Playlist')
+          this.modalloading = true 
            var playList = 'playList=' + res.Detail;
            var result : any
             result = this._searchService.searchPlaylist(playList)
             result.subscribe(x => {
                 this.tempPlaylist = x.data
-                this.loading = false
+                this.modalloading = false
             });
       }
       playlistclick(res:any,event:any)
       {
-          
-            document.getElementById(res.tbcell).style.display='inline';
-            document.getElementById(res.iframe).setAttribute('src',res.videoID);
+          if(event.path[2].childNodes[2].childNodes[1].style.display == 'inline')
+          {
+              this._searchService.getDocument(res.tbcell).style.display='none'
+          }
+          else
+          {
+              this._searchService.getDocument(res.tbcell).style.display='inline'
+              this._searchService.getDocument(res.iframe).setAttribute('src',res.videoID)
+          }
       }
       downloadclick(res:any,event:any)
       {
-          this.loading = true 
+          if(res.track == event.path[5].id)
+          {
+             this.eventid = event.path[5].id
+             this.downloadloading = true
+          }
+         
             var query = {
                          "videoURL" : res.videoURL,
                           "videoName" :  res.track
@@ -63,7 +82,8 @@ constructor(   private router:ActivatedRoute,private http:Http,private _searchSe
             result = this._searchService.youtube_dl(query);
             result.subscribe(x => {
                 var url = x.URL
-                this.loading = false
+                this.downloadloading = false
+
                 window.open(url)
             });
             

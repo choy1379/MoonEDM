@@ -15,6 +15,9 @@ import {AUDIOGRAPH_ACTIONS,IPlaylistTrack} from '../../service/audiograph.servic
 export class tunesplaysearchResultComponent {
   state$ : Observable<any>
   constructor(private store: Store<any> ,private _searchService: searchService, private _tunesplaysearchService:tunesplaysearchService) {
+    //tunesplaysearchReducer 
+    //changestate()
+    //return Object.assign({}, state, action.payload) -> observable state$
     this.state$ = this.store.select<any>('tunesplaysearch')
  }
 public add(track: any, playbtn: any) {

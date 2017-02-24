@@ -51,10 +51,7 @@ export const tunesplaysearchReducer: ActionReducer<tunesplaysearchState> = (stat
 
 @Injectable()
 export class tunesplaysearchService{
-   public state$: Observable<any>;
     constructor(private store: Store<any>){
-    this.state$ = store.select('tunesplaysearch');
-     console.log(this.state$)
     }
 
 }

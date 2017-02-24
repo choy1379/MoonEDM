@@ -34,6 +34,7 @@ import {routing} from './app.routing';
                    playlistComponent,
                    tunesplaysearchComponent,
                    tunesplaysearchResultComponent
+                   
                     ],
   bootstrap:    [ AppComponent ]
 })

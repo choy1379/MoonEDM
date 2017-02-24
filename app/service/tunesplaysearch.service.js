@@ -43,8 +43,6 @@ exports.tunesplaysearchReducer = function (state, action) {
 var tunesplaysearchService = (function () {
     function tunesplaysearchService(store) {
         this.store = store;
-        this.state$ = store.select('tunesplaysearch');
-        console.log(this.state$);
     }
     tunesplaysearchService = __decorate([
         core_1.Injectable(), 

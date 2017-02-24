@@ -9,17 +9,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var search_service_1 = require('../../service/search.service');
 var NavbarComponent = (function () {
-    function NavbarComponent() {
+    function NavbarComponent(_searchService) {
+        this._searchService = _searchService;
         this.List = [{ 'name': 'DJ' }, { 'name': 'tracklist' }];
         this.selectedList = this.List[0];
         this.selected = '';
     }
     NavbarComponent.prototype.ngOnInit = function () {
-        document.getElementById("temp").style.marginTop = "7px";
-        document.getElementById("temp").style.width = "30%";
-        document.getElementById("tempad").style.marginTop = "7px";
-        document.getElementById("select").style.marginTop = "7px";
+        this._searchService.getDocument('temp').style.marginTop = "7px";
+        this._searchService.getDocument('temp').style.width = "30%";
+        this._searchService.getDocument('tempad').style.marginTop = "7px";
+        this._searchService.getDocument('select').style.marginTop = "7px";
+        document.querySelector('#canvas').setAttribute('style', 'width:1px');
     };
     NavbarComponent.prototype.search = function (event) {
         if (this.selected == "tracklist") {
@@ -45,9 +48,9 @@ var NavbarComponent = (function () {
             moduleId: module.id,
             selector: 'navbar',
             templateUrl: 'navbar.component.html',
-            styleUrls: ['navbar.component.css']
+            styleUrls: ['navbar.component.scss']
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [search_service_1.searchService])
     ], NavbarComponent);
     return NavbarComponent;
 }());

@@ -1,5 +1,6 @@
+
 <div *ngIf="loading == true" class="loader"></div>
-    <section id="portfolio" style="display:none" >
+    <section id="portfolio" style="display:none"  >
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
@@ -8,15 +9,14 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-4 portfolio-item" *ngFor="let res of DJlist" >
+                <div class="col-sm-3 portfolio-item" *ngFor="let res of DJlist" >
                     <a id = '{{res.list}}' href="#" class="portfolio-link" data-toggle="modal" (click)="imgClick(res)">
-                        <div class="caption">
-                            <div class="caption-content">
-                                <i class="fa fa-search-plus fa-3x"></i>
-                                {{res.list}} 
-                            </div>
-                        </div>
-                        <img src={{res.Image}} class="img-responsive" alt="">
+                        <figure>
+                        <img src={{res.Image}} class="img-responsive" alt="">      
+                        <figcaption>
+                            <p>{{res.list}}</p>
+                        </figcaption>
+                        </figure>
                      </a>
                 </div>
             </div>
@@ -35,9 +35,15 @@
                     <div class="col-lg-8 col-lg-offset-2">
                         <div class="modal-body">
                             <h2>Play list</h2>
-                            <div *ngIf="loading == true" class="loader">
+                            <div *ngIf="modalloading == true" class="loader">
                             </div>
                             <div id = "{{res.track}}" *ngFor="let res of tempPlaylist" (click)="playlistclick(res,$event)">
+                            <div *ngIf="res.track == eventid">
+                                <div *ngIf="downloadloading == true" class="loader">
+                                </div>
+                            </div>
+                            <div *ngIf = "playlistModal == true">
+                            </div>
                                 <table class="table table-hover">
                                     <tr>
                                         <td>{{res.count}}번 _ {{res.track}}</td>

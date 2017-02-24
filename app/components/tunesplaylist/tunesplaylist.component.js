@@ -22,7 +22,9 @@ var tunesplaylistComponent = (function () {
         this.router = router;
         this.http = http;
         this._searchService = _searchService;
-        //audiograph.service.js -> reduce(value)  -> return
+        //audiograph.service.js 에서 state 변경하지않는한 Observable 리턴시  changeState() 값 그대로 리턴
+        //만약 변경할 사항있을시 .subscribe 에서 (state: IAudiographState) 처리후 리턴 
+        //return Object.assign({}, state, action.payload) -> observable state$
         this.state$ = this.store.select('audiograph');
     }
     tunesplaylistComponent.prototype.ngOnInit = function () {

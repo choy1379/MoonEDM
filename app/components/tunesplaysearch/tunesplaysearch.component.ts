@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import {searchService} from '../../service/search.service'
-import {tunesplaysearchService,tunesplaysearch_ACTIONS} from '../../service/tunesplaysearch.service'
+import {tunesplaysearch_ACTIONS} from '../../service/tunesplaysearch.service'
 
 @Component({
   selector: 'tunesplaysearch',
@@ -11,10 +11,8 @@ import {tunesplaysearchService,tunesplaysearch_ACTIONS} from '../../service/tune
 
 })
 export class tunesplaysearchComponent {
-  public twitterState$: Observable<any>
   
-  constructor(private store: Store<any> ,private _searchService: searchService, private _tunesplaysearchService:tunesplaysearchService) {
-    this.twitterState$ = store.select('twitter');
+  constructor(private store: Store<any> ,private _searchService: searchService) {
   }
 
   public search(value: any) {

@@ -25,34 +25,43 @@ var DJComponent = (function () {
         this.router.params.subscribe(function (params) {
             var result;
             _this.loading = true;
+            _this.playlistModal = true;
             result = _this._searchService.searchDJ(params);
             result.subscribe(function (x) {
                 _this.loading = false;
                 _this.DJlist = x.data;
-                document.getElementById("portfolio").style.display = 'inline';
+                _this._searchService.getDocument('portfolio').style.display = 'inline';
             });
         });
     };
     DJComponent.prototype.imgClick = function (res) {
         var _this = this;
         this.tempPlaylist = [];
-        document.getElementById(res.list).setAttribute('href', '#Playlist');
-        this.loading = true;
+        this._searchService.getDocument(res.list).setAttribute('href', '#Playlist');
+        this.modalloading = true;
         var playList = 'playList=' + res.Detail;
         var result;
         result = this._searchService.searchPlaylist(playList);
         result.subscribe(function (x) {
             _this.tempPlaylist = x.data;
-            _this.loading = false;
+            _this.modalloading = false;
         });
     };
     DJComponent.prototype.playlistclick = function (res, event) {
-        document.getElementById(res.tbcell).style.display = 'inline';
-        document.getElementById(res.iframe).setAttribute('src', res.videoID);
+        if (event.path[2].childNodes[2].childNodes[1].style.display == 'inline') {
+            this._searchService.getDocument(res.tbcell).style.display = 'none';
+        }
+        else {
+            this._searchService.getDocument(res.tbcell).style.display = 'inline';
+            this._searchService.getDocument(res.iframe).setAttribute('src', res.videoID);
+        }
     };
     DJComponent.prototype.downloadclick = function (res, event) {
         var _this = this;
-        this.loading = true;
+        if (res.track == event.path[5].id) {
+            this.eventid = event.path[5].id;
+            this.downloadloading = true;
+        }
         var query = {
             "videoURL": res.videoURL,
             "videoName": res.track
@@ -61,7 +70,7 @@ var DJComponent = (function () {
         result = this._searchService.youtube_dl(query);
         result.subscribe(function (x) {
             var url = x.URL;
-            _this.loading = false;
+            _this.downloadloading = false;
             window.open(url);
         });
     };

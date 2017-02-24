@@ -18,6 +18,9 @@ var tunesplaysearchResultComponent = (function () {
         this.store = store;
         this._searchService = _searchService;
         this._tunesplaysearchService = _tunesplaysearchService;
+        //tunesplaysearchReducer 
+        //changestate()
+        //return Object.assign({}, state, action.payload) -> observable state$
         this.state$ = this.store.select('tunesplaysearch');
     }
     tunesplaysearchResultComponent.prototype.add = function (track, playbtn) {

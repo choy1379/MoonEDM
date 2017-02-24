@@ -13,11 +13,9 @@ var store_1 = require('@ngrx/store');
 var search_service_1 = require('../../service/search.service');
 var tunesplaysearch_service_1 = require('../../service/tunesplaysearch.service');
 var tunesplaysearchComponent = (function () {
-    function tunesplaysearchComponent(store, _searchService, _tunesplaysearchService) {
+    function tunesplaysearchComponent(store, _searchService) {
         this.store = store;
         this._searchService = _searchService;
-        this._tunesplaysearchService = _tunesplaysearchService;
-        this.twitterState$ = store.select('twitter');
     }
     tunesplaysearchComponent.prototype.search = function (value) {
         var _this = this;
@@ -34,7 +32,7 @@ var tunesplaysearchComponent = (function () {
             templateUrl: './app/components/tunesplaysearch/tunesplaysearch.component.html',
             styleUrls: ['./app/components/tunesplaysearch/tunesplaysearch.component.scss'],
         }), 
-        __metadata('design:paramtypes', [store_1.Store, search_service_1.searchService, tunesplaysearch_service_1.tunesplaysearchService])
+        __metadata('design:paramtypes', [store_1.Store, search_service_1.searchService])
     ], tunesplaysearchComponent);
     return tunesplaysearchComponent;
 }());

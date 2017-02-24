@@ -51,6 +51,10 @@ var searchService = (function () {
         return this._http.post('https://moonedm.herokuapp.com/youtube_dl_multiple', params, { headers: headers })
             .map(function (res) { return res.json(); });
     };
+    //common function get document.getElementById
+    searchService.prototype.getDocument = function (element) {
+        return document.getElementById(element);
+    };
     searchService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http])
