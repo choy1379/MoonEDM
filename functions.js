@@ -187,8 +187,8 @@ functions = {
                                 //마지막 데이터 짤림방지
                                 config.Playlistarr.push('dummy')
                                 var count = 0
-                                var users = config.Playlistarr
-                                // console.log(users)                               
+                                var users = config.Playlistarr      
+                                console.log(users)                  
                                 async.forEachOfLimit(users, 1, function(user, index, cb) {
                                         // console.log(index + ': ' + user)
                                                 async.waterfall([
@@ -203,6 +203,7 @@ functions = {
                                                                                 console.log(error);
                                                                                 }
                                                                                 else {
+
                                                                                 youtubelist = new Object()
                                                                                 // youtubelist.videoID = result.items[0].id.videoId, null, 1
                                                                                 youtubelist.videoID =  "https://www.youtube.com/embed/"+result.items[0].id.videoId+"?enablejsapi=1&theme=light&showinfo=0"
@@ -336,9 +337,372 @@ functions = {
                                 res.json({success: true, data:config.textdownload});
                                 // console.log(config.Youtubearr)
                                 })
-          }
-   
+          },
+          bugsartist: function(req, res) {
+                config.bugsartistarr = []
+                var melonArtist = req.body.id
+                var url = 'http://search.bugs.co.kr/album?q='+melonArtist + '&flac_only=false&target=ARTIST_ALBUM&page=1&sort=R'
+                var Spooky = require('spooky');
+                var spooky = new Spooky({
+                        casper: {
+                                logLevel: 'debug',
+                                verbose: false,
+                                options: {
+                                        clientScripts: ['https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js']
+                                },
+                                viewportSize: {
+                                                width: 1440, height: 768
+                                        },
+                                pageSettings: {
+                                        webSecurityEnabled: false, 
+                                        userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11" // Spoof being Chrome on a Mac (https://msdn.microsoft.com/en-us/library/ms537503(v=vs.85).aspx)
+                                }
+                                
+                        }
+                        }, function (err) {
+                        if (err) {
+                                e = new Error('Failed to initialize SpookyJS');
+                                e.details = err;
+                                throw e;
+                        }
+
+
+                        spooky.start(url);
+
+                        spooky.then(function(){
+                                         // paging = this.evaluate(function() {
+                                //                 var elements = __utils__.findAll('#container > section > div > div.paging > a');
+                                //                 return elements.map(function(e) {
+                                //                     return e.innerText
+                                //                 });
+                                //   });    
+                                 Album = this.evaluate(function() {
+                                                var elements = __utils__.findAll('#container > section > div > ul > li > figure > figcaption > a.albumTitle');
+                                                return elements.map(function(e) {
+                                                        // return e.innerText
+                                                    return e.getAttribute('title')
+                                                });
+                                  });
+                                 href = this.evaluate(function() {
+                                                var elements = __utils__.findAll('#container > section > div > ul > li > figure > figcaption > a.albumTitle');
+                                                return elements.map(function(e) {
+                                                        // return e.innerText
+                                                    return e.getAttribute('href')
+                                                });
+                                  });
+                                 Artist = this.evaluate(function() {
+                                                var elements = __utils__.findAll('#container > section > div > ul > li > figure > figcaption > div > p.artist > a');
+                                                return elements.map(function(e) {
+                                                    return e.getAttribute('title')
+                                                });
+                                  });
+                                 AlbumDate = this.evaluate(function() {
+                                                var elements = __utils__.findAll('#container > section > div > ul > li > figure > figcaption > div > p:nth-child(2) > time');
+                                                return elements.map(function(e) {
+                                                    return e.innerText
+                                                });
+                                  });
+                                  AlbumType = this.evaluate(function() {
+                                                var elements = __utils__.findAll('#container > section > div > ul > li > figure > figcaption > div > p:nth-child(2) > span > span');
+                                                return elements.map(function(e) {
+                                                    return e.innerText
+                                                });
+                                  });
+                                Albumimg = this.evaluate(function() {
+                                                var elements = __utils__.findAll('#container > section > div > ul > li > figure > div.thumbnail > a > img');
+                                                return elements.map(function(e) {
+                                                    return e.getAttribute('src')
+                                                });
+                                  });
+
+                                 
+                                for(var i = 0; i<Album.length; i++)
+                                {
+                                        Albumlist = new Object() 
+                                        Albumlist.Album = Album[i]
+                                        Albumlist.href = href[i]
+                                        Albumlist.Artist = Artist[i]
+                                        Albumlist.AlbumDate = AlbumDate[i]
+                                        Albumlist.AlbumType = AlbumType[i]
+                                        Albumlist.Albumimg = Albumimg[i]  
+                                        this.emit('albumarr',Albumlist)
+                                }     
+                         });
+
+                        var selectXPath = 'xPath = function(expression) { return {    type: "xpath", path: expression, toString: function() {return this.type + " selector: " + this.path; }  };};'
+                         for(var i =2; i<9; i++)
+                        {
+                                spooky.then([{x: selectXPath,i:i},function(){  
+                                                paging = this.evaluate(function() {
+                                                                var elements = __utils__.findAll('#container > section > div > div.paging > a');
+                                                                return elements.map(function(e) {
+                                                                return e.innerText
+                                                                });
+                                                });   
+                                                if(paging.length <2)
+                                                {
+                                                        this.emit('end','end')
+                                                }
+                                                else if(paging.length < i) 
+                                                {
+                                                        this.emit('end','end')
+                                                }
+                                                else
+                                                {
+                                                        var xpathExpr1 = '//*[@id="container"]/section/div/div[2]/a['+i+']'
+                                                        eval(x);
+                                                        this.click(xPath(xpathExpr1));
+                                                }
+                                           
+                                                         
+                                }]);
+
+                                spooky.then(function(){
+                                               href = this.evaluate(function() {
+                                                                var elements = __utils__.findAll('#container > section > div > ul > li > figure > figcaption > a.albumTitle');
+                                                                return elements.map(function(e) {
+                                                                        // return e.innerText
+                                                                return e.getAttribute('href')
+                                                                });
+                                                 });
+                                                Album = this.evaluate(function() {
+                                                                var elements = __utils__.findAll('#container > section > div > ul > li > figure > figcaption > a.albumTitle');
+                                                                return elements.map(function(e) {
+                                                                        // return e.innerText
+                                                                return e.getAttribute('title')
+                                                                });
+                                                });
+                                                Artist = this.evaluate(function() {
+                                                                var elements = __utils__.findAll('#container > section > div > ul > li > figure > figcaption > div > p.artist > a');
+                                                                return elements.map(function(e) {
+                                                                return e.getAttribute('title')
+                                                                });
+                                                });
+                                                AlbumDate = this.evaluate(function() {
+                                                                var elements = __utils__.findAll('#container > section > div > ul > li > figure > figcaption > div > p:nth-child(2) > time');
+                                                                return elements.map(function(e) {
+                                                                return e.innerText
+                                                                });
+                                                });
+                                                AlbumType = this.evaluate(function() {
+                                                                var elements = __utils__.findAll('#container > section > div > ul > li > figure > figcaption > div > p:nth-child(2) > span > span');
+                                                                return elements.map(function(e) {
+                                                                return e.innerText
+                                                                });
+                                                });
+                                                Albumimg = this.evaluate(function() {
+                                                                var elements = __utils__.findAll('#container > section > div > ul > li > figure > div.thumbnail > a > img');
+                                                                return elements.map(function(e) {
+                                                                return e.getAttribute('src')
+                                                                });
+                                                });     
+                                                for(var i = 0; i<Album.length; i++)
+                                                {
+                                                        Albumlist = new Object() 
+                                                        Albumlist.Album = Album[i]
+                                                        Albumlist.href = href[i]
+                                                        Albumlist.Artist = Artist[i]
+                                                        Albumlist.AlbumDate = AlbumDate[i]
+                                                        Albumlist.AlbumType = AlbumType[i]
+                                                        Albumlist.Albumimg = Albumimg[i]  
+                                                        this.emit('albumarr',Albumlist)
+                                                }     
+                                                
+                                         });
+                        }
+
+                         spooky.then(function(){
+                                this.emit('end','end')
+                        });
+
+                        spooky.run();
+                      
+                });
+                        spooky.on('logs', function (logs) {
+                                                console.log(logs)
+                                                });
+                        spooky.on('albumarr', function (Albumlist) {
+                                                config.bugsartistarr.push(Albumlist)
+                                                });
+                        spooky.on('end', function (end) {
+                                                res.json({success: true, data:config.bugsartistarr});
+                                                });     
+        },
+        bugstrack: function(req, res) {
+        config.bugstrack = []
+        config.bugsYoutubearr = []
+                var albumtrackarr = []
+                var url = req.body.href
+                console.log(url)
+                var Spooky = require('spooky');
+                var spooky = new Spooky({
+                        casper: {
+                                logLevel: 'debug',
+                                verbose: false,
+                                options: {
+                                        clientScripts: ['https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js']
+                                },
+                                viewportSize: {
+                                                width: 1440, height: 768
+                                        },
+                                pageSettings: {
+                                        webSecurityEnabled: false, 
+                                        userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11" // Spoof being Chrome on a Mac (https://msdn.microsoft.com/en-us/library/ms537503(v=vs.85).aspx)
+                                }
+                                
+                        }
+                        }, function (err) {
+                        if (err) {
+                                e = new Error('Failed to initialize SpookyJS');
+                                e.details = err;
+                                throw e;
+                        }
+
+
+                        spooky.start(url);
+
+                        spooky.then(function(){
+                                 AlbumImg = this.evaluate(function() {
+                                                var elements = __utils__.findAll('#container > section.sectionPadding.summaryInfo.summaryAlbum > div > div.basicInfo > div > ul > li > a > img');
+                                                return elements.map(function(e) {
+                                                        // return e.innerText
+                                                    return e.getAttribute('src')
+                                                });
+                                  });
+                                  Artist = this.evaluate(function() {
+                                                var elements = __utils__.findAll('#container > section.sectionPadding.summaryInfo.summaryAlbum > div > div.basicInfo > table > tbody > tr:nth-child(1) > td > a');
+                                                return elements.map(function(e) {
+                                                    return e.innerText
+                                                });
+                                  });
+                                  AlbumType = this.evaluate(function() {
+                                                var elements = __utils__.findAll('#container > section.sectionPadding.summaryInfo.summaryAlbum > div > div.basicInfo > table > tbody > tr:nth-child(2) > td');
+                                                return elements.map(function(e) {
+                                                    return e.innerText
+                                                });
+                                  });
+                                  AlbumDate = this.evaluate(function() {
+                                                var elements = __utils__.findAll('#container > section.sectionPadding.summaryInfo.summaryAlbum > div > div.basicInfo > table > tbody > tr:nth-child(3) > td > time');
+                                                return elements.map(function(e) {
+                                                    return e.innerText
+                                                });
+                                  });
+                                  AlbumGenre = this.evaluate(function() {
+                                                var elements = __utils__.findAll('#container > section.sectionPadding.summaryInfo.summaryAlbum > div > div.basicInfo > table > tbody > tr:nth-child(4) > td > a');
+                                                return elements.map(function(e) {
+                                                    return e.innerText
+                                                });
+                                  });
+                                  AlbumStyle = this.evaluate(function() {
+                                                var elements = __utils__.findAll('#container > section.sectionPadding.summaryInfo.summaryAlbum > div > div.basicInfo > table > tbody > tr:nth-child(5) > td > a:nth-child(1)');
+                                                return elements.map(function(e) {
+                                                    return e.innerText
+                                                });
+                                  });
+                                  AlbumCopo = this.evaluate(function() {
+                                                var elements = __utils__.findAll('#container > section.sectionPadding.summaryInfo.summaryAlbum > div > div.basicInfo > table > tbody > tr:nth-child(6) > td');
+                                                return elements.map(function(e) {
+                                                    return e.innerText
+                                                });
+                                  });
+                                  AlbumPlaytime = this.evaluate(function() {
+                                                var elements = __utils__.findAll('#container > section.sectionPadding.summaryInfo.summaryAlbum > div > div.basicInfo > table > tbody > tr:nth-child(8) > td > time');
+                                                return elements.map(function(e) {
+                                                    return e.innerText
+                                                });
+                                  });
+                                  Albumtrackindex = this.evaluate(function() {
+                                                var elements = __utils__.findAll('#container > section.sectionPadding.contents.track > div > div > table > tbody > tr > td > p.trackIndex > em');
+                                                return elements.map(function(e) {
+                                                    return e.innerText
+                                                });
+                                  });
+                                  Albumtrack = this.evaluate(function() {
+                                                var elements = __utils__.findAll('#container > section.sectionPadding.contents.track > div > div > table > tbody > tr > th > p.title > a ');
+                                                return elements.map(function(e) {
+                                                    return e.getAttribute('title')
+                                                });
+                                  });
+
+                                  for(var i = 0; i < AlbumImg.length; i ++)
+                                  {
+                                        Album = new Object() 
+                                        Album.AlbumImg = AlbumImg[i]
+                                        Album.Artist = Artist[i]
+                                        Album.AlbumType = AlbumType[i]
+                                        Album.AlbumDate = AlbumDate[i]
+                                        Album.AlbumGenre = AlbumGenre[i]
+                                        Album.AlbumStyle = AlbumStyle[i]
+                                        Album.AlbumCopo = AlbumCopo[i]
+                                        Album.AlbumPlaytime = AlbumPlaytime[i]
+                                        Album.Albumtrackindex = Albumtrackindex
+                                        Album.Albumtrack = Albumtrack
+                                        this.emit('album',Album)       
+                                  }
+                                
+                         });
+
+
+                         spooky.then(function(){
+                                this.emit('end','end')
+                        });
+
+                        spooky.run();
+                      
+                });
+                        spooky.on('album', function (Albumlist) {
+                                                config.bugstrack.push(Albumlist)
+                                                albumtrackarr = Albumlist.Albumtrack
+                                        });
+                        spooky.on('end', function (end) {
+                                              //albumtrackarr.push('dummy')
+
+                                                var count = 0
+                                                var youTube = new YouTube();
+                                                youTube.setKey('AIzaSyB2QPeJGn6xo9rrjjzZrk9OT33aO-Ubzxo');
+                                              var tracks = albumtrackarr
+                                              async.forEachOfLimit(tracks, 1, function(track, index, cb) {
+                                                               // console.log(index + ': ' + track)
+                                                                        async.parallel([
+                                                                                function(callback) {
+                                                                                     
+                                                                                              
+                                                                                                youTube.search(config.bugstrack[0].Artist + ' ' + track + ' audio', 1, function(error, result) {
+                                                                                                        if (error) {
+                                                                                                        console.log(error);
+                                                                                                        }
+                                                                                                        else {
+
+                                                                                                        youtubelist = new Object()
+                                                                                                        youtubelist.videoID =  "https://www.youtube.com/embed/"+result.items[0].id.videoId+"?enablejsapi=1&theme=light&showinfo=0"
+                                                                                                        //youtubelist.track = result.items[0].snippet.title, null, 1
+                                                                                                        youtubelist.count = count++
+                                                                                                        youtubelist.tbcell = randomString()
+                                                                                                        youtubelist.iframe = randomString()
+                                                                                                        youtubelist.videoURL = result.items[0].id.videoId
+                                                                                                        youtubelist.tracks = track
+                                                                                                        config.bugsYoutubearr.push(youtubelist)
+                                                                                                        }
+                                                                                                });
+                                                                
+                                                                                                callback(null);
+                                                                                             
+                                                                                }
+                                                                                
+                                                                        ], function (err, result) {
+                                                                               setTimeout(function() {
+                                                                                            cb()
+                                                                                   }, 1000);
+                                                                        });
+                                                        },
+                                                        function() {
+                                                        console.log('ALL done')
+                                                        res.json({success: true, album : config.bugstrack,tracklist:config.bugsYoutubearr});
+                                                        })
+                                                });     
+
         }
+}
 module.exports = functions;
 module.exports.randomString = randomString;
 

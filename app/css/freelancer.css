@@ -40,6 +40,7 @@ hr.star-primary {
   text-align: center;
   max-width: 250px;
   margin: 25px auto 30px;
+    color:white;
 }
 hr.star-light:after,
 hr.star-primary:after {
@@ -88,6 +89,7 @@ header .intro-text .name {
   text-transform: uppercase;
   font-weight: 700;
   font-size: 2em;
+
 }
 header .intro-text .skills {
   font-size: 1.25em;

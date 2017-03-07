@@ -9,6 +9,7 @@ import { Component,OnInit } from '@angular/core';
 export class MainPageComponent implements OnInit { 
  ngOnInit(){
       document.querySelector('#canvas').setAttribute('style','width:1px')
+
     }
 
 }

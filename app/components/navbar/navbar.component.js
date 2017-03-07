@@ -13,7 +13,7 @@ var search_service_1 = require('../../service/search.service');
 var NavbarComponent = (function () {
     function NavbarComponent(_searchService) {
         this._searchService = _searchService;
-        this.List = [{ 'name': 'DJ' }, { 'name': 'tracklist' }];
+        this.List = [{ 'name': 'DJ' }, { 'name': 'tracklist' }, { 'name': 'Artist' }];
         this.selectedList = this.List[0];
         this.selected = '';
     }
@@ -28,6 +28,10 @@ var NavbarComponent = (function () {
         if (this.selected == "tracklist") {
             $('#temptracklist')[0].click();
         }
+        else if (this.selected == 'Artist') {
+            //artist 클릭
+            $('#tempArtist')[0].click();
+        }
         else {
             $('#tempad')[0].click();
         }
@@ -35,6 +39,10 @@ var NavbarComponent = (function () {
     NavbarComponent.prototype.onClick = function (event) {
         if (this.selected == "tracklist") {
             $('#temptracklist')[0].click();
+        }
+        else if (this.selected == 'Artist') {
+            //artist 클릭
+            $('#tempArtist')[0].click();
         }
         else {
             $('#tempad')[0].click();

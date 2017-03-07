@@ -28,8 +28,9 @@
 
   // other libraries
       'rxjs':                      'npm:rxjs',
-      'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js'
-  },
+      'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
+       'ng2-pagination': 'node_modules/ng2-pagination'
+},
     
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
@@ -47,7 +48,8 @@
      '@ngrx/store': {
             main: 'bundles/store.umd.js',
             format: 'cjs'
-     }
+     },
+     'ng2-pagination':  { main: 'index.js', defaultExtension: 'js'}
      
    }
   });

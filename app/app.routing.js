@@ -6,6 +6,7 @@ var DJ_component_1 = require('./components/DJ/DJ.component');
 var track_component_1 = require('./components/track/track.component');
 var textsearch_component_1 = require('./components/textsearch/textsearch.component');
 var tunesplaylist_component_1 = require('./components/tunesplaylist/tunesplaylist.component');
+var bugsartist_component_1 = require('./components/bugsartist/bugsartist.component');
 var appRoutes = [
     {
         path: '',
@@ -18,6 +19,10 @@ var appRoutes = [
     {
         path: 'tracklist/:id',
         component: track_component_1.trackComponent
+    },
+    {
+        path: 'bugsartist/:id',
+        component: bugsartist_component_1.bugsartistComponent
     },
     {
         path: 'textsearch',

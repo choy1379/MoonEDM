@@ -7,6 +7,8 @@ import {trackComponent} from './components/track/track.component'
 import {textsearchComponent} from'./components/textsearch/textsearch.component'
 import{playlistComponent} from './components/playlist/playlist.component'
 import {tunesplaylistComponent} from './components/tunesplaylist/tunesplaylist.component'
+import{bugsartistComponent} from './components/bugsartist/bugsartist.component'
+
 const appRoutes: Routes = [
     {
         path:'',
@@ -19,6 +21,10 @@ const appRoutes: Routes = [
     {
         path:'tracklist/:id',
         component:trackComponent
+    },
+    {
+        path:'bugsartist/:id',
+        component:bugsartistComponent
     },
      {
         path:'textsearch',

@@ -6,6 +6,7 @@ import {FormsModule,ReactiveFormsModule} from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { audiograph } from './service/audiograph.service';
 import {tunesplaysearchReducer} from './service/tunesplaysearch.service'
+import {Ng2PaginationModule} from 'ng2-pagination';
 // component
 import { AppComponent }  from './app.component';
 import {NavbarComponent} from './components/navbar/navbar.component';
@@ -18,11 +19,12 @@ import {tunesplaylistComponent} from './components/tunesplaylist/tunesplaylist.c
 import {tunesplaysearchComponent} from './components/tunesplaysearch/tunesplaysearch.component'
 import {tunesplaysearchResultComponent} from './components/tunesplaysearchResult/tunesplaysearchResult.component'
 import {routing} from './app.routing';
+import{bugsartistComponent} from './components/bugsartist/bugsartist.component'
 
 
 @NgModule({
-  imports:      [ BrowserModule,routing,HttpModule,FormsModule,ReactiveFormsModule,
- StoreModule.provideStore({ audiograph: audiograph,tunesplaysearch:tunesplaysearchReducer })
+  imports:      [ BrowserModule,routing,HttpModule,FormsModule,ReactiveFormsModule,Ng2PaginationModule,
+ StoreModule.provideStore({ audiograph: audiograph,tunesplaysearch:tunesplaysearchReducer})
 ],
   declarations: [ AppComponent,
                    NavbarComponent,
@@ -33,7 +35,8 @@ import {routing} from './app.routing';
                    tunesplaylistComponent,
                    playlistComponent,
                    tunesplaysearchComponent,
-                   tunesplaysearchResultComponent
+                   tunesplaysearchResultComponent,
+                   bugsartistComponent
                    
                     ],
   bootstrap:    [ AppComponent ]

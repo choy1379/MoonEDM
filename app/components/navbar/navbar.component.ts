@@ -13,7 +13,7 @@ declare  var $:any;
 export class NavbarComponent implements OnInit{ 
 constructor(private _searchService: searchService){
     }
-  List = [{'name': 'DJ'}, {'name': 'tracklist'}];
+  List = [{'name': 'DJ'}, {'name': 'tracklist'},{'name':'Artist'}];
   selectedList = this.List[0];
   selected = ''
 
@@ -31,6 +31,11 @@ constructor(private _searchService: searchService){
         {
             $('#temptracklist')[0].click()
         }
+        else if (this.selected == 'Artist')
+        {
+            //artist 클릭
+            $('#tempArtist')[0].click()
+        }
         else
         {
             $('#tempad')[0].click()
@@ -41,6 +46,11 @@ constructor(private _searchService: searchService){
         if(this.selected == "tracklist")
         {
             $('#temptracklist')[0].click()
+        }
+        else if (this.selected == 'Artist')
+        {
+            //artist 클릭
+            $('#tempArtist')[0].click()
         }
         else
         {

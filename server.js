@@ -6,7 +6,6 @@ var functions = require('./functions');
 var app = express();
 
 
-
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({
         extended: true,
@@ -21,6 +20,8 @@ app.post('/youtube_dl',functions.youtube_dl)
 app.post('/youtube_dl_one',functions.youtube_dl_one)
 app.post('/youtube_dl_multiple',functions.youtube_dl_multiple)
 app.post('/textdownload',functions.textdownload)
+app.post('/bugsartist',functions.bugsartist)
+app.post('/bugstrack',functions.bugstrack)
 app.use(express.static(__dirname));
 app.listen(process.env.PORT || 4100);
  console.log("Server up on port 4100");

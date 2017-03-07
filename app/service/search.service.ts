@@ -43,6 +43,12 @@ export class searchService{
         return this._http.post('https://moonedm.herokuapp.com/youtube_dl_multiple', params, {headers: headers})
             .map(res => res.json());
     }
+    // bugsartist(params){
+    //     var headers = new Headers();
+    //     headers.append('Content-Type', 'application/json');
+    //     return this._http.post('http://localhost:4100/bugsartist', params, {headers: headers})
+    //         .map(res => res.json());
+    // }
     
     //common function get document.getElementById
     getDocument(element)

@@ -20,7 +20,6 @@ declare var $audiograph: any
 export class tunesplaylistComponent implements OnInit,AfterViewInit { 
  state$ : Observable<any>
 constructor(private store: Store<any>,private _tunesplaysearchService:tunesplaysearchService,private router:ActivatedRoute,private http:Http,private _searchService: searchService){
-   
     //audiograph.service.js 에서 state 변경하지않는한 Observable 리턴시  changeState() 값 그대로 리턴
     //만약 변경할 사항있을시 .subscribe 에서 (state: IAudiographState) 처리후 리턴 
     //return Object.assign({}, state, action.payload) -> observable state$
@@ -28,7 +27,6 @@ constructor(private store: Store<any>,private _tunesplaysearchService:tunesplays
  }
   
     ngOnInit(){
-
     }
 
     toggleMenu(){
