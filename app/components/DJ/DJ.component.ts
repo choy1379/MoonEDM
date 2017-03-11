@@ -15,7 +15,7 @@ DJlist = new Array();
 tempPlaylist = new Array();
 
 
-constructor(   private router:ActivatedRoute,private http:Http,private _searchService: searchService){
+constructor(  private router:ActivatedRoute,private http:Http,private _searchService: searchService){
 
     }
     
@@ -56,15 +56,15 @@ constructor(   private router:ActivatedRoute,private http:Http,private _searchSe
       }
       playlistclick(res:any,event:any)
       {
-          if(event.path[2].childNodes[2].childNodes[1].style.display == 'inline')
-          {
-              this._searchService.getDocument(res.tbcell).style.display='none'
-          }
-          else
-          {
-              this._searchService.getDocument(res.tbcell).style.display='inline'
-              this._searchService.getDocument(res.iframe).setAttribute('src',res.videoID)
-          }
+            if( this._searchService.getDocument(res.tbcell).style.display== 'inline')
+            {
+                this._searchService.getDocument(res.tbcell).style.display='none'
+            }
+            else
+            {
+                this._searchService.getDocument(res.tbcell).style.display='inline'
+                this._searchService.getDocument(res.iframe).setAttribute('src',res.videoID)
+            }
       }
       downloadclick(res:any,event:any)
       {

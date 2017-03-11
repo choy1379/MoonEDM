@@ -9,8 +9,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var auth_service_1 = require('../../service/auth.service');
 var MainPageComponent = (function () {
-    function MainPageComponent() {
+    function MainPageComponent(auth) {
+        this.auth = auth;
     }
     MainPageComponent.prototype.ngOnInit = function () {
         document.querySelector('#canvas').setAttribute('style', 'width:1px');
@@ -22,7 +24,7 @@ var MainPageComponent = (function () {
             templateUrl: 'MainPage.component.html',
             styleUrls: ['MainPage.component.css']
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [auth_service_1.Auth])
     ], MainPageComponent);
     return MainPageComponent;
 }());

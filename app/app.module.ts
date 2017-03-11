@@ -6,7 +6,10 @@ import {FormsModule,ReactiveFormsModule} from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { audiograph } from './service/audiograph.service';
 import {tunesplaysearchReducer} from './service/tunesplaysearch.service'
+import {bugsReducer} from './service/bugs.service'
 import {Ng2PaginationModule} from 'ng2-pagination';
+import {AUTH_PROVIDERS} from 'angular2-jwt';
+import {Auth} from './service/auth.service';
 // component
 import { AppComponent }  from './app.component';
 import {NavbarComponent} from './components/navbar/navbar.component';
@@ -20,11 +23,11 @@ import {tunesplaysearchComponent} from './components/tunesplaysearch/tunesplayse
 import {tunesplaysearchResultComponent} from './components/tunesplaysearchResult/tunesplaysearchResult.component'
 import {routing} from './app.routing';
 import{bugsartistComponent} from './components/bugsartist/bugsartist.component'
-
+import{bugssearchResultComponent} from './components/bugssearchResult/bugssearchResult.component'
 
 @NgModule({
   imports:      [ BrowserModule,routing,HttpModule,FormsModule,ReactiveFormsModule,Ng2PaginationModule,
- StoreModule.provideStore({ audiograph: audiograph,tunesplaysearch:tunesplaysearchReducer})
+ StoreModule.provideStore({ audiograph: audiograph,tunesplaysearch:tunesplaysearchReducer,bugs:bugsReducer})
 ],
   declarations: [ AppComponent,
                    NavbarComponent,
@@ -36,9 +39,11 @@ import{bugsartistComponent} from './components/bugsartist/bugsartist.component'
                    playlistComponent,
                    tunesplaysearchComponent,
                    tunesplaysearchResultComponent,
-                   bugsartistComponent
+                   bugsartistComponent,
+                   bugssearchResultComponent
                    
                     ],
+  providers:[AUTH_PROVIDERS,Auth],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }

@@ -11,8 +11,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var store_1 = require('@ngrx/store');
 var audiograph_service_1 = require('../../service/audiograph.service');
+var search_service_1 = require('../../service/search.service');
 var playlistComponent = (function () {
-    function playlistComponent(audiograph, store) {
+    function playlistComponent(_searchService, audiograph, store) {
+        this._searchService = _searchService;
         this.audiograph = audiograph;
         this.store = store;
         this.volumeLevel = 0;
@@ -30,9 +32,12 @@ var playlistComponent = (function () {
     playlistComponent.prototype.remove = function (track) {
         this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.REMOVE_TRACK, payload: track });
     };
-    playlistComponent.prototype.play = function (index) {
+    playlistComponent.prototype.play = function (index, track) {
+        //  var videoURL = 'videoURL=' + track.result[0]
+        //  var track_src = this._searchService.temp(videoURL);
+        //  track_src.subscribe(x => {
+        // }); 
         this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.TARGET_TRACK, payload: index });
-        // console.log(this.state$)
     };
     playlistComponent = __decorate([
         core_1.Component({
@@ -42,9 +47,11 @@ var playlistComponent = (function () {
             styleUrls: ['playlist.component.scss'],
             providers: [audiograph_service_1.AudiographService]
         }), 
-        __metadata('design:paramtypes', [audiograph_service_1.AudiographService, store_1.Store])
+        __metadata('design:paramtypes', [search_service_1.searchService, audiograph_service_1.AudiographService, store_1.Store])
     ], playlistComponent);
     return playlistComponent;
 }());
 exports.playlistComponent = playlistComponent;
+// this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.TARGET_TRACK, payload: index});
+// this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.TARGET_TRACK, payload:{index :index , URL : x.URL}}); 
 //# sourceMappingURL=playlist.component.js.map

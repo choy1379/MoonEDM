@@ -1,0 +1,80 @@
+<div id = "Playlist" class="portfolio-modal modal fade"  tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal" >
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <h2>Play list</h2>
+                           <div *ngIf="(state$ | async)?.modalloading" class="loader">
+                            </div>
+                              <section id="portfolio">
+                                    <div class="col-sm-12 portfolio-item bugs" *ngFor="let res of(state$ | async)?.album">
+                                        <img src={{res.AlbumImg}} class="portfolio-link float" alt=""> 
+                                        <table class="bugstable">
+                                            <tr>
+                                                <th class= "bugstitle">아티스트</th>
+                                                <td>{{res.Artist}}</td>
+                                            </tr>
+                                             <tr>
+                                                <th class= "bugstitle">앨범 종류</th>
+                                                <td>{{res.AlbumType}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th class= "bugstitle">발매일</th>
+                                                <td>{{res.AlbumDate}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th class= "bugstitle">장르</th>
+                                                <td>{{res.AlbumGenre}}</td>
+                                            </tr>
+                                                 <tr>
+                                                <th class= "bugstitle">스타일</th>
+                                                <td>{{res.AlbumStyle}}</td>
+                                            </tr>
+                                                 <tr>
+                                                <th class= "bugstitle">재생 시간</th>
+                                                <td>{{res.AlbumPlaytime}}</td>
+                                            </tr>
+                                        </table>
+                                    </div>         
+                              </section>          
+                              <section>
+                                    <div id = "{{res.tracks}}" *ngFor="let res of(state$ | async)?.tracklist" (click)="playlistclick(res,$event)">
+                                        <div *ngIf="res.tracks == eventid">
+                                            <div *ngIf="(state$ | async)?.downloading" class="loader">
+                                            </div>
+                                        </div>
+                                        <div *ngIf = "playlistModal == true">
+                                        </div>
+                                            <table  class="table table-hover">
+                                                <tr>
+                                                    <td>{{res.tracks}}</td>
+                                                </tr>
+                                                    <td>
+                                                        <div id = "{{res.tbcell}}" style="display:none;">
+                                                            <iframe id="{{res.iframe}}" width="100%" height="70%" src=""></iframe> 
+                                                            <button id="download" (click)="downloadclick(res,$event)" type="button" class="btn btn-default btn-lg" style="width:89%">
+                                                            <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+                                                            </button>  
+                                                            <div data-hint="playlist" class="hint--bottom-right">
+                                                            <button id="download" (click)="playlistAdd(res,$event)" data-hint="playlist" type="button" class="btn btn-default btn-lg" style="width:100%">
+                                                            <span class ="glyphicon glyphicon-plus"></span>
+                                                            </button>
+                                                            </div>
+                                                        </div> 
+                                                    </td>
+                                            </table>  
+                                        </div>  
+                              </section> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

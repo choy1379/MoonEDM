@@ -14,7 +14,7 @@ declare var $audiograph: any
     selector: 'tunesplaylist',
     templateUrl: 'tunesplaylist.component.html',
     styleUrls: ['tunesplaylist.component.scss'],
-     providers:[AudiographService,tunesplaysearchService]
+     providers:[AudiographService,tunesplaysearchService,searchService]
 })
 
 export class tunesplaylistComponent implements OnInit,AfterViewInit { 
@@ -27,6 +27,15 @@ constructor(private store: Store<any>,private _tunesplaysearchService:tunesplays
  }
   
     ngOnInit(){
+        var id = 'id=' +  JSON.parse(localStorage.getItem('profile')).nickname
+        var result = this._searchService.PlaylistSearch(id);
+          result.subscribe(x => {
+                        console.log(x.tracklist)
+                        for(var i = 0; i<x.tracklist.length; i++)
+                        {
+                          this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: x.tracklist[i] });  
+                        } 
+        }); 
     }
 
     toggleMenu(){

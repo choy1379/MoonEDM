@@ -10,9 +10,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var search_service_1 = require('../../service/search.service');
+var auth_service_1 = require('../../service/auth.service');
 var NavbarComponent = (function () {
-    function NavbarComponent(_searchService) {
+    function NavbarComponent(_searchService, auth) {
         this._searchService = _searchService;
+        this.auth = auth;
         this.List = [{ 'name': 'DJ' }, { 'name': 'tracklist' }, { 'name': 'Artist' }];
         this.selectedList = this.List[0];
         this.selected = '';
@@ -58,7 +60,7 @@ var NavbarComponent = (function () {
             templateUrl: 'navbar.component.html',
             styleUrls: ['navbar.component.scss']
         }), 
-        __metadata('design:paramtypes', [search_service_1.searchService])
+        __metadata('design:paramtypes', [search_service_1.searchService, auth_service_1.Auth])
     ], NavbarComponent);
     return NavbarComponent;
 }());

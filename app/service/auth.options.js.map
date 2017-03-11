@@ -1,0 +1,1 @@
+{"version":3,"file":"auth.options.js","sourceRoot":"","sources":["auth.options.ts"],"names":[],"mappings":";AAAa,eAAO,GAAG;IACnB,IAAI,EAAE;QACN,GAAG,EAAE,IAAI;KACV;IAEE,KAAK,EAAE;QACR,IAAI,EAAE,qFAAqF;QAC3F,YAAY,EAAE,SAAS;KACxB;IACA,kBAAkB,EAAE;QACnB,qBAAqB,EAAE,yBAAyB;QAChD,KAAK,EAAE,KAAK;KACb;CACF,CAAC"}

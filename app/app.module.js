@@ -16,7 +16,10 @@ var forms_1 = require('@angular/forms');
 var store_1 = require('@ngrx/store');
 var audiograph_service_1 = require('./service/audiograph.service');
 var tunesplaysearch_service_1 = require('./service/tunesplaysearch.service');
+var bugs_service_1 = require('./service/bugs.service');
 var ng2_pagination_1 = require('ng2-pagination');
+var angular2_jwt_1 = require('angular2-jwt');
+var auth_service_1 = require('./service/auth.service');
 // component
 var app_component_1 = require('./app.component');
 var navbar_component_1 = require('./components/navbar/navbar.component');
@@ -30,13 +33,14 @@ var tunesplaysearch_component_1 = require('./components/tunesplaysearch/tunespla
 var tunesplaysearchResult_component_1 = require('./components/tunesplaysearchResult/tunesplaysearchResult.component');
 var app_routing_1 = require('./app.routing');
 var bugsartist_component_1 = require('./components/bugsartist/bugsartist.component');
+var bugssearchResult_component_1 = require('./components/bugssearchResult/bugssearchResult.component');
 var AppModule = (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         core_1.NgModule({
             imports: [platform_browser_1.BrowserModule, app_routing_1.routing, http_1.HttpModule, forms_1.FormsModule, forms_1.ReactiveFormsModule, ng2_pagination_1.Ng2PaginationModule,
-                store_1.StoreModule.provideStore({ audiograph: audiograph_service_1.audiograph, tunesplaysearch: tunesplaysearch_service_1.tunesplaysearchReducer })
+                store_1.StoreModule.provideStore({ audiograph: audiograph_service_1.audiograph, tunesplaysearch: tunesplaysearch_service_1.tunesplaysearchReducer, bugs: bugs_service_1.bugsReducer })
             ],
             declarations: [app_component_1.AppComponent,
                 navbar_component_1.NavbarComponent,
@@ -48,8 +52,10 @@ var AppModule = (function () {
                 playlist_component_1.playlistComponent,
                 tunesplaysearch_component_1.tunesplaysearchComponent,
                 tunesplaysearchResult_component_1.tunesplaysearchResultComponent,
-                bugsartist_component_1.bugsartistComponent
+                bugsartist_component_1.bugsartistComponent,
+                bugssearchResult_component_1.bugssearchResultComponent
             ],
+            providers: [angular2_jwt_1.AUTH_PROVIDERS, auth_service_1.Auth],
             bootstrap: [app_component_1.AppComponent]
         }), 
         __metadata('design:paramtypes', [])

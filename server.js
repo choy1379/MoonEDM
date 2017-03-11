@@ -22,6 +22,8 @@ app.post('/youtube_dl_multiple',functions.youtube_dl_multiple)
 app.post('/textdownload',functions.textdownload)
 app.post('/bugsartist',functions.bugsartist)
 app.post('/bugstrack',functions.bugstrack)
+app.post('/PlaylistAdd',functions.PlaylistAdd)
+app.post('/PlaylistSearch',functions.PlaylistSearch)
 app.use(express.static(__dirname));
 app.listen(process.env.PORT || 4100);
  console.log("Server up on port 4100");

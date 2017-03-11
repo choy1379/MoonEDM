@@ -1,7 +1,8 @@
 import { Store,ActionReducer, Action,Reducer } from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
-
+import {Http, Headers} from '@angular/http';
+import {searchService} from '../service/search.service';
 declare var $audiograph: any;
 const CATEGORY: string = 'Audiograph';
 var audio = new Audio();
@@ -31,19 +32,10 @@ export interface IAudiographState {
   menuOpen?: boolean;
   playing?: boolean;
 }
-
 var selectedTracks: Array<any> = shuffle([
   {
-    trackName: 'no way',
-    artist: 'wizcalifa',
-    src: '',
-      frequencies: [[60, 4000], [20, 5000]],
-    playing: false,
-    active: false
-  },
-    {
-    trackName: 'Strong Look (Codec Remix)',
-    artist: 'Jett',
+    trackName: 'sample',
+    artist: 'sample',
     src: '',
       frequencies: [[60, 4000], [20, 5000]],
     playing: false,
@@ -102,6 +94,8 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
     state.playlist[currentTrackIndex].active = false;
     if (typeof index !== 'undefined') {
       currentTrackIndex = index;
+      // currentTrackIndex = index.index;
+ 
     } else {
       if (direction > 0) {
         currentTrackIndex++;
@@ -119,6 +113,7 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
     state.playlist[currentTrackIndex].active = true;
     state.playlist[currentTrackIndex].playing = true;
     audio.src = state.playlist[currentTrackIndex].src;
+    // audio.src = index.URL
     console.log(`Track change: ${state.playlist[currentTrackIndex].trackName}`);
     audio.pause()
     action.payload = { playlist: [...state.playlist], playing: true };
@@ -170,11 +165,12 @@ export class AudiographService {
   public state$: Observable<any>;
   private _init: boolean = false;
 
-  constructor(private store: Store<any>) {
+  constructor(private _searchService:searchService,private _http:Http,private store: Store<any>) {
     this.state$ = store.select('audiograph');
     //audiographReducer -> changestate() -> .subscribe()
     // state <- IAudiographState
     this.state$.subscribe((state: IAudiographState) => {
+   
       if (typeof state.playing !== 'undefined') {
         console.log(`Toggling playback: ${state.playing}`);
         if(state.playing == true)
@@ -186,7 +182,7 @@ export class AudiographService {
         audio.pause()
         }
       }   
-      // since $audiograph needs same instance, don't lose reference
+        // since $audiograph needs same instance, don't lose reference
       this.playlist.length = 0;
       for (let item of state.playlist) {
         this.playlist.push(item);
@@ -229,7 +225,7 @@ export class AudiographService {
         palette.backgroundColor + ', Foreground colors = ' + palette.foregroundColors);
     });
   }
-
+ 
 }
 
 function shuffle(array) {

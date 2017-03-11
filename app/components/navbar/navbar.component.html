@@ -22,6 +22,9 @@
           <input #searchDJ (keyup.enter)="search(searchDJ.value)" (keyup)="$event" type="text"class="form-control" placeholder="Search DJ" >
         </div>
         <a id = "tempad" class="btn btn-default" routerLink="/DJ/{{searchDJ.value}}" >검색</a>
+        <a href="#" (click)="auth.login()" *ngIf="!auth.authenticated()">Login</a>
+         <!--<a routerLink="/profile" *ngIf="auth.authenticated()">Profile</a>-->
+        <a href="#" (click)="auth.logout()" *ngIf="auth.authenticated()">Logout</a>
         <a id = "temptracklist" class="btn btn-default" routerLink="/tracklist/{{searchDJ.value}}" style="display:none"></a>
        <a id = "tempArtist" class="btn btn-default" routerLink="/bugsartist/{{searchDJ.value}}" style="display:none"></a>
       <!--</form>-->

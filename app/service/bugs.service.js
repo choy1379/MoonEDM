@@ -11,25 +11,78 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/map');
+var store_1 = require('@ngrx/store');
+var CATEGORY = 'bugs';
+var initialState = {
+    results: [],
+    showResults: false,
+    modalloading: false,
+    downloading: false,
+    IMG_LOADING: true
+};
+exports.bugs_ACTIONS = {
+    RESULTS_CHANGE: "[" + CATEGORY + "] RESULTS_CHANGE",
+    RESULTS_HIDE: "[" + CATEGORY + "] RESULTS_HIDE",
+    IMG_RESULTS: "[" + CATEGORY + "] IMG_RESULTS",
+    IMG_LOADING: "[" + CATEGORY + "] IMG_LOADING",
+    IMG_DOWNLOADING: "[" + CATEGORY + "] IMG_DOWNLOADING"
+};
+exports.bugsReducer = function (state, action) {
+    if (state === void 0) { state = initialState; }
+    var changeState = function () {
+        return Object.assign({}, state, action.payload);
+    };
+    switch (action.type) {
+        case exports.bugs_ACTIONS.RESULTS_CHANGE:
+            action.payload.showResults = true;
+            return changeState();
+        case exports.bugs_ACTIONS.RESULTS_HIDE:
+            action.payload = { showResults: false };
+            return changeState();
+        case exports.bugs_ACTIONS.IMG_RESULTS:
+            state = action.payload.results;
+            action.payload = { modalloading: false };
+            return changeState();
+        case exports.bugs_ACTIONS.IMG_LOADING:
+            state = [];
+            action.payload = { modalloading: true };
+            return changeState();
+        case exports.bugs_ACTIONS.IMG_DOWNLOADING:
+            if (typeof action.payload === 'undefined') {
+                action.payload = { downloading: true };
+            }
+            else {
+                action.payload = { downloading: false };
+            }
+            return changeState();
+        default:
+            return state;
+    }
+    ;
+};
+/**
+ * ngrx end --
+ */
 var bugsService = (function () {
-    function bugsService(_http) {
+    function bugsService(_http, store) {
         this._http = _http;
+        this.store = store;
     }
     bugsService.prototype.bugsartist = function (params) {
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
-        return this._http.post('http://localhost:4100/bugsartist', params, { headers: headers })
+        return this._http.post('https://moonedm.herokuapp.com/bugsartist', params, { headers: headers })
             .map(function (res) { return res.json(); });
     };
     bugsService.prototype.bugstrack = function (params) {
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/X-www-form-urlencoded');
-        return this._http.post('http://localhost:4100/bugstrack', params, { headers: headers })
+        return this._http.post('https://moonedm.herokuapp.com/bugstrack', params, { headers: headers })
             .map(function (res) { return res.json(); });
     };
     bugsService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http])
+        __metadata('design:paramtypes', [http_1.Http, store_1.Store])
     ], bugsService);
     return bugsService;
 }());

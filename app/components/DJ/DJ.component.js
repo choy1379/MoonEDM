@@ -48,7 +48,7 @@ var DJComponent = (function () {
         });
     };
     DJComponent.prototype.playlistclick = function (res, event) {
-        if (event.path[2].childNodes[2].childNodes[1].style.display == 'inline') {
+        if (this._searchService.getDocument(res.tbcell).style.display == 'inline') {
             this._searchService.getDocument(res.tbcell).style.display = 'none';
         }
         else {

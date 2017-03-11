@@ -8,5 +8,6 @@ var appsettings = {
     bugsartistarr : new Array(),
      bugstrack : new Array(),
      bugsYoutubearr : new Array(),
+     playlist_ADD:new Array()
 };
 module.exports = appsettings;

@@ -3,7 +3,7 @@
     PLAYLIST
   </div>
   <ul class="playlist-list">
-    <li *ngFor="let track of (state$ | async)?.playlist; let i = index" class="item" (click)="play(i)" [ngClass]="{playing: track.playing}">
+    <li *ngFor="let track of (state$ | async)?.playlist; let i = index" class="item" (click)="play(i,track)" [ngClass]="{playing: track.playing}">
       <div class="row">
         <div class="col-xs-11">
           <i *ngIf="track.playing" class="playing-indicator fa" [ngClass]="{'fa-volume-off': volumeLevel===0, 'fa-volume-down': volumeLevel===1, 'fa-volume-up': volumeLevel===2}"></i>

@@ -1,6 +1,6 @@
 import { Component ,OnInit} from '@angular/core';
 import {searchService} from '../../service/search.service';
-
+import {Auth} from '../../service/auth.service';
 declare  var $:any;
 
 @Component({
@@ -11,7 +11,7 @@ declare  var $:any;
 })
 
 export class NavbarComponent implements OnInit{ 
-constructor(private _searchService: searchService){
+constructor(private _searchService: searchService,private auth: Auth){
     }
   List = [{'name': 'DJ'}, {'name': 'tracklist'},{'name':'Artist'}];
   selectedList = this.List[0];

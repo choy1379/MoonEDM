@@ -28,6 +28,15 @@ var tunesplaylistComponent = (function () {
         this.state$ = this.store.select('audiograph');
     }
     tunesplaylistComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        var id = 'id=' + JSON.parse(localStorage.getItem('profile')).nickname;
+        var result = this._searchService.PlaylistSearch(id);
+        result.subscribe(function (x) {
+            console.log(x.tracklist);
+            for (var i = 0; i < x.tracklist.length; i++) {
+                _this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: x.tracklist[i] });
+            }
+        });
     };
     tunesplaylistComponent.prototype.toggleMenu = function () {
         this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.TOGGLE_MENU });
@@ -54,7 +63,7 @@ var tunesplaylistComponent = (function () {
             selector: 'tunesplaylist',
             templateUrl: 'tunesplaylist.component.html',
             styleUrls: ['tunesplaylist.component.scss'],
-            providers: [audiograph_service_1.AudiographService, tunesplaysearch_service_1.tunesplaysearchService]
+            providers: [audiograph_service_1.AudiographService, tunesplaysearch_service_1.tunesplaysearchService, search_service_1.searchService]
         }), 
         __metadata('design:paramtypes', [store_1.Store, tunesplaysearch_service_1.tunesplaysearchService, router_1.ActivatedRoute, http_1.Http, search_service_1.searchService])
     ], tunesplaylistComponent);

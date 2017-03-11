@@ -10,20 +10,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var store_1 = require('@ngrx/store');
 var core_1 = require('@angular/core');
+var http_1 = require('@angular/http');
+var search_service_1 = require('../service/search.service');
 var CATEGORY = 'Audiograph';
 var audio = new Audio();
 var selectedTracks = shuffle([
     {
-        trackName: 'no way',
-        artist: 'wizcalifa',
-        src: '',
-        frequencies: [[60, 4000], [20, 5000]],
-        playing: false,
-        active: false
-    },
-    {
-        trackName: 'Strong Look (Codec Remix)',
-        artist: 'Jett',
+        trackName: 'sample',
+        artist: 'sample',
         src: '',
         frequencies: [[60, 4000], [20, 5000]],
         playing: false,
@@ -98,6 +92,7 @@ exports.audiograph = function (state, action) {
         state.playlist[currentTrackIndex].active = true;
         state.playlist[currentTrackIndex].playing = true;
         audio.src = state.playlist[currentTrackIndex].src;
+        // audio.src = index.URL
         console.log("Track change: " + state.playlist[currentTrackIndex].trackName);
         audio.pause();
         action.payload = { playlist: state.playlist.slice(), playing: true };
@@ -144,8 +139,10 @@ exports.audiograph = function (state, action) {
     }
 };
 var AudiographService = (function () {
-    function AudiographService(store) {
+    function AudiographService(_searchService, _http, store) {
         var _this = this;
+        this._searchService = _searchService;
+        this._http = _http;
         this.store = store;
         this.playlist = [];
         this._init = false;
@@ -201,7 +198,7 @@ var AudiographService = (function () {
     };
     AudiographService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [store_1.Store])
+        __metadata('design:paramtypes', [search_service_1.searchService, http_1.Http, store_1.Store])
     ], AudiographService);
     return AudiographService;
 }());
