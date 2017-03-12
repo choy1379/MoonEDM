@@ -11,7 +11,7 @@ export class MainPageComponent implements OnInit {
     constructor(private auth: Auth){
     }
  ngOnInit(){
-      document.querySelector('#canvas').setAttribute('style','width:1px')
+    //   document.querySelector('#canvas').setAttribute('style','width:1px')
     }
 
 }

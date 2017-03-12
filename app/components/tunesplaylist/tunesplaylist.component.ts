@@ -28,14 +28,21 @@ constructor(private store: Store<any>,private _tunesplaysearchService:tunesplays
   
     ngOnInit(){
         var id = 'id=' +  JSON.parse(localStorage.getItem('profile')).nickname
-        var result = this._searchService.PlaylistSearch(id);
-          result.subscribe(x => {
-                        console.log(x.tracklist)
-                        for(var i = 0; i<x.tracklist.length; i++)
-                        {
-                          this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: x.tracklist[i] });  
-                        } 
-        }); 
+        if (id == null)
+        {
+
+        }
+        else
+        {
+          var result = this._searchService.PlaylistSearch(id);
+            result.subscribe(x => {
+                          console.log(x.tracklist)
+                          for(var i = 0; i<x.tracklist.length; i++)
+                          {
+                            this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: x.tracklist[i] });  
+                          } 
+          }); 
+        }
     }
 
     toggleMenu(){
@@ -56,6 +63,6 @@ constructor(private store: Store<any>,private _tunesplaysearchService:tunesplays
     }
   }
   ngAfterViewInit() {
-    document.querySelector('#canvas').setAttribute('style','')
+    // document.querySelector('#canvas').setAttribute('style','')
   }
 }

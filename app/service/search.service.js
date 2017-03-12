@@ -54,7 +54,7 @@ var searchService = (function () {
     searchService.prototype.PlaylistAdd = function (params) {
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
-        return this._http.post('https://moonedm.herokuapp.com/PlaylistAdd', params, { headers: headers })
+        return this._http.post('https://moonedm.herokuapp.com/laylistAdd', params, { headers: headers })
             .map(function (res) { return res.json(); });
     };
     searchService.prototype.PlaylistSearch = function (params) {

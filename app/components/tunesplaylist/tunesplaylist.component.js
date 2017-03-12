@@ -30,13 +30,17 @@ var tunesplaylistComponent = (function () {
     tunesplaylistComponent.prototype.ngOnInit = function () {
         var _this = this;
         var id = 'id=' + JSON.parse(localStorage.getItem('profile')).nickname;
-        var result = this._searchService.PlaylistSearch(id);
-        result.subscribe(function (x) {
-            console.log(x.tracklist);
-            for (var i = 0; i < x.tracklist.length; i++) {
-                _this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: x.tracklist[i] });
-            }
-        });
+        if (id == null) {
+        }
+        else {
+            var result = this._searchService.PlaylistSearch(id);
+            result.subscribe(function (x) {
+                console.log(x.tracklist);
+                for (var i = 0; i < x.tracklist.length; i++) {
+                    _this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: x.tracklist[i] });
+                }
+            });
+        }
     };
     tunesplaylistComponent.prototype.toggleMenu = function () {
         this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.TOGGLE_MENU });
@@ -55,7 +59,7 @@ var tunesplaylistComponent = (function () {
         }
     };
     tunesplaylistComponent.prototype.ngAfterViewInit = function () {
-        document.querySelector('#canvas').setAttribute('style', '');
+        // document.querySelector('#canvas').setAttribute('style','')
     };
     tunesplaylistComponent = __decorate([
         core_1.Component({

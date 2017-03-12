@@ -46,7 +46,7 @@ export class searchService{
      PlaylistAdd(params){
         var headers = new Headers(); 
         headers.append('Content-Type', 'application/json')
-        return this._http.post('https://moonedm.herokuapp.com/PlaylistAdd',params,{headers: headers})
+        return this._http.post('https://moonedm.herokuapp.com/laylistAdd',params,{headers: headers})
         .map(res => res.json());
    }
     PlaylistSearch(params){
