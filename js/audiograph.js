@@ -1914,9 +1914,9 @@ module.exports = function (_ref) {
     // });
 
     if (isMobile) {
-      var canvas = document.querySelector('#canvas');
-      canvas.addEventListener('touchstart', beginNextEvent);
-      canvas.addEventListener('touchend', endNextEvent);
+      // var canvas = document.querySelector('#canvas');
+      // canvas.addEventListener('touchstart', beginNextEvent);
+      // canvas.addEventListener('touchend', endNextEvent);
     }
   }
 
