@@ -24,6 +24,8 @@ var selectedTracks = shuffle([
         active: false
     }
 ]);
+// https://p.scdn.co/mp3-preview/83090a4db6899eaca689ae35f69126dbe65d94c9
+// http://k50.offliberty.com/So0O-G7ul_Y.mp3
 // first one from randomized playlist starts playing
 selectedTracks[0].playing = true;
 selectedTracks[0].active = true;
@@ -94,7 +96,6 @@ exports.audiograph = function (state, action) {
         audio.src = state.playlist[currentTrackIndex].src;
         // audio.src = index.URL
         console.log("Track change: " + state.playlist[currentTrackIndex].trackName);
-        audio.pause();
         action.payload = { playlist: state.playlist.slice(), playing: true };
     };
     switch (action.type) {

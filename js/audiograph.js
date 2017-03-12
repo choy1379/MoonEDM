@@ -132,37 +132,37 @@ function init(playlists) {
 }
 
 function playNext() {
-  sceneObject.audio.queue();
-  sceneObject.audio.playQueued();
+  // sceneObject.audio.queue();
+  // sceneObject.audio.playQueued();
   sceneObject.geo.nextPalette();
   loop.start();
   this.emit('playNext');
 }
 
 function playPrevious() {
-  sceneObject.audio.queuePrevious();
-  sceneObject.audio.playQueued();
+  // sceneObject.audio.queuePrevious();
+  // sceneObject.audio.playQueued();
   sceneObject.geo.nextPalette();
   loop.start();
   this.emit('playPrevious');
 }
 
 function playIndex(index) {
-  sceneObject.audio.queue(index);
-  sceneObject.audio.playQueued();
+  // sceneObject.audio.queue(index);
+  // sceneObject.audio.playQueued();
   sceneObject.geo.nextPalette();
   loop.start();
   this.emit('playIndex', index);
 }
 
 function pause() {
-  sceneObject.audio.pause();
+  // sceneObject.audio.pause();
   loop.stop();
   this.emit('pause');
 }
 
 function play() {
-  sceneObject.audio.play();
+  // sceneObject.audio.play();
   loop.start();
   this.emit('play');
 }
@@ -318,7 +318,7 @@ function setupScene(_ref) {
     trackName = audio.queue(0);
     displayTrackName(trackName);
     audio.once('ready', function () {
-      audio.playQueued();
+      // audio.playQueued(); 201703
     });
   }
 
