@@ -36,8 +36,8 @@ var bugssearchResultComponent = (function () {
     bugssearchResultComponent.prototype.downloadclick = function (res, event) {
         var _this = this;
         this.store.dispatch({ type: bugs_service_1.bugs_ACTIONS.IMG_DOWNLOADING });
-        if (res.tracks == event.path[5].id) {
-            this.eventid = event.path[5].id;
+        if (res.tracks == event.path[6].id) {
+            this.eventid = event.path[6].id;
         }
         var result;
         var query = {
@@ -55,8 +55,8 @@ var bugssearchResultComponent = (function () {
         var result;
         var Add_track;
         this.store.dispatch({ type: bugs_service_1.bugs_ACTIONS.IMG_DOWNLOADING });
-        if (res.tracks == event.path[5].id) {
-            this.eventid = event.path[5].id;
+        if (res.tracks == event.path[6].id) {
+            this.eventid = event.path[6].id;
         }
         var query = {
             "videoURL": res.videoURL[0]
@@ -71,14 +71,15 @@ var bugssearchResultComponent = (function () {
                 frequencies: [[145, 5000], [145, 5000]]
             };
             _this.store.dispatch({ type: bugs_service_1.bugs_ACTIONS.IMG_DOWNLOADING, payload: 'false' });
-            if (localStorage.getItem('id_token') == 'undefined') {
+            if (localStorage.getItem('profile') == null) {
                 _this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: newTrack });
             }
             else {
                 var query = {
                     "track": res.tracks,
                     "Artist": res.Artist,
-                    "id": JSON.parse(localStorage.getItem('profile')).nickname
+                    "id": JSON.parse(localStorage.getItem('profile')).nickname,
+                    "Url": url
                 };
                 Add_track = _this._searchService.PlaylistAdd(query);
                 Add_track.subscribe(function (x) {

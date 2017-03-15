@@ -54,21 +54,27 @@ var searchService = (function () {
     searchService.prototype.PlaylistAdd = function (params) {
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
-        return this._http.post('https://moonedm.herokuapp.com/PlaylistAdd', params, { headers: headers })
+        return this._http.post('https://moonedm.herokuapp.com/laylistAdd', params, { headers: headers })
             .map(function (res) { return res.json(); });
     };
     searchService.prototype.PlaylistSearch = function (params) {
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/X-www-form-urlencoded');
-        return this._http.post('https://moonedm.herokuapp.com/PlaylistSearch', params, { headers: headers })
+        return this._http.post('https://moonedm.herokuapp.com/laylistSearch', params, { headers: headers })
             .map(function (res) { return res.json(); });
     };
-    //        temp(params){
-    //         var headers = new Headers(); 
-    //          headers.append('Content-Type', 'application/X-www-form-urlencoded');
-    //         return this._http.post('http://localhost:4100/temp',params,{headers: headers})
-    //         .map(res => res.json());
-    //    }
+    searchService.prototype.temp = function () {
+        var headers = new http_1.Headers();
+        headers.append('Content-Type', 'application/X-www-form-urlencoded');
+        return this._http.post('https://moonedm.herokuapp.com/temp', { headers: headers })
+            .map(function (res) { return res.json(); });
+    };
+    searchService.prototype.PlaylistDelete = function (params) {
+        var headers = new http_1.Headers();
+        headers.append('Content-Type', 'application/json');
+        return this._http.post('https://moonedm.herokuapp.com/PlaylistDelete', params, { headers: headers })
+            .map(function (res) { return res.json(); });
+    };
     //common function get document.getElementById
     searchService.prototype.getDocument = function (element) {
         return document.getElementById(element);

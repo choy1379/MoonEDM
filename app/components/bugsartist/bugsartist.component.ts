@@ -57,40 +57,4 @@ constructor(private store: Store<any>,private _bugssearchResultComponent:bugssea
         });
 
     }
-    //    playlistclick(res:any,event:any)
-    //   {   
-    //            // 이 부분을 ... dispatch store 로 해결을 할까... 아 일단 내일 보자 
-    //            if( this._searchService.getDocument(res.tbcell).style.display== 'inline')
-    //            {
-    //                this._searchService.getDocument(res.tbcell).style.display='none'
-    //            }
-    //            else
-    //            {
-    //                 this._searchService.getDocument(res.tbcell).style.display='inline'
-    //                 this._searchService.getDocument(res.iframe).setAttribute('src',res.videoID)
-    //            }
-    //   }
-    //    downloadclick(res:any,event:any)
-    //   {
-    //       if(res.tracks == event.path[5].id)
-    //       {
-    //          this.eventid = event.path[5].id
-    //          this.downloadloading = true
-    //       }
-         
-    //         var query = {
-    //                      "videoURL" : res.videoURL,
-    //                       "videoName" :  res.track
-    //                     }
-    //         var result : any 
-    //         result = this._searchService.youtube_dl(query);
-    //         result.subscribe(x => {
-    //             var url = x.URL
-    //             this.downloadloading = false
-    //             this._searchService.getDocument(res.tbcell).style.display='none'
-    //             window.open(url)
-    //         });
-            
-    //   }
-
 }

@@ -6,7 +6,7 @@ import {searchService} from '../service/search.service';
 declare var $audiograph: any;
 const CATEGORY: string = 'Audiograph';
 var audio = new Audio();
-
+audio.controls = true;
 export interface IPlaylistTrack {
   trackName: string;
   artist: string;
@@ -53,7 +53,6 @@ const initialState: IAudiographState = {
   menuOpen: false,
   playing: true
 };
-
 window.addEventListener('keydown', function (ev) {
       if (ev.keyCode === 39 ) {
         $audiograph.playNext();
@@ -170,8 +169,11 @@ export class AudiographService {
     this.state$ = store.select('audiograph');
     //audiographReducer -> changestate() -> .subscribe()
     // state <- IAudiographState
+      audio.onended = function()
+      {
+        $audiograph.playNext();
+      }
     this.state$.subscribe((state: IAudiographState) => {
-   
       if (typeof state.playing !== 'undefined') {
         console.log(`Toggling playback: ${state.playing}`);
         if(state.playing == true)
@@ -183,7 +185,6 @@ export class AudiographService {
         audio.pause()
         }
       }   
-        // since $audiograph needs same instance, don't lose reference
       this.playlist.length = 0;
       for (let item of state.playlist) {
         this.playlist.push(item);

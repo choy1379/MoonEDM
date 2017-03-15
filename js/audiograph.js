@@ -1938,6 +1938,7 @@ module.exports = function (_ref) {
   }
 
   function endNextEvent() {
+    console.log(audio)
     ret.keyDown = false;
     setupName(null, null);
     geo.setPalette(previousPalette);

@@ -52,8 +52,9 @@ function parallelDJ (tracks,arr,count,res) {
                                                 
                                 })
 }
-function parallelbugs(tracks,Artist,count,res,Add) {
+    function parallelbugs(tracks,Artist,count,res,Add) {
                 var start = new Date().getTime();
+                var tempplaylist_ADD = []
               async.forEachOfLimit(tracks, 1, function(track, index, cb) {
                                                                         async.parallel([
                                                                                 function(callback) {
@@ -71,6 +72,7 @@ function parallelbugs(tracks,Artist,count,res,Add) {
                                                                                                 }
                                                                                                 else
                                                                                                 {
+                                                                                                        console.log(track.Artist + ' ' + track.track)
                                                                                                         youTube.addParam("order", 'relevance');
                                                                                                         youTube.search(track.Artist + ' ' + track.track, 1, function(error, result) {
                                                                                                                 if (error) {
@@ -101,30 +103,137 @@ function parallelbugs(tracks,Artist,count,res,Add) {
                                                                                 }
                                                                                 else
                                                                                 {
-                                                                                        offliberty.off('https://www.youtube.com/watch?v='+result, function (err, Url) {
                                                                                                 youtubelist = new Object()
                                                                                                 youtubelist.result = result
-                                                                                                youtubelist.src = Url
-                                                                                                //  youtubelist.src = ''
                                                                                                 youtubelist.trackName = track.track
                                                                                                 youtubelist.artist = track.Artist
-                                                                                                youtubelist.freequencies = [[145, 5000], [145, 5000]]
-                                                                                                config.playlist_ADD.push(youtubelist)
-                                                                                                cb()
-                                                                                        });
-                                                                                      
+                                                                                                tempplaylist_ADD.push(youtubelist)
+                                                                                                cb()                                                                                  
                                                                                 }
                                                                         });
                                                         },
-                                                        function(err,result) {
-                                                        console.log('ALL done')
-                                                        console.log('걸린시간 : '+(new Date().getTime() - start));              
+                                                        function(err,result) { 
                                                         if(!Add == true)
                                                         res.json({success: true, album : config.bugstrack,tracklist:config.bugsYoutubearr});
-                                                        else
-                                                        res.json({success: true, tracklist:config.playlist_ADD});
-                                })
+                                                        else  
+                                                        {
+                                                                function offsearch(i) {
+                                                                        console.log('make function: '+i);
+                                                                        return function(callback) {
+                                                                                console.log('test Function: '+i);
+                                                                                offliberty.off('https://www.youtube.com/watch?v='+tempplaylist_ADD[i].result, function (err, Url) {                                                                                                                                                     
+                                                                                        callback(null,Url)                                                                      
+                                                                                });   
+                                                                        };
+                                                                }
+
+                                                                function offlberty(callback) {
+                                                                        var endofflberty = function(err, result) {
+                                                                                console.log('end')
+                                                                                for(var i = 0; i < result.length; i++)
+                                                                                {
+                                                                                        youtubelist = new Object()
+                                                                                        youtubelist.src = result[i]
+                                                                                        youtubelist.trackName = tempplaylist_ADD[i].trackName
+                                                                                        youtubelist.artist = tempplaylist_ADD[i].artist
+                                                                                        youtubelist.freequencies = [[145, 5000], [145, 5000]]
+                                                                                        youtubelist._id =  tracks[i]._id
+                                                                                        config.playlist_ADD.push(youtubelist)                 
+                                                                                } 
+                                                                                return callback();
+                                                                        };
+                                                                        var offFunctions = [];
+                                                                        for (var i=0; i < tempplaylist_ADD.length; i++) {
+                                                                                (function (k) {
+                                                                                        offFunctions.push(offsearch(k));
+                                                                                })(i);
+                                                                        }
+                                                                        return async.parallel(offFunctions, endofflberty );
+                                                                }
+
+                                                                offlberty( function() {
+                                                                        console.log(config.playlist_ADD)
+                                                                        res.json({success: true, tracklist:config.playlist_ADD});
+                                                                        console.log('--------------- end offliberty');
+                                                                });
+                                                        }
+                                         })
         }
+
+// 벅스뮤직 추가잘되는거
+// function parallelbugs(tracks,Artist,count,res,Add) {
+//                 var start = new Date().getTime();
+//               async.forEachOfLimit(tracks, 1, function(track, index, cb) {
+//                                                                         async.parallel([
+//                                                                                 function(callback) {
+//                                                                                                 if(!Add == true)
+//                                                                                                 {
+//                                                                                                         youTube.addParam("order", 'relevance');
+//                                                                                                         youTube.search(Artist + ' ' + track, 1, function(error, result) {
+//                                                                                                                 if (error) {
+//                                                                                                                 console.log(error);
+//                                                                                                                 }
+//                                                                                                                 else {
+//                                                                                                                         callback(null,result.items[0].id.videoId)                                                                                                          
+//                                                                                                                 }
+//                                                                                                         });                               
+//                                                                                                 }
+//                                                                                                 else
+//                                                                                                 {
+//                                                                                                         youTube.addParam("order", 'relevance');
+//                                                                                                         youTube.search(track.Artist + ' ' + track.track, 1, function(error, result) {
+//                                                                                                                 if (error) {
+//                                                                                                                 console.log(error);
+//                                                                                                                 }
+//                                                                                                                 else {
+//                                                                                                                         callback(null,result.items[0].id.videoId)                                                                                                          
+//                                                                                                                 }
+//                                                                                                         });  
+//                                                                                                 }
+                                                                                                                                                    
+//                                                                                 }
+                                                                                
+//                                                                         ], function (err, result) {
+//                                                                                  if(!Add == true)
+//                                                                                 {
+//                                                                                         youtubelist = new Object()
+//                                                                                         youtubelist.videoID =  "https://www.youtube.com/embed/"+result+"?enablejsapi=1&theme=light&showinfo=0"
+//                                                                                         youtubelist.count = count++
+//                                                                                         youtubelist.tbcell = randomString()
+//                                                                                         youtubelist.iframe = randomString()
+//                                                                                         youtubelist.videoURL = result
+//                                                                                         //bugsResult albumtitle
+//                                                                                         youtubelist.tracks = track
+//                                                                                         youtubelist.Artist = Artist
+//                                                                                         config.bugsYoutubearr.push(youtubelist)
+//                                                                                         cb()
+//                                                                                 }
+//                                                                                 else
+//                                                                                 {
+//                                                                                         // offliberty.off('https://www.youtube.com/watch?v='+result, function (err, Url) {
+//                                                                                                 youtubelist = new Object()
+//                                                                                                 // youtubelist.result = result
+//                                                                                                 youtubelist.src = result[0]
+//                                                                                                 //  youtubelist.src = ''
+//                                                                                                 youtubelist.trackName = track.track
+//                                                                                                 youtubelist.artist = track.Artist
+//                                                                                                 // youtubelist.freequencies = [[145, 5000], [145, 5000]]
+//                                                                                                 config.playlist_ADD.push(youtubelist)
+//                                                                                                 cb()
+//                                                                                         // });
+                                                                                      
+//                                                                                 }
+//                                                                         });
+//                                                         },
+//                                                         function(err,result) {
+//                                                         console.log('ALL done')
+//                                                         console.log('걸린시간 : '+(new Date().getTime() - start));              
+//                                                         if(!Add == true)
+//                                                         res.json({success: true, album : config.bugstrack,tracklist:config.bugsYoutubearr});
+//                                                         else
+//                                                         res.json({success: true, tracklist:config.playlist_ADD});
+//                                 })
+//         }
 function randomString() {
                 var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
                 var string_length = 15;
@@ -700,16 +809,48 @@ functions = {
                                                 });     
 
         },
-            PlaylistAdd: function(req, res) {
+                PlaylistAdd: function(req, res) {
                           db.playlist.save(req.body, function(){
-                                  res.json({success: true});
+                                        youtubelist = new Object()
+                                        youtubelist.src = req.body.Url
+                                        youtubelist.trackName = req.body.track
+                                        youtubelist.artist = req.body.Artist
+                                        youtubelist.freequencies = [[145, 5000], [145, 5000]]
+                                        config.playlist_ADD.push(youtubelist)  
+                                        res.json({success: true});
                          });        
             },
+                PlaylistDelete: function(req, res) {
+                           var id = req.body.id
+                           config.playlist_ADD = []
+                                 db.playlist.remove({"id": id,"Artist":req.body.Artist,"track":req.body.track},(err, res) => {      
+                                                if (err) {
+                                                        return console.log(err);
+                                                        }
+                                        db.playlist.find({"id": id},{ "id" : false}, (err, DBresult) => {
+                                                if (err) {
+                                                return res.send(err);
+                                                        }
+                                                result = DBresult
+                                                for(var i = 0; i <result.length; i++)
+                                                {
+                                                        youtubelist = new Object()
+                                                        youtubelist.src = result[i].Url
+                                                        youtubelist.trackName = result[i].track
+                                                        youtubelist.artist = result[i].Artist
+                                                        youtubelist.freequencies = [[145, 5000], [145, 5000]]
+                                                        youtubelist._id =  result[i].id
+                                                        config.playlist_ADD.push(youtubelist)
+                                                }
+                                        });
+                                 });
+            },
+
            PlaylistSearch: function(req, res) {
                          var result = []
                          config.playlist_ADD = []
                         var id = req.body.id
-                          db.playlist.find({"id": id},{ "_id": false , "id" : false}, (err, DBresult) => {
+                          db.playlist.find({"id": id},{ "id" : false}, (err, DBresult) => {
                                 if (err) {
                                 return res.send(err);
                         }
@@ -718,16 +859,11 @@ functions = {
                   });
                       
             },
-        // temp : function(req,res)
-        //   {
-        //         var videoURL = req.body.videoURL 
-        //         console.log('Requesting...');
-        //         offliberty.off('https://www.youtube.com/watch?v='+videoURL, function (err, downloadUrl) {
-        //         console.log(err || downloadUrl);
-        //         res.json({success: true, URL:downloadUrl});
-        //         });
-       
-        //   },
+        temp : function(req,res)
+          {
+                res.json({success: true, tracklist:config.playlist_ADD});
+          }
+
 }
 module.exports = functions;
 module.exports.randomString = randomString;

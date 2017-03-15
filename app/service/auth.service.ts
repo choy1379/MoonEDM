@@ -39,5 +39,7 @@ export class Auth {
         // Remove info from localStorage
         localStorage.removeItem('id_token');
         localStorage.removeItem('profile');
+        localStorage.removeItem('track');
+
     };
 }

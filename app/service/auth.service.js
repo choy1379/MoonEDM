@@ -41,6 +41,7 @@ var Auth = (function () {
         // Remove info from localStorage
         localStorage.removeItem('id_token');
         localStorage.removeItem('profile');
+        localStorage.removeItem('track');
     };
     ;
     Auth = __decorate([

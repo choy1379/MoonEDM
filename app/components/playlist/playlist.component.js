@@ -30,13 +30,22 @@ var playlistComponent = (function () {
         }, 100);
     };
     playlistComponent.prototype.remove = function (track) {
-        this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.REMOVE_TRACK, payload: track });
+        if (localStorage.getItem('profile') == null) {
+            this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.REMOVE_TRACK, payload: track });
+        }
+        else {
+            this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.REMOVE_TRACK, payload: track });
+            var query = {
+                "track": track.trackName,
+                "Artist": track.artist,
+                "id": JSON.parse(localStorage.getItem('profile')).nickname,
+            };
+            var result = this._searchService.PlaylistDelete(query);
+            result.subscribe(function (x) {
+            });
+        }
     };
     playlistComponent.prototype.play = function (index, track) {
-        //  var videoURL = 'videoURL=' + track.result[0]
-        //  var track_src = this._searchService.temp(videoURL);
-        //  track_src.subscribe(x => {
-        // }); 
         this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.TARGET_TRACK, payload: index });
     };
     playlistComponent = __decorate([

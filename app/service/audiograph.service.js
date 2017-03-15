@@ -14,6 +14,7 @@ var http_1 = require('@angular/http');
 var search_service_1 = require('../service/search.service');
 var CATEGORY = 'Audiograph';
 var audio = new Audio();
+audio.controls = true;
 var selectedTracks = shuffle([
     {
         trackName: 'sample',
@@ -150,6 +151,9 @@ var AudiographService = (function () {
         this.state$ = store.select('audiograph');
         //audiographReducer -> changestate() -> .subscribe()
         // state <- IAudiographState
+        audio.onended = function () {
+            $audiograph.playNext();
+        };
         this.state$.subscribe(function (state) {
             if (typeof state.playing !== 'undefined') {
                 console.log("Toggling playback: " + state.playing);
@@ -160,7 +164,6 @@ var AudiographService = (function () {
                     audio.pause();
                 }
             }
-            // since $audiograph needs same instance, don't lose reference
             _this.playlist.length = 0;
             for (var _i = 0, _a = state.playlist; _i < _a.length; _i++) {
                 var item = _a[_i];

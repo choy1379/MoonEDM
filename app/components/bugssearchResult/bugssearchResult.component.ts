@@ -37,9 +37,9 @@ constructor(private store: Store<any>,private _bugsService:bugsService,private _
        downloadclick(res:any,event:any)
       {
          this.store.dispatch({ type: bugs_ACTIONS.IMG_DOWNLOADING});
-          if(res.tracks == event.path[5].id)
+          if(res.tracks == event.path[6].id)
           {
-             this.eventid = event.path[5].id
+             this.eventid = event.path[6].id
           }
           var result : any
           var query = {
@@ -58,10 +58,9 @@ constructor(private store: Store<any>,private _bugsService:bugsService,private _
           var Add_track : any
 
          this.store.dispatch({ type: bugs_ACTIONS.IMG_DOWNLOADING});
-
-          if(res.tracks == event.path[5].id)
+          if(res.tracks == event.path[6].id)
           {
-             this.eventid = event.path[5].id
+             this.eventid = event.path[6].id
           }
           var query = {
                         "videoURL" : res.videoURL[0]
@@ -78,7 +77,7 @@ constructor(private store: Store<any>,private _bugsService:bugsService,private _
 
               this.store.dispatch({ type: bugs_ACTIONS.IMG_DOWNLOADING , payload : 'false'});
 
-              if(localStorage.getItem('id_token') == 'undefined'){
+              if(localStorage.getItem('profile') ==  null){
               this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: newTrack });
               }
               else
@@ -86,7 +85,8 @@ constructor(private store: Store<any>,private _bugsService:bugsService,private _
                   var query = {
                         "track" : res.tracks,
                         "Artist" : res.Artist,
-                        "id" : JSON.parse(localStorage.getItem('profile')).nickname
+                        "id" : JSON.parse(localStorage.getItem('profile')).nickname,
+                        "Url" : url
                       }
                     Add_track = this._searchService.PlaylistAdd(query)
                     Add_track.subscribe(x => {
