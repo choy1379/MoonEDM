@@ -46,13 +46,13 @@ export class searchService{
      PlaylistAdd(params){
         var headers = new Headers(); 
         headers.append('Content-Type', 'application/json')
-        return this._http.post('https://moonedm.herokuapp.com/laylistAdd',params,{headers: headers})
+        return this._http.post('https://moonedm.herokuapp.com/PlaylistAdd',params,{headers: headers})
         .map(res => res.json());
    }
     PlaylistSearch(params){
         var headers = new Headers(); 
          headers.append('Content-Type', 'application/X-www-form-urlencoded');
-        return this._http.post('https://moonedm.herokuapp.com/laylistSearch',params,{headers: headers})
+        return this._http.post('https://moonedm.herokuapp.com/PlaylistSearch',params,{headers: headers})
         .map(res => res.json());
    }
        temp(){
