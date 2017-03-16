@@ -134,16 +134,16 @@ function parallelDJ (tracks,arr,count,res) {
                                                                         console.log('make function: '+i);
                                                                         return function(callback) {
                                                                                 console.log('test Function: '+i);
-                                                                                request({
-                                                                                        url : 'http://www.youtubeinmp3.com/fetch/?format=JSON&video=http://www.youtube.com/watch?v='+tempplaylist_ADD[i].result,
-                                                                                        method : "POST",
-                                                                                        json :true
-                                                                                },function(body,result){
-                                                                                callback(null,result.body.link)
-                                                                                })
-                                                                                // offliberty.off('https://www.youtube.com/watch?v='+tempplaylist_ADD[i].result, function (err, Url) {                                                                                                                                                     
-                                                                                //         callback(null,Url)                                                                      
-                                                                                // });   
+                                                                                // request({
+                                                                                //         url : 'http://www.youtubeinmp3.com/fetch/?format=JSON&video=http://www.youtube.com/watch?v='+tempplaylist_ADD[i].result,
+                                                                                //         method : "POST",
+                                                                                //         json :true
+                                                                                // },function(body,result){
+                                                                                // callback(null,result.body.link)
+                                                                                // })
+                                                                                offliberty.off('https://www.youtube.com/watch?v='+tempplaylist_ADD[i].result, function (err, Url) {                                                                                                                                                     
+                                                                                        callback(null,Url)                                                                      
+                                                                                });   
                                                                         };
                                                                 }
 
