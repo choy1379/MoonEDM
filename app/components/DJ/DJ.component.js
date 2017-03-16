@@ -11,9 +11,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var http_1 = require('@angular/http');
+var store_1 = require('@ngrx/store');
 var search_service_1 = require('../../service/search.service');
+var audiograph_service_1 = require('../../service/audiograph.service');
 var DJComponent = (function () {
-    function DJComponent(router, http, _searchService) {
+    function DJComponent(store, router, http, _searchService) {
+        this.store = store;
         this.router = router;
         this.http = http;
         this._searchService = _searchService;
@@ -74,6 +77,41 @@ var DJComponent = (function () {
             window.open(url);
         });
     };
+    DJComponent.prototype.playlistAdd = function (res, event) {
+        var _this = this;
+        var result;
+        var Add_track;
+        if (res.tracks == event.path[7].id) {
+            this.eventid = event.path[7].id;
+        }
+        var query = {
+            "videoURL": res.videoURL
+        };
+        result = this._searchService.youtube_dl(query);
+        result.subscribe(function (x) {
+            var url = x.URL;
+            var newTrack = {
+                trackName: res.tracks,
+                artist: res.Artist,
+                src: url,
+                frequencies: [[145, 5000], [145, 5000]]
+            };
+            if (localStorage.getItem('profile') == null) {
+                _this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: newTrack });
+            }
+            else {
+                var query = {
+                    "track": res.track,
+                    "Artist": '',
+                    "id": JSON.parse(localStorage.getItem('profile')).nickname,
+                    "Url": url
+                };
+                Add_track = _this._searchService.PlaylistAdd(query);
+                Add_track.subscribe(function (x) {
+                });
+            }
+        });
+    };
     DJComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
@@ -81,7 +119,7 @@ var DJComponent = (function () {
             templateUrl: 'DJ.component.html',
             styleUrls: ['DJ.component.css']
         }), 
-        __metadata('design:paramtypes', [router_1.ActivatedRoute, http_1.Http, search_service_1.searchService])
+        __metadata('design:paramtypes', [store_1.Store, router_1.ActivatedRoute, http_1.Http, search_service_1.searchService])
     ], DJComponent);
     return DJComponent;
 }());

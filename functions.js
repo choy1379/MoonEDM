@@ -15,46 +15,59 @@ youTube.setKey('AIzaSyB2QPeJGn6xo9rrjjzZrk9OT33aO-Ubzxo');
 
 //textdownload , searchPlaylist
 function parallelDJ (tracks,arr,count,res) {
-                               async.forEachOfLimit(tracks, 1, function(track, index, cb) {
-                                                async.parallel([
-                                                        function(callback) {
-                                                                        youTube.search(track, 1, function(error, result) {
-                                                                                if (error) {
-                                                                                console.log(error);
-                                                                                }
-                                                                                else {
-                                                                                callback(null,result.items[0])    
-                                                                                }
-                                                                        });
+                                                        function youtubesearch(i) {
+                                                        return function(callback) {
+                                                                youTube.search(tracks[i], 1, function(error, result) {
+                                                                        if (error) {
+                                                                        console.log(error);
+                                                                        }
+                                                                        else {
+                                                                        callback(null,result.items[0])    
+                                                                        }
+                                                                });
+                                                        };
+                                                }
 
+                                                function youtube(callback) {
+                                                        var endyoutube = function(err, result) {
+                                                                console.log('end')
+                                                                for(var i = 0; i < result.length; i++)
+                                                                {
+                                                                        youtubelist = new Object()
+                                                                        youtubelist.videoID =  "https://www.youtube.com/embed/"+result[i].id.videoId+"?enablejsapi=1&theme=light&showinfo=0"
+                                                                        youtubelist.track = result[i].snippet.title, null, 1
+                                                                        youtubelist.count = count++
+                                                                        youtubelist.tbcell = randomString()
+                                                                        youtubelist.iframe = randomString()
+                                                                        youtubelist.videoURL = result[i].id.videoId
+                                                                        if(arr == 'Youtubearr')
+                                                                        config.Youtubearr.push(youtubelist)
+                                                                        else
+                                                                        config.textdownload.push(youtubelist)    
+                                                                } 
+                                                                return callback();
+                                                        };
+                                                        var youtubeFunctions = [];
+                                                        for (var i=0; i < tracks.length; i++) {
+                                                                (function (k) {
+                                                                        youtubeFunctions.push(youtubesearch(k));
+                                                                })(i);
                                                         }
-                                                ], function (err, result) {
-                                                                                youtubelist = new Object()
-                                                                                youtubelist.videoID =  "https://www.youtube.com/embed/"+result[0].id.videoId+"?enablejsapi=1&theme=light&showinfo=0"
-                                                                                youtubelist.track = result[0].snippet.title, null, 1
-                                                                                youtubelist.count = count++
-                                                                                youtubelist.tbcell = randomString()
-                                                                                youtubelist.iframe = randomString()
-                                                                                youtubelist.videoURL = result[0].id.videoId
-                                                                                if(arr == 'Youtubearr')
-                                                                                config.Youtubearr.push(youtubelist)
-                                                                                else
-                                                                                config.textdownload.push(youtubelist)
-                                                                                cb()                 
+                                                        return async.parallel(youtubeFunctions, endyoutube );
+                                                }
+
+                                                youtube( function() {
+                                                        if(arr == 'Youtubearr')
+                                                        res.json({success: true, data:config.Youtubearr});
+                                                        else
+                                                        res.json({success: true, data:config.textdownload});
+                                                        console.log('--------------- end youtube');
                                                 });
-                                 },
-                                 function() {
-                                                console.log('ALL done')
-                                                 if(arr == 'Youtubearr')
-                                                res.json({success: true, data:config.Youtubearr});
-                                                else
-                                                res.json({success: true, data:config.textdownload});
-                                                
-                                })
 }
     function parallelbugs(tracks,Artist,count,res,Add) {
                 var start = new Date().getTime();
                 var tempplaylist_ADD = []
+                //추후 성능이슈문제날떄 async.parallel 만 쓰이게..
               async.forEachOfLimit(tracks, 1, function(track, index, cb) {
                                                                         async.parallel([
                                                                                 function(callback) {
@@ -160,80 +173,6 @@ function parallelDJ (tracks,arr,count,res) {
                                          })
         }
 
-// 벅스뮤직 추가잘되는거
-// function parallelbugs(tracks,Artist,count,res,Add) {
-//                 var start = new Date().getTime();
-//               async.forEachOfLimit(tracks, 1, function(track, index, cb) {
-//                                                                         async.parallel([
-//                                                                                 function(callback) {
-//                                                                                                 if(!Add == true)
-//                                                                                                 {
-//                                                                                                         youTube.addParam("order", 'relevance');
-//                                                                                                         youTube.search(Artist + ' ' + track, 1, function(error, result) {
-//                                                                                                                 if (error) {
-//                                                                                                                 console.log(error);
-//                                                                                                                 }
-//                                                                                                                 else {
-//                                                                                                                         callback(null,result.items[0].id.videoId)                                                                                                          
-//                                                                                                                 }
-//                                                                                                         });                               
-//                                                                                                 }
-//                                                                                                 else
-//                                                                                                 {
-//                                                                                                         youTube.addParam("order", 'relevance');
-//                                                                                                         youTube.search(track.Artist + ' ' + track.track, 1, function(error, result) {
-//                                                                                                                 if (error) {
-//                                                                                                                 console.log(error);
-//                                                                                                                 }
-//                                                                                                                 else {
-//                                                                                                                         callback(null,result.items[0].id.videoId)                                                                                                          
-//                                                                                                                 }
-//                                                                                                         });  
-//                                                                                                 }
-                                                                                                                                                    
-//                                                                                 }
-                                                                                
-//                                                                         ], function (err, result) {
-//                                                                                  if(!Add == true)
-//                                                                                 {
-//                                                                                         youtubelist = new Object()
-//                                                                                         youtubelist.videoID =  "https://www.youtube.com/embed/"+result+"?enablejsapi=1&theme=light&showinfo=0"
-//                                                                                         youtubelist.count = count++
-//                                                                                         youtubelist.tbcell = randomString()
-//                                                                                         youtubelist.iframe = randomString()
-//                                                                                         youtubelist.videoURL = result
-//                                                                                         //bugsResult albumtitle
-//                                                                                         youtubelist.tracks = track
-//                                                                                         youtubelist.Artist = Artist
-//                                                                                         config.bugsYoutubearr.push(youtubelist)
-//                                                                                         cb()
-//                                                                                 }
-//                                                                                 else
-//                                                                                 {
-//                                                                                         // offliberty.off('https://www.youtube.com/watch?v='+result, function (err, Url) {
-//                                                                                                 youtubelist = new Object()
-//                                                                                                 // youtubelist.result = result
-//                                                                                                 youtubelist.src = result[0]
-//                                                                                                 //  youtubelist.src = ''
-//                                                                                                 youtubelist.trackName = track.track
-//                                                                                                 youtubelist.artist = track.Artist
-//                                                                                                 // youtubelist.freequencies = [[145, 5000], [145, 5000]]
-//                                                                                                 config.playlist_ADD.push(youtubelist)
-//                                                                                                 cb()
-//                                                                                         // });
-                                                                                      
-//                                                                                 }
-//                                                                         });
-//                                                         },
-//                                                         function(err,result) {
-//                                                         console.log('ALL done')
-//                                                         console.log('걸린시간 : '+(new Date().getTime() - start));              
-//                                                         if(!Add == true)
-//                                                         res.json({success: true, album : config.bugstrack,tracklist:config.bugsYoutubearr});
-//                                                         else
-//                                                         res.json({success: true, tracklist:config.playlist_ADD});
-//                                 })
-//         }
 function randomString() {
                 var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
                 var string_length = 15;

@@ -26,6 +26,7 @@ var tunesplaysearchResultComponent = (function () {
     tunesplaysearchResultComponent.prototype.add = function (track, playbtn) {
         var _this = this;
         //offliberty get mp3
+        var Add_track;
         var result;
         var query = {
             "videoURL": track.videoURL
@@ -39,7 +40,21 @@ var tunesplaysearchResultComponent = (function () {
                 src: url,
                 frequencies: [[145, 5000], [145, 5000]]
             };
-            _this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: newTrack });
+            if (localStorage.getItem('profile') == null) {
+                _this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: newTrack });
+            }
+            else {
+                var query = {
+                    "track": track.track,
+                    "Artist": '',
+                    "id": JSON.parse(localStorage.getItem('profile')).nickname,
+                    "Url": url
+                };
+                Add_track = _this._searchService.PlaylistAdd(query);
+                Add_track.subscribe(function (x) {
+                    _this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: newTrack });
+                });
+            }
             // display successfully added message
             if (playbtn) {
                 playbtn.setAttribute('data-hint', 'Added');

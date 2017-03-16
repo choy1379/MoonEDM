@@ -75,7 +75,7 @@ var tunesplaylistComponent = (function () {
         }
     };
     tunesplaylistComponent.prototype.ngAfterViewInit = function () {
-        // document.querySelector('#canvas').setAttribute('style','')
+        document.querySelector('#canvas').setAttribute('style', '');
     };
     tunesplaylistComponent = __decorate([
         core_1.Component({
