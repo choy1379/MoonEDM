@@ -173,6 +173,27 @@ export class AudiographService {
       {
         $audiograph.playNext();
       }
+      audio.ontimeupdate = function(audios)
+      {
+        var duration = audio.duration
+        var currentTime = audio.currentTime
+         var sec: any;
+        var min : any;
+        var csec: any;
+        var cmin : any;
+        sec = Math.floor( duration );    
+        min = Math.floor( sec / 60 );
+        min = min >= 10 ? min : '0' + min;    
+        sec = Math.floor( sec % 60 );
+        sec = sec >= 10 ? sec : '0' + sec;
+
+        csec = Math.floor( currentTime );    
+        cmin = Math.floor( csec / 60 );
+        cmin = cmin >= 10 ? cmin : '0' + cmin;    
+        csec = Math.floor( csec % 60 );
+        csec = csec >= 10 ? csec : '0' + csec;
+        document.getElementById('tracktime').innerHTML = cmin+':'+csec + ' / ' + min+':'+sec;
+      }
     this.state$.subscribe((state: IAudiographState) => {
       if (typeof state.playing !== 'undefined') {
         console.log(`Toggling playback: ${state.playing}`);

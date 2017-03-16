@@ -34,16 +34,16 @@ var trackComponent = (function () {
     trackComponent.prototype.downloadclick = function (event) {
         var _this = this;
         this.loading = true;
-        var result;
+        var headers = new http_1.Headers();
         var query = {
             "videoURL": this.tracklist[0].videoURL
         };
-        result = this._searchService.youtube_dl(query);
-        result.subscribe(function (x) {
-            var url = x.URL;
+        headers.append('Content-Type', 'application/json');
+        this.http.post('http://localhost:4100/toMp3', query, { headers: headers }).subscribe(function (res) {
+            console.log(res.json());
+            var url = res.json().url;
             _this.loading = false;
             window.open(url);
-            _this.tracklist = x.data;
         });
     };
     trackComponent = __decorate([

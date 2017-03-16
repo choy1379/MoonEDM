@@ -31,17 +31,17 @@ constructor(  private router:ActivatedRoute,private http:Http,private _searchSer
     }
     downloadclick(event:any)
     {
-          this.loading = true 
-            var result : any
+            this.loading = true 
+           var headers = new Headers(); 
             var query = {
                          "videoURL" : this.tracklist[0].videoURL
                         }
-            result = this._searchService.youtube_dl(query);
-            result.subscribe(x => {
-                var url = x.URL
+            headers.append('Content-Type', 'application/json');
+            this.http.post('http://localhost:4100/toMp3',query,{headers: headers}).subscribe((res) => {
+                console.log(res.json())
+                var url = res.json().url
                 this.loading = false
                 window.open(url)
-                this.tracklist = x.data
             });
     }
 }

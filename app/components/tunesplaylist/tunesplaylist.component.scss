@@ -84,7 +84,15 @@
     opacity: 1;
   }
 }
+.player-timeline {
+  height: 4px;
+  background: #3a3b3c;
+  cursor: pointer;
+}
 
+.timestamp{
+  left:300px;
+}
 .prev-track {
   left:28px;
 }
