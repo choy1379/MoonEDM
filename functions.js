@@ -67,7 +67,7 @@ function parallelDJ (tracks,arr,count,res) {
     function parallelbugs(tracks,Artist,count,res,Add) {
                 var start = new Date().getTime();
                 var tempplaylist_ADD = []
-                //추후 성능이슈문제날떄 async.parallel 만 쓰이게..
+                //성능이슈문제 async.parallel 만 쓰이게..  변경할예정
               async.forEachOfLimit(tracks, 1, function(track, index, cb) {
                                                                         async.parallel([
                                                                                 function(callback) {
@@ -134,13 +134,10 @@ function parallelDJ (tracks,arr,count,res) {
                                                                         console.log('make function: '+i);
                                                                         return function(callback) {
                                                                                 console.log('test Function: '+i);
-                                                                                // request({
-                                                                                //         url : 'http://www.youtubeinmp3.com/fetch/?format=JSON&video=http://www.youtube.com/watch?v='+tempplaylist_ADD[i].result,
-                                                                                //         method : "POST",
-                                                                                //         json :true
-                                                                                // },function(body,result){
-                                                                                // callback(null,result.body.link)
-                                                                                // })
+                                                                                // convertMp3(tempplaylist_ADD[i].result ,function (err, Url) {                                                                                                                                                     
+                                                                                //         callback(null,Url)                                                                      
+                                                                                // });   
+                                                                              
                                                                                 offliberty.off('https://www.youtube.com/watch?v='+tempplaylist_ADD[i].result, function (err, Url) {                                                                                                                                                     
                                                                                         callback(null,Url)                                                                      
                                                                                 });   
@@ -190,7 +187,55 @@ function randomString() {
                 }
                 //document.randform.randomfield.value = randomstring;
                 return randomstring;
-                }
+        }
+function convertMp3(videoid,callback){
+            
+                var url = 'http://api.convert2mp3.cc/button/?v='+videoid+'&f=mp3'
+                var Spooky = require('spooky');
+                var spooky = new Spooky({
+                        casper: {
+                                logLevel: 'debug',
+                                verbose: false,
+                                options: {
+                                        clientScripts: ['https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js']
+                                },
+                                viewportSize: {
+                                                width: 1440, height: 768
+                                        },
+                                pageSettings: {
+                                        webSecurityEnabled: false, 
+                                        userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11" // Spoof being Chrome on a Mac (https://msdn.microsoft.com/en-us/library/ms537503(v=vs.85).aspx)
+                                }
+                                
+                        }
+                        }, function (err) {
+                        if (err) {
+                                e = new Error('Failed to initialize SpookyJS');
+                                e.details = err;
+                                throw e;
+                        }
+
+
+                        spooky.start(url);
+                        
+                        spooky.then(function(){
+                                       downloadURL = this.evaluate(function() {
+                                                var elements = __utils__.findAll('#input_background > a');
+                                                return elements.map(function(e) {
+                                                        return e.getAttribute('href')
+                                                });
+                                        });
+                                this.emit('return',downloadURL)
+                        });
+                        spooky.run();
+
+                        spooky.on('return', function (downloadURL) {
+                                callback(null,downloadURL[0]) //error 가 있으면 콜백 null값에 에러내용  위의함수 function (err, Url) 에서 받는다
+                        });    
+                      
+                });
+            
+}
 functions = {
 
         DJsearch: function(req, res) {
@@ -812,14 +857,14 @@ functions = {
         toMp3 : function(req, res)
           {
                 var id = req.body.videoURL; // extra param from front end
-                 request({
-                        url : 'http://www.youtubeinmp3.com/fetch/?format=JSON&video=http://www.youtube.com/watch?v='+id,
-                        method : "POST",
-                        json :true
-                },function(body,result){
-                       console.log(result.body.link)
-                       res.json({success: true, url:result.body.link});
-                })
+                //  request({
+                //         url : 'http://www.youtubeinmp3.com/fetch/?format=JSON&video=http://www.youtube.com/watch?v='+id,
+                //         method : "POST",
+                //         json :true
+                // },function(body,result){
+                //        console.log(result.body.link)
+                //        res.json({success: true, url:result.body.link});
+                // })
           }    
 
 }
@@ -827,6 +872,7 @@ module.exports = functions;
 module.exports.randomString = randomString;
 module.exports.parallelDJ = parallelDJ;
 module.exports.parallelbugs = parallelbugs;
+module.exports.convertMp3 = convertMp3;
 
         // 나중에 
         //   toMp3 : function(req, res)

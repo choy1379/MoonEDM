@@ -5,15 +5,30 @@
 <tunesplaysearch></tunesplaysearch>
 <tunesplaysearchResult></tunesplaysearchResult>
 <playlist></playlist>
-<div class="player-control prev-track" (click)="controlTrack(-1)">
-  <div class="fa fa-backward"></div>
-</div>
-<div class="player-control toggle-play" (click)="togglePlay()">
-  <div class="fa" [ngClass]="{'fa-pause': (state$ | async)?.playing, 'fa-play': !(state$ | async)?.playing}"></div>
-</div>
-<div class="player-control next-track" (click)="controlTrack(1)">
-  <div class="fa fa-forward"></div>
-</div>
-<div class="player-control timestamp">
-<span class = "fa" id="tracktime">0 / 0</span>
+<div class = "player-c">
+  <div class= "player-timeline" (click) = "currentclick($event)">
+    <div class="bar bar--buffered bar--animated"></div>
+    <div class="bar bar--elapsed"></div>
+  </div>
+  <div class="player-control prev-track" (click)="controlTrack(-1)">
+    <div class="fa fa-backward"></div>
+  </div>
+  <div class="player-control toggle-play" (click)="togglePlay()">
+    <div class="fa" [ngClass]="{'fa-pause': (state$ | async)?.playing, 'fa-play': !(state$ | async)?.playing}"></div>
+  </div>
+  <div class="player-control next-track" (click)="controlTrack(1)">
+    <div class="fa fa-forward"></div>
+  </div>
+  <div class="player-control timestamp">
+  <span class = "fa" id="tracktime">0 / 0</span>
+  </div>
+  <div class="player-control plus" (click)="volumeControl(0.5)">
+    <div class="fa fa-plus"></div>
+  </div>
+   <div class="player-control volumetext">
+       <span class = "fa" id = "volumetext">1</span>
+  </div>
+  <div class="player-control minus" (click)="volumeControl(0.5)">
+    <div class="fa fa-minus"></div>
+  </div>
 </div>

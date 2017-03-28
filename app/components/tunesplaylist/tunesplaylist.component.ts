@@ -19,6 +19,7 @@ declare var $audiograph: any
 
 export class tunesplaylistComponent implements OnInit,AfterViewInit { 
  state$ : Observable<any>
+ audio : any
 constructor(private store: Store<any>,private _tunesplaysearchService:tunesplaysearchService,private router:ActivatedRoute,private http:Http,private _searchService: searchService){
     //audiograph.service.js 에서 state 변경하지않는한 Observable 리턴시  changeState() 값 그대로 리턴
     //만약 변경할 사항있을시 .subscribe 에서 (state: IAudiographState) 처리후 리턴 
@@ -80,6 +81,18 @@ constructor(private store: Store<any>,private _tunesplaysearchService:tunesplays
       $audiograph.playPrevious();
     }
   }
+  public currentclick(event : any){
+    var currentLeft = (event.pageX - event.currentTarget.getBoundingClientRect().left)
+   var currentOff = event.currentTarget.offsetWidth
+    this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.CURRENT_CLICK, payload:{currentLeft:currentLeft,currentOff:currentOff} }); 
+}
+ private volumeControl(index : any)
+ {
+   if(index == -0.5)
+   this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.VOLUME_CONTROL, payload:{volume:index,bool:'minus'} });
+   else
+   this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.VOLUME_CONTROL, payload:{volume:index,bool:'plus'} });
+ }
   ngAfterViewInit() {
     // document.querySelector('#canvas').setAttribute('style','')
   }

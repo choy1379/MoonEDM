@@ -74,6 +74,17 @@ var tunesplaylistComponent = (function () {
             $audiograph.playPrevious();
         }
     };
+    tunesplaylistComponent.prototype.currentclick = function (event) {
+        var currentLeft = (event.pageX - event.currentTarget.getBoundingClientRect().left);
+        var currentOff = event.currentTarget.offsetWidth;
+        this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.CURRENT_CLICK, payload: { currentLeft: currentLeft, currentOff: currentOff } });
+    };
+    tunesplaylistComponent.prototype.volumeControl = function (index) {
+        if (index == -0.5)
+            this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.VOLUME_CONTROL, payload: { volume: index, bool: 'minus' } });
+        else
+            this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.VOLUME_CONTROL, payload: { volume: index, bool: 'plus' } });
+    };
     tunesplaylistComponent.prototype.ngAfterViewInit = function () {
         // document.querySelector('#canvas').setAttribute('style','')
     };

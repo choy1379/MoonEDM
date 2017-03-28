@@ -52,7 +52,9 @@ exports.AUDIOGRAPH_ACTIONS = {
     TOGGLE_PLAY: "[" + CATEGORY + "] TOGGLE_PLAY",
     NEXT_TRACK: "[" + CATEGORY + "] NEXT_TRACK",
     PREV_TRACK: "[" + CATEGORY + "] PREV_TRACK",
-    TARGET_TRACK: "[" + CATEGORY + "] TARGET_TRACK"
+    TARGET_TRACK: "[" + CATEGORY + "] TARGET_TRACK",
+    VOLUME_CONTROL: "[" + CATEGORY + "] VOLUME_CONTROL",
+    CURRENT_CLICK: "[" + CATEGORY + "] CURRENT_CLICK"
 };
 exports.audiograph = function (state, action) {
     if (state === void 0) { state = initialState; }
@@ -121,9 +123,14 @@ exports.audiograph = function (state, action) {
             }
             if (action.payload.playing) {
                 $audiograph.play();
+                if (audio.paused == true)
+                    audio.play();
+                else
+                    audio.load();
             }
             else {
                 $audiograph.pause();
+                audio.pause();
             }
             return changeState();
         case exports.AUDIOGRAPH_ACTIONS.NEXT_TRACK:
@@ -136,6 +143,29 @@ exports.audiograph = function (state, action) {
             $audiograph.playIndex(action.payload);
             changeTrack(0, action.payload);
             return changeState();
+        case exports.AUDIOGRAPH_ACTIONS.VOLUME_CONTROL:
+            var maxVolume = 1;
+            if (action.payload.bool == 'minus') {
+                var volume = audio.volume + action.payload.volume;
+                if (audio.volume <= 0) {
+                    document.getElementById('volumetext').innerHTML = String(audio.volume);
+                }
+                else {
+                    audio.volume = volume;
+                    document.getElementById('volumetext').innerHTML = String(audio.volume);
+                }
+            }
+            else {
+                var volume = audio.volume + action.payload.volume;
+                if (volume <= maxVolume)
+                    audio.volume = volume;
+                document.getElementById('volumetext').innerHTML = String(audio.volume);
+            }
+            return state;
+        case exports.AUDIOGRAPH_ACTIONS.CURRENT_CLICK:
+            var currentTime = action.payload.currentLeft / action.payload.currentOff * audio.duration;
+            audio.currentTime = currentTime;
+            return state;
         default:
             return state;
     }
@@ -154,34 +184,34 @@ var AudiographService = (function () {
         audio.onended = function () {
             $audiograph.playNext();
         };
-        audio.ontimeupdate = function (audios) {
+        audio.ontimeupdate = function () {
             var duration = audio.duration;
             var currentTime = audio.currentTime;
-            var sec;
-            var min;
+            var dsec;
+            var dmin;
             var csec;
             var cmin;
-            sec = Math.floor(duration);
-            min = Math.floor(sec / 60);
-            min = min >= 10 ? min : '0' + min;
-            sec = Math.floor(sec % 60);
-            sec = sec >= 10 ? sec : '0' + sec;
+            dsec = Math.floor(duration);
+            dmin = Math.floor(dsec / 60);
+            dmin = dmin >= 10 ? dmin : '0' + dmin;
+            dsec = Math.floor(dsec % 60);
+            dsec = dsec >= 10 ? dsec : '0' + dsec;
             csec = Math.floor(currentTime);
             cmin = Math.floor(csec / 60);
             cmin = cmin >= 10 ? cmin : '0' + cmin;
             csec = Math.floor(csec % 60);
             csec = csec >= 10 ? csec : '0' + csec;
-            document.getElementById('tracktime').innerHTML = cmin + ':' + csec + ' / ' + min + ':' + sec;
+            var remain = currentTime / duration * 100;
+            document.querySelector('body > my-app > div > div > tunesplaylist > div.player-c > div.player-timeline > div.bar.bar--elapsed').setAttribute('style', 'width :' + remain + '%');
+            document.querySelector('body > my-app > div > div > tunesplaylist > div.player-c > div.player-timeline > div.bar.bar--buffered.bar--animated').setAttribute('style', 'width :100%');
+            document.getElementById('tracktime').innerHTML = cmin + ':' + csec + ' / ' + dmin + ':' + dsec;
+        };
+        audio.oncanplaythrough = function () {
+            audio.play();
         };
         this.state$.subscribe(function (state) {
             if (typeof state.playing !== 'undefined') {
                 console.log("Toggling playback: " + state.playing);
-                if (state.playing == true) {
-                    audio.play();
-                }
-                else {
-                    audio.pause();
-                }
             }
             _this.playlist.length = 0;
             for (var _i = 0, _a = state.playlist; _i < _a.length; _i++) {
