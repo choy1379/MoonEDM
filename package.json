@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "QuickStart package.json from the documentation, supplemented with testing support",
   "scripts": {
-    "start": "concurrently \"npm run tsc:w\" \"npm run lite\" \"node server.js\" ",
+    "start": "concurrently \"npm run tsc:w\" \"npm run lite\" \"node server.js\" \"node socketserver.js\"",
     "start-heroku": "concurrently \"npm run tsc:w\" \"npm run http-server\" \"node server.js\" ",
     "e2e": "tsc && concurrently \"http-server -s\" \"protractor protractor.config.js\" --kill-others --success first",
     "lint": "tslint ./app/**/*.ts -t verbose",
@@ -37,6 +37,7 @@
     "hint.css": "^2.4.1",
     "ng2-pagination": "^2.0.1",
     "rxjs": "5.0.1",
+    "socket.io": "^1.7.3",
     "spooky": "0.2.5",
     "systemjs": "0.19.40",
     "three": "0.84.0 ",
@@ -46,6 +47,7 @@
   "devDependencies": {
     "@types/jasmine": "^2.5.36",
     "@types/node": "^6.0.46",
+    "@types/socket.io-client": "^1.4.29",
     "canonical-path": "0.0.2",
     "concurrently": "^3.1.0",
     "http-server": "^0.9.0",

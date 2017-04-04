@@ -8,7 +8,8 @@ var ytdl = require('ytdl-core');
 var fs = require('fs');
 var mongojs = require('mongojs');
 var db = mongojs('mongodb://admin:admin@ds063406.mlab.com:63406/hashcollect');
-var youtubeStream = require('youtube-audio-stream')
+// var youtubeStream = require('youtube-audio-stream')
+var ffmpeg = require('fluent-ffmpeg')
  var youTube = new YouTube();
 var offliberty = require('offliberty');
 youTube.setKey('AIzaSyB2QPeJGn6xo9rrjjzZrk9OT33aO-Ubzxo');    
@@ -856,15 +857,29 @@ functions = {
           },
         toMp3 : function(req, res)
           {
+                
                 var id = req.body.videoURL; // extra param from front end
-                //  request({
-                //         url : 'http://www.youtubeinmp3.com/fetch/?format=JSON&video=http://www.youtube.com/watch?v='+id,
-                //         method : "POST",
-                //         json :true
-                // },function(body,result){
-                //        console.log(result.body.link)
-                //        res.json({success: true, url:result.body.link});
-                // })
+                var title = 'temp' // extra param from front end
+                var url = 'https://www.youtube.com/watch?v=' + id;
+                var stream = ytdl(url); //include youtbedl ... var youtubedl = require('ytdl');
+
+                //set response headers
+                res.setHeader('Content-disposition', 'attachment; filename=' + title + '.mp3');
+                res.setHeader('Content-type', 'audio/mpeg');
+
+                //set stream for conversion
+                var proc = new ffmpeg({source: stream});
+
+                //currently have ffmpeg stored directly on the server, and ffmpegLocation is the path to its location... perhaps not ideal, but what I'm currently settled on. And then sending output directly to response.
+                // proc.setFfmpegPath(ffmpegLocation);
+                proc.withAudioCodec('libmp3lame')
+                .toFormat('mp3')
+                .output(res)
+                .run();
+                proc.on('end', function() {
+                console.log('finished');
+                });
+        // fs.createWriteStream('rockbye.mp3')
           }    
 
 }

@@ -32,19 +32,28 @@ var trackComponent = (function () {
         });
     };
     trackComponent.prototype.downloadclick = function (event) {
-        var _this = this;
         this.loading = true;
-        var headers = new http_1.Headers();
         var query = {
             "videoURL": this.tracklist[0].videoURL
         };
-        headers.append('Content-Type', 'application/json');
-        this.http.post('http://localhost:4100/toMp3', query, { headers: headers }).subscribe(function (res) {
-            console.log(res.json());
-            var url = res.json().url;
-            _this.loading = false;
-            window.open(url);
-        });
+        var socket = io.connect('http://localhost:8000/stream');
+        // console.log(socket)
+        // var stream = ss.createStream();
+        // ss(socket).emit('videoURL', stream, {videoURL: query});
+        // ss(socket).on('onSocketMsg', function(data) {
+        // });
+        //     this.loading = true 
+        //    var headers = new Headers(); 
+        //     var query = {
+        //                  "videoURL" : this.tracklist[0].videoURL
+        //                 }
+        //     headers.append('Content-Type', 'application/json');
+        //     this.http.post('http://localhost:4100/toMp3',query,{headers: headers}).subscribe((res) => {
+        //         console.log(res.json())
+        //         var url = res.json().url
+        //         this.loading = false
+        //         window.open(url)
+        //     });
     };
     trackComponent = __decorate([
         core_1.Component({

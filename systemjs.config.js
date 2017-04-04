@@ -30,7 +30,8 @@
       'rxjs':                      'npm:rxjs',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
        'ng2-pagination': 'node_modules/ng2-pagination',
-      'angular2-jwt':               'node_modules/angular2-jwt/angular2-jwt.js'
+      'angular2-jwt':               'node_modules/angular2-jwt/angular2-jwt.js',
+      "socket.io-stream": "node_modules/socket.io-stream/socket.io-stream.js",
 },
     
     // packages tells the System loader how to load when no filename and/or no extension
@@ -56,5 +57,6 @@
        'angular2-jwt':{
         "defaultExtension":'js'
       },
+      "socket.io-stream": {"defaultExtension": "js"},
   });
 })(this);

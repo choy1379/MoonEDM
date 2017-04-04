@@ -3,7 +3,7 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 var functions = require('./functions');
 
-var app = express();
+var app = require('express')();
 
 
 app.use(bodyParser.json({limit: '50mb'}));
@@ -28,7 +28,5 @@ app.post('/temp',functions.temp)
 app.post('/PlaylistDelete',functions.PlaylistDelete)
 app.post('/toMp3',functions.toMp3)
 app.use(express.static(__dirname));
-app.listen(process.env.PORT || 4100);
- console.log("Server up on port 4100");
 
-    
+app.listen(process.env.PORT || 4100);

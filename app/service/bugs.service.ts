@@ -83,13 +83,13 @@ export class bugsService{
     bugsartist(params){
             var headers = new Headers();
             headers.append('Content-Type', 'application/json');
-            return this._http.post('https://moonedm.herokuapp.com/bugsartist', params, {headers: headers})
+            return this._http.post('http://localhost:4100/bugsartist', params, {headers: headers})
                 .map(res => res.json());
         }
     bugstrack(params){
         var headers = new Headers();
         headers.append('Content-Type', 'application/X-www-form-urlencoded');
-        return this._http.post('https://moonedm.herokuapp.com/bugstrack', params, {headers: headers})
+        return this._http.post('http://localhost:4100/bugstrack', params, {headers: headers})
             .map(res => res.json());
     }
 }
