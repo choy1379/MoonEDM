@@ -45,7 +45,7 @@ constructor(  private router:ActivatedRoute,private http:Http,private _searchSer
             ss(socket).emit('test', stream, {result: query});
 
             ss(socket).on('result', function(data) {
-                // console.log(data.stream)
+                console.log('socket result')
             });
     }
     

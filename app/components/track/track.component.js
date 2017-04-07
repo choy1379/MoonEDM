@@ -12,6 +12,7 @@ var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var http_1 = require('@angular/http');
 var search_service_1 = require('../../service/search.service');
+var ss = require('node_modules/socket.io-stream/socket.io-stream.js');
 var trackComponent = (function () {
     function trackComponent(router, http, _searchService) {
         this.router = router;
@@ -37,23 +38,11 @@ var trackComponent = (function () {
             "videoURL": this.tracklist[0].videoURL
         };
         var socket = io.connect('http://localhost:8000/stream');
-        // console.log(socket)
-        // var stream = ss.createStream();
-        // ss(socket).emit('videoURL', stream, {videoURL: query});
-        // ss(socket).on('onSocketMsg', function(data) {
-        // });
-        //     this.loading = true 
-        //    var headers = new Headers(); 
-        //     var query = {
-        //                  "videoURL" : this.tracklist[0].videoURL
-        //                 }
-        //     headers.append('Content-Type', 'application/json');
-        //     this.http.post('http://localhost:4100/toMp3',query,{headers: headers}).subscribe((res) => {
-        //         console.log(res.json())
-        //         var url = res.json().url
-        //         this.loading = false
-        //         window.open(url)
-        //     });
+        var stream = ss.createStream();
+        ss(socket).emit('test', stream, { result: query });
+        ss(socket).on('result', function (data) {
+            console.log('socket result');
+        });
     };
     trackComponent = __decorate([
         core_1.Component({
