@@ -2,7 +2,7 @@ import { Component,OnInit } from '@angular/core';
 import { Router,ActivatedRoute} from '@angular/router';
 import { Http, Headers} from '@angular/http';
 import {searchService} from '../../service/search.service';
-
+const ss = require('node_modules/socket.io-stream/socket.io-stream.js')
 
 @Component({
     moduleId:module.id,
@@ -40,27 +40,13 @@ constructor(  private router:ActivatedRoute,private http:Http,private _searchSer
                         }
     
               var socket = io.connect('http://localhost:8000/stream');
-              
+              var stream = ss.createStream();
 
-            // console.log(socket)
-                // var stream = ss.createStream();
+            ss(socket).emit('test', stream, {result: query});
 
-                // ss(socket).emit('videoURL', stream, {videoURL: query});
-
-                // ss(socket).on('onSocketMsg', function(data) {
-                // });
-        //     this.loading = true 
-        //    var headers = new Headers(); 
-        //     var query = {
-        //                  "videoURL" : this.tracklist[0].videoURL
-        //                 }
-        //     headers.append('Content-Type', 'application/json');
-        //     this.http.post('http://localhost:4100/toMp3',query,{headers: headers}).subscribe((res) => {
-        //         console.log(res.json())
-        //         var url = res.json().url
-        //         this.loading = false
-        //         window.open(url)
-        //     });
+            ss(socket).on('result', function(data) {
+                // console.log(data.stream)
+            });
     }
     
     
