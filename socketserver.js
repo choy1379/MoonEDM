@@ -12,28 +12,29 @@ io.of('/stream').on('connection', (socket) => {
 
      ss(socket).on('test',function(stream,data){
         var id = data.result.videoURL
-        var streams = ss.createStream()
         var title = 'temp' 
         var url = 'https://www.youtube.com/watch?v=' + id;
         var ytdls = ytdl(url); 
 
         //set stream for conversion
         var proc = new ffmpeg({source: ytdls});
-
+        var track = ''
         proc.withAudioCodec('libmp3lame')
         .toFormat('mp3')
         .output(fs.createWriteStream('rockbye.mp3'))
         .run();
         proc.on('end', function() {
-                console.log('finished')
+                data = data || {};
+                var type = data.type;
+                var payload = data.payload;
                 // 파일생성하는 방법으로 임시로 만듬 
-                fs.createReadStream('rockybye.mp3').pipe(streams)
-                ss(socket).emit('result', {
-                        type: 'Audio',
-                        payload: {
-                            stream: streams
-                        }
-                    });
+                var streams = ss.createStream()
+                     ss(socket).emit('result', {
+                payload: {
+                    stream: streams
+                }
+            });
+                fs.createReadStream(__dirname+'/rockbye.mp3').pipe(streams)
         });
     })
 

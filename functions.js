@@ -8,7 +8,7 @@ var ytdl = require('ytdl-core');
 var fs = require('fs');
 var mongojs = require('mongojs');
 var db = mongojs('mongodb://admin:admin@ds063406.mlab.com:63406/hashcollect');
-// var youtubeStream = require('youtube-audio-stream')
+var youtubeStream = require('youtube-audio-stream')
 var ffmpeg = require('fluent-ffmpeg')
  var youTube = new YouTube();
 var offliberty = require('offliberty');
@@ -855,6 +855,7 @@ functions = {
           {
                 res.json({success: true, tracklist:config.playlist_ADD});
           },
+
         toMp3 : function(req, res)
           {
                 
