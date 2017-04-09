@@ -62,7 +62,7 @@ var trackComponent = (function () {
                 sourceBuffer.addEventListener('update', function () {
                 }, false);
                 sourceBuffer.addEventListener('updateend', function (e) {
-                    console.log('updateend: ' + ms.readyState);
+                    // console.log('updateend: ' + ms.readyState);
                 });
                 sourceBuffer.addEventListener('error', function (e) {
                     console.log('error: ' + ms.readyState);
@@ -70,14 +70,8 @@ var trackComponent = (function () {
                 sourceBuffer.addEventListener('abort', function (e) {
                     console.log('abort: ' + ms.readyState);
                 });
-                var i = 0;
                 payload.stream.on('data', function (data) {
-                    // chunk data
-                    // console.log(data);
-                    // 버퍼에 내려받은 스트림 데이터를 할당한다.
-                    setTimeout(function () {
-                        sourceBuffer.appendBuffer(data);
-                    }, (i++) * 300);
+                    sourceBuffer.appendBuffer(data);
                 });
             }
         });
