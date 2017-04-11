@@ -41,7 +41,6 @@ var trackComponent = (function () {
         var stream = ss.createStream();
         ss(socket).emit('test', stream, { result: query });
         ss(socket).on('result', function (data) {
-            console.log(data);
             data = data || {};
             var type = data.type;
             var payload = data.payload;
@@ -62,16 +61,21 @@ var trackComponent = (function () {
                 sourceBuffer.addEventListener('update', function () {
                 }, false);
                 sourceBuffer.addEventListener('updateend', function (e) {
-                    // console.log('updateend: ' + ms.readyState);
                 });
                 sourceBuffer.addEventListener('error', function (e) {
                     console.log('error: ' + ms.readyState);
                 });
                 sourceBuffer.addEventListener('abort', function (e) {
-                    console.log('abort: ' + ms.readyState);
+                    // console.log('abort: ' + ms.readyState);
                 });
                 payload.stream.on('data', function (data) {
                     sourceBuffer.appendBuffer(data);
+                });
+                // 데이터 전송이 완료되었을 경우 발생한다.
+                payload.stream.on('end', function () {
+                    console.log('endOfStream call');
+                    // 스트림을 종료한다.
+                    ms.endOfStream();
                 });
             }
         });
