@@ -25,47 +25,22 @@ var tunesplaysearchResultComponent = (function () {
     }
     tunesplaysearchResultComponent.prototype.add = function (track, playbtn) {
         var _this = this;
-        //offliberty get mp3
         var Add_track;
-        var result;
         var query = {
+            "track": track.track,
+            "Artist": '',
+            "id": JSON.parse(localStorage.getItem('profile')).nickname,
             "videoURL": track.videoURL
         };
-        result = this._searchService.youtube_dl(query);
-        result.subscribe(function (x) {
-            var url = x.URL;
+        Add_track = this._searchService.PlaylistAdd(query);
+        Add_track.subscribe(function (x) {
             var newTrack = {
                 trackName: track.track,
                 artist: '',
-                src: url,
+                videoURL: track.videoURL,
                 frequencies: [[145, 5000], [145, 5000]]
             };
-            if (localStorage.getItem('profile') == null) {
-                _this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: newTrack });
-            }
-            else {
-                var query = {
-                    "track": track.track,
-                    "Artist": '',
-                    "id": JSON.parse(localStorage.getItem('profile')).nickname,
-                    "Url": url
-                };
-                Add_track = _this._searchService.PlaylistAdd(query);
-                Add_track.subscribe(function (x) {
-                    _this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: newTrack });
-                });
-            }
-            // display successfully added message
-            if (playbtn) {
-                playbtn.setAttribute('data-hint', 'Added');
-                playbtn.setAttribute('class', 'play-btn hint--left hint--always');
-                setTimeout(function () {
-                    playbtn.setAttribute('class', 'play-btn hint--left');
-                    setTimeout(function () {
-                        playbtn.setAttribute('data-hint', 'Add to Playlist');
-                    }, 800);
-                }, 1500);
-            }
+            _this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: newTrack });
         });
     };
     tunesplaysearchResultComponent.prototype.close = function () {
@@ -82,4 +57,46 @@ var tunesplaysearchResultComponent = (function () {
     return tunesplaysearchResultComponent;
 }());
 exports.tunesplaysearchResultComponent = tunesplaysearchResultComponent;
+// var Add_track : any
+//       var result : any
+//       var query = {
+//                     "videoURL" : track.videoURL
+//                   }
+//       result = this._searchService.youtube_dl(query);
+//       result.subscribe(x => {
+//           var url = x.URL
+//           let newTrack: IPlaylistTrack = {
+//             trackName: track.track,
+//             artist: '',
+//             src: url,
+//             frequencies: [[145, 5000], [145, 5000]]
+//           };
+//           if(localStorage.getItem('profile') ==  null){
+//             this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: newTrack });
+//             }
+//             else
+//             {
+//                 var query = {
+//                       "track" : track.track,
+//                       "Artist" : '',
+//                       "id" : JSON.parse(localStorage.getItem('profile')).nickname,
+//                       "Url" : url
+//                     }
+//                   Add_track = this._searchService.PlaylistAdd(query)
+//                   Add_track.subscribe(x => {
+//                     this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: newTrack });
+//                 });
+//             }
+//           // display successfully added message
+//           if (playbtn) {
+//             playbtn.setAttribute('data-hint', 'Added');
+//             playbtn.setAttribute('class', 'play-btn hint--left hint--always');
+//             setTimeout(() => {
+//               playbtn.setAttribute('class', 'play-btn hint--left');
+//               setTimeout(() => {
+//                 playbtn.setAttribute('data-hint', 'Add to Playlist');
+//               }, 800);
+//             }, 1500);
+//           }
+//     }); 
 //# sourceMappingURL=tunesplaysearchResult.component.js.map

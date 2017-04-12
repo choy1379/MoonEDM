@@ -39,7 +39,7 @@ var trackComponent = (function () {
         };
         var socket = io.connect('http://localhost:8000/stream');
         var stream = ss.createStream();
-        ss(socket).emit('test', stream, { result: query });
+        ss(socket).emit('PlayTrack', stream, { result: query });
         ss(socket).on('result', function (data) {
             data = data || {};
             var type = data.type;

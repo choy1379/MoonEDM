@@ -78,7 +78,7 @@ constructor(private store: Store<any>,private _bugsService:bugsService,private _
               else
               {
                   var query = {
-                      "track" : res.track,
+                      "track" : res.tracks,
                       "Artist" : res.Artist,
                       "id" : JSON.parse(localStorage.getItem('profile')).nickname,
                       "videoURL" : res.videoURL[0]

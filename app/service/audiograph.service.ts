@@ -124,7 +124,7 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
     var socket = io.connect('http://localhost:8000/stream')
     var stream = ss.createStream()
 
-    ss(socket).emit('PlayTrack',stream,{track:state.playlist[currentTrackIndex].videoURL})
+    ss(socket).emit('PlayTrack',stream,{track:state.playlist[currentTrackIndex].src})
     
     ss(socket).on('result',function(data){
          data = data || {};
@@ -182,7 +182,7 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
     case AUDIOGRAPH_ACTIONS.REMOVE_TRACK:
       action.payload = {
         playlist: state.playlist.filter((item: IPlaylistTrack) => {
-          return item.videoURL != action.payload.videoURL;
+          return item.videoURL != action.payload.videoURL; //이거도 교체함 src -> videoURL
         })
       };
       return changeState();

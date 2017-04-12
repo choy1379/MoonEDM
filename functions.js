@@ -803,7 +803,7 @@ functions = {
                 PlaylistAdd: function(req, res) {
                           db.playlist.save(req.body, function(){
                                         youtubelist = new Object()
-                                        youtubelist.src = req.body.Url
+                                        youtubelist.src = req.body.videoURL
                                         youtubelist.trackName = req.body.track
                                         youtubelist.artist = req.body.Artist
                                         youtubelist.freequencies = [[145, 5000], [145, 5000]]

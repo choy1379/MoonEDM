@@ -50,6 +50,7 @@ var tunesplaylistComponent = (function () {
             }
         }
         else {
+            //로그인을 한후 다시 플레이리스트에 들어올시 목록을 DB 에서 받지않고 config.playlist_ADD 환경변수값을 가져와 처리한다.
             var result = this._searchService.temp();
             result.subscribe(function (x) {
                 for (var i = 0; i < x.tracklist.length; i++) {

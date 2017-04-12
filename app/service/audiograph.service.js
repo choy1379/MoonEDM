@@ -12,6 +12,7 @@ var store_1 = require('@ngrx/store');
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 var search_service_1 = require('../service/search.service');
+var ss = require('node_modules/socket.io-stream/socket.io-stream.js');
 var CATEGORY = 'Audiograph';
 var audio = new Audio();
 audio.controls = true;
@@ -19,7 +20,7 @@ var selectedTracks = shuffle([
     {
         trackName: 'sample',
         artist: 'sample',
-        src: '',
+        videoURL: '',
         frequencies: [[60, 4000], [20, 5000]],
         playing: false,
         active: false
@@ -96,8 +97,46 @@ exports.audiograph = function (state, action) {
         }
         state.playlist[currentTrackIndex].active = true;
         state.playlist[currentTrackIndex].playing = true;
-        audio.src = state.playlist[currentTrackIndex].src;
-        // audio.src = index.URL
+        //socket stream
+        var socket = io.connect('http://localhost:8000/stream');
+        var stream = ss.createStream();
+        ss(socket).emit('PlayTrack', stream, { track: state.playlist[currentTrackIndex].src });
+        ss(socket).on('result', function (data) {
+            data = data || {};
+            var type = data.type;
+            var payload = data.payload;
+            var ms = new MediaSource();
+            var url = URL.createObjectURL(ms);
+            audio.src = url;
+            ms.addEventListener('sourceopen', callback, false);
+            ms.addEventListener('sourceended', function (e) {
+                console.log('mediaSource readystate: ' + this.readystate);
+            }, false);
+            function callback() {
+                var sourceBuffer = ms.addSourceBuffer('audio/mpeg');
+                sourceBuffer.addEventListener('updatestart', function (e) {
+                });
+                sourceBuffer.addEventListener('update', function () {
+                }, false);
+                sourceBuffer.addEventListener('updateend', function (e) {
+                });
+                sourceBuffer.addEventListener('error', function (e) {
+                    console.log('error: ' + ms.readyState);
+                });
+                sourceBuffer.addEventListener('abort', function (e) {
+                    // console.log('abort: ' + ms.readyState);
+                });
+                payload.stream.on('data', function (data) {
+                    sourceBuffer.appendBuffer(data);
+                });
+                // 데이터 전송이 완료되었을 경우 발생한다.
+                payload.stream.on('end', function () {
+                    console.log('endOfStream call');
+                    // 스트림을 종료한다.
+                    ms.endOfStream();
+                });
+            }
+        });
         console.log("Track change: " + state.playlist[currentTrackIndex].trackName);
         action.payload = { playlist: state.playlist.slice(), playing: true };
     };
@@ -108,7 +147,7 @@ exports.audiograph = function (state, action) {
         case exports.AUDIOGRAPH_ACTIONS.REMOVE_TRACK:
             action.payload = {
                 playlist: state.playlist.filter(function (item) {
-                    return item.src != action.payload.src;
+                    return item.videoURL != action.payload.videoURL; //이거도 교체함 src -> videoURL
                 })
             };
             return changeState();
