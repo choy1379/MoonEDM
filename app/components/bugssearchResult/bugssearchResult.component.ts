@@ -54,24 +54,19 @@ constructor(private store: Store<any>,private _bugsService:bugsService,private _
       }
         playlistAdd(res:any,event:any)
       {
-          var result : any
-          var Add_track : any
+              var result : any
+              var Add_track : any
 
-         this.store.dispatch({ type: bugs_ACTIONS.IMG_DOWNLOADING});
-          if(res.tracks == event.path[6].id)
-          {
-             this.eventid = event.path[6].id
-          }
-          var query = {
-                        "videoURL" : res.videoURL[0]
-                      }
-          result = this._searchService.youtube_dl(query);
-          result.subscribe(x => {
-              var url = x.URL
+            this.store.dispatch({ type: bugs_ACTIONS.IMG_DOWNLOADING});
+              if(res.tracks == event.path[6].id)
+              {
+                this.eventid = event.path[6].id
+              }
+
               let newTrack: IPlaylistTrack = {
                 trackName: res.tracks,
                 artist: res.Artist,
-                src: url,
+                videoURL: res.videoURL[0],
                 frequencies: [[145, 5000], [145, 5000]]
               };
 
@@ -83,16 +78,56 @@ constructor(private store: Store<any>,private _bugsService:bugsService,private _
               else
               {
                   var query = {
-                        "track" : res.tracks,
-                        "Artist" : res.Artist,
-                        "id" : JSON.parse(localStorage.getItem('profile')).nickname,
-                        "Url" : url
-                      }
+                      "track" : res.track,
+                      "Artist" : res.Artist,
+                      "id" : JSON.parse(localStorage.getItem('profile')).nickname,
+                      "videoURL" : res.videoURL[0]
+                    }
                     Add_track = this._searchService.PlaylistAdd(query)
+                    // AUDIOGRAPH_ACTIONS.ADD_TRACK 을 하지않는 이유는 oninit 시 디비에서 값가져오기때문..
                     Add_track.subscribe(x => {
                   });
               }
-        }); 
       }
 
 }
+
+// var result : any
+//           var Add_track : any
+
+//          this.store.dispatch({ type: bugs_ACTIONS.IMG_DOWNLOADING});
+//           if(res.tracks == event.path[6].id)
+//           {
+//              this.eventid = event.path[6].id
+//           }
+//           var query = {
+//                         "videoURL" : res.videoURL[0]
+//                       }
+//           result = this._searchService.youtube_dl(query);
+//           result.subscribe(x => {
+//               var url = x.URL
+//               let newTrack: IPlaylistTrack = {
+//                 trackName: res.tracks,
+//                 artist: res.Artist,
+//                 src: url,
+//                 frequencies: [[145, 5000], [145, 5000]]
+//               };
+
+//               this.store.dispatch({ type: bugs_ACTIONS.IMG_DOWNLOADING , payload : 'false'});
+
+//               if(localStorage.getItem('profile') ==  null){
+//               this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: newTrack });
+//               }
+//               else
+//               {
+//                   var query = {
+//                         "track" : res.tracks,
+//                         "Artist" : res.Artist,
+//                         "id" : JSON.parse(localStorage.getItem('profile')).nickname,
+//                         "Url" : url
+//                       }
+//                     Add_track = this._searchService.PlaylistAdd(query)
+//                     Add_track.subscribe(x => {
+//                   });
+//               }
+//         }); 

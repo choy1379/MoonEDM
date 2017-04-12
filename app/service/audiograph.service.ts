@@ -3,6 +3,8 @@ import {Observable} from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import {Http, Headers} from '@angular/http';
 import {searchService} from '../service/search.service';
+const ss = require('node_modules/socket.io-stream/socket.io-stream.js')
+
 declare var $audiograph: any;
 const CATEGORY: string = 'Audiograph';
 var audio = new Audio();
@@ -12,7 +14,7 @@ export interface IPlaylistTrack {
   artist: string;
   // NOTE not crazy about the `src` property name
   // but using this name prevents having to make other code changes in this library 
-  src: string;
+  videoURL: string;
   frequencies: any[][];
   playing?: boolean;
   active?: boolean;
@@ -38,7 +40,7 @@ var selectedTracks: Array<any> = shuffle([
   {
     trackName: 'sample',
     artist: 'sample',
-    src: '',
+    videoURL: '',
       frequencies: [[60, 4000], [20, 5000]],
     playing: false,
     active: false
@@ -117,8 +119,59 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
     }
     state.playlist[currentTrackIndex].active = true;
     state.playlist[currentTrackIndex].playing = true;
-    audio.src = state.playlist[currentTrackIndex].src;
-    // audio.src = index.URL
+
+    //socket stream
+    var socket = io.connect('http://localhost:8000/stream')
+    var stream = ss.createStream()
+
+    ss(socket).emit('PlayTrack',stream,{track:state.playlist[currentTrackIndex].videoURL})
+    
+    ss(socket).on('result',function(data){
+         data = data || {};
+         
+         var type = data.type
+         var payload = data.payload
+         var ms = new MediaSource()
+         var url = URL.createObjectURL(ms)
+
+         audio.src = url
+
+         ms.addEventListener('sourceopen',callback,false)
+         ms.addEventListener('sourceended',function(e){
+          console.log('mediaSource readystate: ' + this.readystate)
+         },false)
+         
+         function callback(){
+           var sourceBuffer = ms.addSourceBuffer('audio/mpeg')
+        
+           sourceBuffer.addEventListener('updatestart', function (e) {
+                                        });
+
+                                        sourceBuffer.addEventListener('update', function () {
+                                        }, false);
+
+                                        sourceBuffer.addEventListener('updateend', function (e) {
+
+                                        });
+
+                                        sourceBuffer.addEventListener('error', function (e) {
+                                            console.log('error: ' + ms.readyState);
+                                        });
+                                        sourceBuffer.addEventListener('abort', function (e) {
+                                            // console.log('abort: ' + ms.readyState);
+                                        });
+
+                                        payload.stream.on('data', function (data) {
+                                            sourceBuffer.appendBuffer(data);
+                                        });
+                                          // 데이터 전송이 완료되었을 경우 발생한다.
+                                        payload.stream.on('end', function () {
+                                            console.log('endOfStream call');
+                                            // 스트림을 종료한다.
+                                            ms.endOfStream();
+                                        });
+         }
+    });
     console.log(`Track change: ${state.playlist[currentTrackIndex].trackName}`);
     action.payload = { playlist: [...state.playlist], playing: true };
   };
@@ -129,7 +182,7 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
     case AUDIOGRAPH_ACTIONS.REMOVE_TRACK:
       action.payload = {
         playlist: state.playlist.filter((item: IPlaylistTrack) => {
-          return item.src != action.payload.src;
+          return item.videoURL != action.payload.videoURL;
         })
       };
       return changeState();

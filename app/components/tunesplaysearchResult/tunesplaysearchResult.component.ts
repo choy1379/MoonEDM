@@ -21,54 +21,71 @@ export class tunesplaysearchResultComponent {
     this.state$ = this.store.select<any>('tunesplaysearch')
  }
 public add(track: any, playbtn: any) {
-     //offliberty get mp3
       var Add_track : any
-      var result : any
-      var query = {
-                    "videoURL" : track.videoURL
-                  }
-      result = this._searchService.youtube_dl(query);
-      result.subscribe(x => {
-          var url = x.URL
-          let newTrack: IPlaylistTrack = {
-            trackName: track.track,
-            artist: '',
-            src: url,
-            frequencies: [[145, 5000], [145, 5000]]
-          };
-          if(localStorage.getItem('profile') ==  null){
-            this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: newTrack });
-            }
-            else
-            {
-                var query = {
+        var query = {
                       "track" : track.track,
                       "Artist" : '',
                       "id" : JSON.parse(localStorage.getItem('profile')).nickname,
-                      "Url" : url
+                      "videoURL" : track.videoURL
                     }
                   Add_track = this._searchService.PlaylistAdd(query)
                   Add_track.subscribe(x => {
+                         let newTrack: IPlaylistTrack = {
+                              trackName: track.track,
+                              artist: '',
+                              videoURL: track.videoURL,
+                              frequencies: [[145, 5000], [145, 5000]]
+                            };
                     this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: newTrack });
                 });
-            }
-          // display successfully added message
-          if (playbtn) {
-            playbtn.setAttribute('data-hint', 'Added');
-            playbtn.setAttribute('class', 'play-btn hint--left hint--always');
-            setTimeout(() => {
-              playbtn.setAttribute('class', 'play-btn hint--left');
-              setTimeout(() => {
-                playbtn.setAttribute('data-hint', 'Add to Playlist');
-              }, 800);
-            }, 1500);
-          }
-
-    });
- 
-  }
+}
 
   public close() {
     this.store.dispatch({ type: tunesplaysearch_ACTIONS.RESULTS_HIDE });
   }
 }
+
+
+// var Add_track : any
+//       var result : any
+//       var query = {
+//                     "videoURL" : track.videoURL
+//                   }
+//       result = this._searchService.youtube_dl(query);
+//       result.subscribe(x => {
+//           var url = x.URL
+//           let newTrack: IPlaylistTrack = {
+//             trackName: track.track,
+//             artist: '',
+//             src: url,
+//             frequencies: [[145, 5000], [145, 5000]]
+//           };
+//           if(localStorage.getItem('profile') ==  null){
+//             this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: newTrack });
+//             }
+//             else
+//             {
+//                 var query = {
+//                       "track" : track.track,
+//                       "Artist" : '',
+//                       "id" : JSON.parse(localStorage.getItem('profile')).nickname,
+//                       "Url" : url
+//                     }
+//                   Add_track = this._searchService.PlaylistAdd(query)
+//                   Add_track.subscribe(x => {
+//                     this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: newTrack });
+//                 });
+//             }
+//           // display successfully added message
+//           if (playbtn) {
+//             playbtn.setAttribute('data-hint', 'Added');
+//             playbtn.setAttribute('class', 'play-btn hint--left hint--always');
+//             setTimeout(() => {
+//               playbtn.setAttribute('class', 'play-btn hint--left');
+//               setTimeout(() => {
+//                 playbtn.setAttribute('data-hint', 'Add to Playlist');
+//               }, 800);
+//             }, 1500);
+//           }
+
+//     });

@@ -11,9 +11,8 @@ var ffmpeg = require('fluent-ffmpeg')
 io.of('/stream').on('connection', (socket) => {
     console.log('User Connected...');
 
-     ss(socket).on('test',function(stream,data){
-        var id = data.result.videoURL
-        var title = 'temp' 
+     ss(socket).on('PlayTrack',function(stream,data){
+        var id = data.track.videoURL // 경로 추후 확인필요
         var url = 'https://www.youtube.com/watch?v=' + id;
         try {
             var streams = ss.createStream()
