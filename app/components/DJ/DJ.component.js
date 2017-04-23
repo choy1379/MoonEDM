@@ -93,7 +93,7 @@ var DJComponent = (function () {
             var newTrack = {
                 trackName: res.tracks,
                 artist: res.Artist,
-                src: url,
+                videoURL: res.videoURL[0],
                 frequencies: [[145, 5000], [145, 5000]]
             };
             if (localStorage.getItem('profile') == null) {

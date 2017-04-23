@@ -804,7 +804,7 @@ functions = {
                           db.playlist.save(req.body, function(){
                                         youtubelist = new Object()
                                         youtubelist.src = req.body.videoURL
-                                        youtubelist.trackName = req.body.track
+                                        youtubelist.track = req.body.track
                                         youtubelist.artist = req.body.Artist
                                         youtubelist.freequencies = [[145, 5000], [145, 5000]]
                                         config.playlist_ADD.push(youtubelist)  
@@ -845,8 +845,11 @@ functions = {
                                 if (err) {
                                 return res.send(err);
                         }
-                        result = DBresult
-                        parallelbugs(result,'',0,res,true)
+                        config.playlist_ADD = DBresult;
+                        res.json({success: true, tracklist:config.playlist_ADD});
+                        //2017-04-23
+                        // result = DBresult
+                        // parallelbugs(result,'',0,res,true)
                   });
                       
             },

@@ -10,6 +10,7 @@ io.of('/stream').on('connection', (socket) => {
     console.log('User Connected...');
 
      ss(socket).on('PlayTrack',function(stream,data){
+         console.log(data)
         var id = data.track // 경로 추후 확인필요
         var url = 'https://www.youtube.com/watch?v=' + id;
             var streams = ss.createStream()

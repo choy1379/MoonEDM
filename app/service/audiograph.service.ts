@@ -124,7 +124,7 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
     var socket = io.connect('http://localhost:8000/stream')
     var stream = ss.createStream()
 
-    ss(socket).emit('PlayTrack',stream,{track:state.playlist[currentTrackIndex].src})
+    ss(socket).emit('PlayTrack',stream,{track:state.playlist[currentTrackIndex].videoURL})
     
     ss(socket).on('result',function(data){
          data = data || {};
@@ -160,7 +160,6 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
                                         sourceBuffer.addEventListener('abort', function (e) {
                                             // console.log('abort: ' + ms.readyState);
                                         });
-
                                         payload.stream.on('data', function (data) {
                                             sourceBuffer.appendBuffer(data);
                                         });

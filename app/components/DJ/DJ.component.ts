@@ -106,7 +106,7 @@ constructor(private store: Store<any>,  private router:ActivatedRoute,private ht
               let newTrack: IPlaylistTrack = {
                 trackName: res.tracks,
                 artist: res.Artist,
-                src: url,
+                videoURL: res.videoURL[0],
                 frequencies: [[145, 5000], [145, 5000]]
               };
 

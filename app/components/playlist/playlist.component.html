@@ -7,7 +7,7 @@
       <div class="row">
         <div class="col-xs-11">
           <i *ngIf="track.playing" class="playing-indicator fa" [ngClass]="{'fa-volume-off': volumeLevel===0, 'fa-volume-down': volumeLevel===1, 'fa-volume-up': volumeLevel===2}"></i>
-          <div class="track">{{track.trackName}}</div>
+          <div class="track">{{track.track}}</div>
           <div class="artist">{{track.artist}}</div>
         </div>
         <div class="col-xs-1 control">
