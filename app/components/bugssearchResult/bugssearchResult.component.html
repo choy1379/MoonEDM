@@ -62,11 +62,13 @@
                                                             <button id="download" (click)="downloadclick(res,$event)" type="button" class="btn btn-default btn-lg" style="width:89%">
                                                             <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
                                                             </button>  
+                                                            <a *ngIf="auth.authenticated()">
                                                             <div data-hint="playlist" class="hint--bottom-right">
                                                             <button id="download" (click)="playlistAdd(res,$event)" data-hint="playlist" type="button" class="btn btn-default btn-lg" style="width:100%">
                                                             <span class ="glyphicon glyphicon-plus"></span>
                                                             </button>
                                                             </div>
+                                                            </a>
                                                         </div> 
                                                     </td>
                                             </table>  

@@ -74,7 +74,7 @@ function parallelDJ (tracks,arr,count,res) {
                                                                                                 if(!Add == true)
                                                                                                 {
                                                                                                         youTube.addParam("order", 'relevance');
-                                                                                                        youTube.search(Artist + ' ' + track, 1, function(error, result) {
+                                                                                                        youTube.search(Artist + ' ' + track + ' lyrics' , 1, function(error, result) {
                                                                                                                 if (error) {
                                                                                                                 console.log(error);
                                                                                                                 }
@@ -87,7 +87,7 @@ function parallelDJ (tracks,arr,count,res) {
                                                                                                 {
                                                                                                         console.log(track.Artist + ' ' + track.track)
                                                                                                         youTube.addParam("order", 'relevance');
-                                                                                                        youTube.search(track.Artist + ' ' + track.track, 1, function(error, result) {
+                                                                                                        youTube.search(track.Artist + ' ' + track.track +' lyrics' , 1, function(error, result) {
                                                                                                                 if (error) {
                                                                                                                 console.log(error);
                                                                                                                 }
@@ -803,9 +803,9 @@ functions = {
                 PlaylistAdd: function(req, res) {
                           db.playlist.save(req.body, function(){
                                         youtubelist = new Object()
-                                        youtubelist.src = req.body.videoURL
+                                        youtubelist.videoURL = req.body.videoURL
                                         youtubelist.track = req.body.track
-                                        youtubelist.artist = req.body.Artist
+                                        youtubelist.Artist = req.body.Artist
                                         youtubelist.freequencies = [[145, 5000], [145, 5000]]
                                         config.playlist_ADD.push(youtubelist)  
                                         res.json({success: true});
@@ -814,7 +814,7 @@ functions = {
                 PlaylistDelete: function(req, res) {
                            var id = req.body.id
                            config.playlist_ADD = []
-                                 db.playlist.remove({"id": id,"Artist":req.body.Artist,"track":req.body.track},(err, res) => {      
+                                 db.playlist.remove({"id": id,"videoURL":req.body.videoURL,"track":req.body.track},(err, res) => {      
                                                 if (err) {
                                                         return console.log(err);
                                                         }
@@ -826,9 +826,9 @@ functions = {
                                                 for(var i = 0; i <result.length; i++)
                                                 {
                                                         youtubelist = new Object()
-                                                        youtubelist.src = result[i].Url
-                                                        youtubelist.trackName = result[i].track
-                                                        youtubelist.artist = result[i].Artist
+                                                        youtubelist.videoURL = result[i].videoURL
+                                                        youtubelist.track = result[i].track
+                                                        youtubelist.Artist = result[i].Artist
                                                         youtubelist.freequencies = [[145, 5000], [145, 5000]]
                                                         youtubelist._id =  result[i].id
                                                         config.playlist_ADD.push(youtubelist)

@@ -15,13 +15,15 @@ var store_1 = require('@ngrx/store');
 var search_service_1 = require('../../service/search.service');
 var bugs_service_1 = require('../../service/bugs.service');
 var audiograph_service_1 = require('../../service/audiograph.service');
+var auth_service_1 = require('../../service/auth.service');
 var bugssearchResultComponent = (function () {
-    function bugssearchResultComponent(store, _bugsService, _searchService, router, http) {
+    function bugssearchResultComponent(store, _bugsService, _searchService, router, http, auth) {
         this.store = store;
         this._bugsService = _bugsService;
         this._searchService = _searchService;
         this.router = router;
         this.http = http;
+        this.auth = auth;
         this.state$ = this.store.select('bugs');
     }
     bugssearchResultComponent.prototype.playlistclick = function (res, event) {
@@ -88,7 +90,7 @@ var bugssearchResultComponent = (function () {
             styleUrls: ['bugssearchResult.component.css'],
             providers: [bugs_service_1.bugsService]
         }), 
-        __metadata('design:paramtypes', [store_1.Store, bugs_service_1.bugsService, search_service_1.searchService, router_1.ActivatedRoute, http_1.Http])
+        __metadata('design:paramtypes', [store_1.Store, bugs_service_1.bugsService, search_service_1.searchService, router_1.ActivatedRoute, http_1.Http, auth_service_1.Auth])
     ], bugssearchResultComponent);
     return bugssearchResultComponent;
 }());

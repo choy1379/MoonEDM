@@ -41,8 +41,8 @@ export class playlistComponent implements OnInit {
     {
       this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.REMOVE_TRACK, payload: track });
       var query = {
-                      "track" : track.trackName,
-                      "Artist" : track.artist,
+                      "track" : track.track,
+                      "videoURL" : track.videoURL,
                       "id" : JSON.parse(localStorage.getItem('profile')).nickname,
                     }
         var result = this._searchService.PlaylistDelete(query)

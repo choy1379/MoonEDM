@@ -6,6 +6,7 @@ import {searchService} from '../../service/search.service';
 import {bugsService,bugs_ACTIONS} from '../../service/bugs.service';
 import {Observable} from 'rxjs/Observable';
 import {AUDIOGRAPH_ACTIONS,IPlaylistTrack} from '../../service/audiograph.service'
+import {Auth} from '../../service/auth.service';
 
 @Component({
     moduleId:module.id,
@@ -18,7 +19,7 @@ import {AUDIOGRAPH_ACTIONS,IPlaylistTrack} from '../../service/audiograph.servic
 export class bugssearchResultComponent  { 
  state$ : Observable<any>
  eventid : any 
-constructor(private store: Store<any>,private _bugsService:bugsService,private _searchService: searchService,private router:ActivatedRoute,private http:Http){
+constructor(private store: Store<any>,private _bugsService:bugsService,private _searchService: searchService,private router:ActivatedRoute,private http:Http,private auth: Auth){
    this.state$ = this.store.select<any>('bugs')
 }
    

@@ -44,7 +44,7 @@ var tunesplaylistComponent = (function () {
                 result.subscribe(function (x) {
                     for (var i = 0; i < x.tracklist.length; i++) {
                         _this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: x.tracklist[i] });
-                        localStorage.setItem('track', x.tracklist[0].trackName);
+                        localStorage.setItem('track', x.tracklist[0].track);
                     }
                 });
             }

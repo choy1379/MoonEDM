@@ -113,7 +113,6 @@ exports.audiograph = function (state, action) {
                 console.log('mediaSource readystate: ' + this.readystate);
             }, false);
             function callback() {
-                var queue = [];
                 var sourceBuffer = ms.addSourceBuffer('audio/mpeg');
                 sourceBuffer.addEventListener('updatestart', function (e) {
                 });
@@ -121,7 +120,7 @@ exports.audiograph = function (state, action) {
                     //  console.log('update: ' + ms.readyState);
                 }, false);
                 sourceBuffer.addEventListener('updateend', function (e) {
-                    console.log('updateend: ' + ms.readyState);
+                    // console.log('updateend: ' + ms.readyState);
                 });
                 sourceBuffer.addEventListener('error', function (e) {
                     console.log('error: ' + ms.readyState);
@@ -130,8 +129,6 @@ exports.audiograph = function (state, action) {
                     console.log('abort: ' + ms.readyState);
                 });
                 payload.stream.on('data', function (data) {
-                    console.log(data);
-                    sourceBuffer.timestampOffset = 20;
                     sourceBuffer.appendBuffer(data);
                 });
                 // 데이터 전송이 완료되었을 경우 발생한다.
@@ -245,6 +242,10 @@ var AudiographService = (function () {
             csec = Math.floor(csec % 60);
             csec = csec >= 10 ? csec : '0' + csec;
             var remain = currentTime / duration * 100;
+            if (dsec == "0NaN" && dmin == Infinity) {
+                dsec = "loading";
+                dmin = "";
+            }
             document.querySelector('body > my-app > div > div > tunesplaylist > div.player-c > div.player-timeline > div.bar.bar--elapsed').setAttribute('style', 'width :' + remain + '%');
             document.querySelector('body > my-app > div > div > tunesplaylist > div.player-c > div.player-timeline > div.bar.bar--buffered.bar--animated').setAttribute('style', 'width :100%');
             document.getElementById('tracktime').innerHTML = cmin + ':' + csec + ' / ' + dmin + ':' + dsec;

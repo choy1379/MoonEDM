@@ -36,8 +36,8 @@ var playlistComponent = (function () {
         else {
             this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.REMOVE_TRACK, payload: track });
             var query = {
-                "track": track.trackName,
-                "Artist": track.artist,
+                "track": track.track,
+                "videoURL": track.videoURL,
                 "id": JSON.parse(localStorage.getItem('profile')).nickname,
             };
             var result = this._searchService.PlaylistDelete(query);

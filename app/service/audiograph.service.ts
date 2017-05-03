@@ -123,7 +123,6 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
     //socket stream
     var socket = io.connect('http://localhost:8000/stream')
     var stream = ss.createStream()
-
     ss(socket).emit('PlayTrack',stream,{track:state.playlist[currentTrackIndex].videoURL})
     
     ss(socket).on('result',function(data){
@@ -151,7 +150,7 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
               //  console.log('update: ' + ms.readyState);
             },false);
             sourceBuffer.addEventListener('updateend', function (e) {
-                console.log('updateend: ' + ms.readyState);
+                // console.log('updateend: ' + ms.readyState);
             });
 
             sourceBuffer.addEventListener('error', function (e) {
@@ -280,6 +279,11 @@ export class AudiographService {
         csec = Math.floor( csec % 60 );
         csec = csec >= 10 ? csec : '0' + csec;
         var remain = currentTime/duration*100
+        if(dsec =="0NaN" && dmin == Infinity)
+        {
+          dsec = "loading"
+          dmin = ""
+        }
         document.querySelector('body > my-app > div > div > tunesplaylist > div.player-c > div.player-timeline > div.bar.bar--elapsed').setAttribute('style','width :'+remain+'%')
         document.querySelector('body > my-app > div > div > tunesplaylist > div.player-c > div.player-timeline > div.bar.bar--buffered.bar--animated').setAttribute('style','width :100%')
         document.getElementById('tracktime').innerHTML = cmin+':'+csec + ' / ' + dmin+':'+dsec;
