@@ -113,26 +113,30 @@ exports.audiograph = function (state, action) {
                 console.log('mediaSource readystate: ' + this.readystate);
             }, false);
             function callback() {
+                var queue = [];
                 var sourceBuffer = ms.addSourceBuffer('audio/mpeg');
                 sourceBuffer.addEventListener('updatestart', function (e) {
                 });
                 sourceBuffer.addEventListener('update', function () {
+                    //  console.log('update: ' + ms.readyState);
                 }, false);
                 sourceBuffer.addEventListener('updateend', function (e) {
+                    console.log('updateend: ' + ms.readyState);
                 });
                 sourceBuffer.addEventListener('error', function (e) {
                     console.log('error: ' + ms.readyState);
                 });
                 sourceBuffer.addEventListener('abort', function (e) {
-                    // console.log('abort: ' + ms.readyState);
+                    console.log('abort: ' + ms.readyState);
                 });
                 payload.stream.on('data', function (data) {
+                    console.log(data);
+                    sourceBuffer.timestampOffset = 20;
                     sourceBuffer.appendBuffer(data);
                 });
                 // 데이터 전송이 완료되었을 경우 발생한다.
                 payload.stream.on('end', function () {
                     console.log('endOfStream call');
-                    // 스트림을 종료한다.
                     ms.endOfStream();
                 });
             }

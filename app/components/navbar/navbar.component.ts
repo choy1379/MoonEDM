@@ -19,7 +19,7 @@ constructor(private _searchService: searchService,private auth: Auth){
 
     ngOnInit(){
         this._searchService.getDocument('temp').style.marginTop = "7px"
-        this._searchService.getDocument('temp').style.width = "30%"
+        // this._searchService.getDocument('temp').style.width = "30%"
         this._searchService.getDocument('tempad').style.marginTop = "7px"
         this._searchService.getDocument('select').style.marginTop = "7px"
         //    document.querySelector('#canvas').setAttribute('style','width:1px')

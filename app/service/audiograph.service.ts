@@ -135,6 +135,7 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
          var url = URL.createObjectURL(ms)
 
          audio.src = url
+      
 
          ms.addEventListener('sourceopen',callback,false)
          ms.addEventListener('sourceended',function(e){
@@ -143,32 +144,31 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
          
          function callback(){
            var sourceBuffer = ms.addSourceBuffer('audio/mpeg')
-        
            sourceBuffer.addEventListener('updatestart', function (e) {
                                         });
 
-                                        sourceBuffer.addEventListener('update', function () {
-                                        }, false);
+            sourceBuffer.addEventListener('update', function () {
+              //  console.log('update: ' + ms.readyState);
+            },false);
+            sourceBuffer.addEventListener('updateend', function (e) {
+                console.log('updateend: ' + ms.readyState);
+            });
 
-                                        sourceBuffer.addEventListener('updateend', function (e) {
-
-                                        });
-
-                                        sourceBuffer.addEventListener('error', function (e) {
-                                            console.log('error: ' + ms.readyState);
-                                        });
-                                        sourceBuffer.addEventListener('abort', function (e) {
-                                            // console.log('abort: ' + ms.readyState);
-                                        });
-                                        payload.stream.on('data', function (data) {
-                                            sourceBuffer.appendBuffer(data);
-                                        });
-                                          // 데이터 전송이 완료되었을 경우 발생한다.
-                                        payload.stream.on('end', function () {
-                                            console.log('endOfStream call');
-                                            // 스트림을 종료한다.
-                                            ms.endOfStream();
-                                        });
+            sourceBuffer.addEventListener('error', function (e) {
+                console.log('error: ' + ms.readyState);
+            });
+            sourceBuffer.addEventListener('abort', function (e) {
+                console.log('abort: ' + ms.readyState);
+            });
+            payload.stream.on('data', function (data) {
+                sourceBuffer.appendBuffer(data);
+            });
+              // 데이터 전송이 완료되었을 경우 발생한다.
+            payload.stream.on('end', function () {
+                console.log('endOfStream call');
+          
+                ms.endOfStream();
+            });
          }
     });
     console.log(`Track change: ${state.playlist[currentTrackIndex].trackName}`);
