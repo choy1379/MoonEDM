@@ -4,7 +4,7 @@
   "description": "QuickStart package.json from the documentation, supplemented with testing support",
   "scripts": {
     "start": "concurrently \"npm run tsc:w\" \"npm run lite\" \"node server.js\" \"node socketserver.js\"",
-    "start-heroku": "concurrently \"npm run tsc:w\" \"npm run http-server\" \"node server.js\" ",
+    "start-heroku": "concurrently \"npm run tsc:w\" \"npm run http-server\" \"node server.js\" \"node socketserver.js\"",
     "e2e": "tsc && concurrently \"http-server -s\" \"protractor protractor.config.js\" --kill-others --success first",
     "lint": "tslint ./app/**/*.ts -t verbose",
     "lite": "lite-server",
