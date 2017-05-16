@@ -42,7 +42,8 @@ constructor(  private router:ActivatedRoute,private http:Http,private _searchSer
               var socket = io.connect('http://localhost:8000/stream');
               var stream = ss.createStream();
 
-            ss(socket).emit('PlayTrack', stream, {result: query});
+            // ss(socket).emit('PlayTrack', stream, {result: query});
+            ss(socket).emit('PlayTrack',stream,{track:this.tracklist[0].videoURL})
 
             ss(socket).on('result', function(data) {
                 data = data || {};
@@ -50,20 +51,28 @@ constructor(  private router:ActivatedRoute,private http:Http,private _searchSer
                 var type = data.type;
                 var payload = data.payload;
 
+
+                 var vw = 1024;
+                var vh = 768;
+
+                console.log(payload.stream)
+                // video Element 를 가져온다.
+                var video = document.querySelector('video');
+                video.width = vw;
+                video.height = vh;
+
                 var ms = new MediaSource();
                 var url = URL.createObjectURL(ms);
+                video.src = url;
 
-                var audio = new Audio()
-                audio.src = url;
-                audio.play()
                   ms.addEventListener('sourceopen', callback, false);
                     ms.addEventListener('sourceended', function(e) {
                         console.log('mediaSource readyState: ' + this.readyState);
                     }, false);
                  function callback() {
                                         // 재생하려는 영상 소스를 추가한다.
-                                        var sourceBuffer = ms.addSourceBuffer('audio/mpeg;');
-                                        
+                                        // var sourceBuffer = ms.addSourceBuffer('audio/mpeg;');
+                                         var sourceBuffer = ms.addSourceBuffer('video/webm; codecs="vp8"');
                                         sourceBuffer.addEventListener('updatestart', function (e) {
                                         });
 
@@ -72,7 +81,7 @@ constructor(  private router:ActivatedRoute,private http:Http,private _searchSer
 
                                         sourceBuffer.addEventListener('updateend', function (e) {
 
-                                        });
+                                        },);
 
                                         sourceBuffer.addEventListener('error', function (e) {
                                             console.log('error: ' + ms.readyState);
@@ -82,8 +91,10 @@ constructor(  private router:ActivatedRoute,private http:Http,private _searchSer
                                         });
 
                                         payload.stream.on('data', function (data) {
+                                           console.log(data)
                                             sourceBuffer.appendBuffer(data);
-                                        });
+                                            video.play()
+                                    });
                                           // 데이터 전송이 완료되었을 경우 발생한다.
                                         payload.stream.on('end', function () {
                                             console.log('endOfStream call');

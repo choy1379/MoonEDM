@@ -38,16 +38,15 @@ export interface IAudiographState {
 }
 var selectedTracks: Array<any> = shuffle([
   {
-    trackName: 'sample',
-    artist: 'sample',
+    trackName: '',
+    artist: '',
     videoURL: '',
       frequencies: [[60, 4000], [20, 5000]],
     playing: false,
     active: false
   }
 ]);
-// https://p.scdn.co/mp3-preview/83090a4db6899eaca689ae35f69126dbe65d94c9
-// http://k50.offliberty.com/So0O-G7ul_Y.mp3
+
 // first one from randomized playlist starts playing
 selectedTracks[0].playing = true;
 selectedTracks[0].active = true;
@@ -121,20 +120,17 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
     state.playlist[currentTrackIndex].playing = true;
 
     //socket stream
-    var socket = io.connect('https://moonedm.herokuapp.com/stream')
+    var socket = io.connect('http://localhost:8000/stream')
     var stream = ss.createStream()
     ss(socket).emit('PlayTrack',stream,{track:state.playlist[currentTrackIndex].videoURL})
     
     ss(socket).on('result',function(data){
-         data = data || {};
-         
          var type = data.type
          var payload = data.payload
          var ms = new MediaSource()
          var url = URL.createObjectURL(ms)
-
+    
          audio.src = url
-      
 
          ms.addEventListener('sourceopen',callback,false)
          ms.addEventListener('sourceended',function(e){
@@ -143,8 +139,9 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
          
          function callback(){
            var sourceBuffer = ms.addSourceBuffer('audio/mpeg')
+
            sourceBuffer.addEventListener('updatestart', function (e) {
-                                        });
+                                        },false);
 
             sourceBuffer.addEventListener('update', function () {
               //  console.log('update: ' + ms.readyState);
@@ -157,16 +154,19 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
                 console.log('error: ' + ms.readyState);
             });
             sourceBuffer.addEventListener('abort', function (e) {
-                console.log('abort: ' + ms.readyState);
+                console.log('abort: ' + ms.readyState)
+                ms.endOfStream();
+                socket.close()
             });
             payload.stream.on('data', function (data) {
+              // console.log(data)
                 sourceBuffer.appendBuffer(data);
             });
               // 데이터 전송이 완료되었을 경우 발생한다.
             payload.stream.on('end', function () {
                 console.log('endOfStream call');
-          
                 ms.endOfStream();
+                socket.close()
             });
          }
     });

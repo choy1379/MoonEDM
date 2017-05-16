@@ -44,6 +44,8 @@ constructor(private store: Store<any>,private _tunesplaysearchService:tunesplays
             var id = 'id=' +  JSON.parse(localStorage.getItem('profile')).nickname
             var result = this._searchService.PlaylistSearch(id);
               result.subscribe(x => {
+                            var query = {  "videoURL" : ''  }
+                            this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.REMOVE_TRACK, payload: query });                      
                             for(var i = 0; i<x.tracklist.length; i++)
                             {
                               this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: x.tracklist[i] }); 
@@ -57,6 +59,9 @@ constructor(private store: Store<any>,private _tunesplaysearchService:tunesplays
             //로그인을 한후 다시 플레이리스트에 들어올시 목록을 DB 에서 받지않고 config.playlist_ADD 환경변수값을 가져와 처리한다.
              var result = this._searchService.temp();
               result.subscribe(x => {
+                            var query = {  "videoURL" : ''  }
+                            this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.REMOVE_TRACK, payload: query });
+                       
                             for(var i = 0; i<x.tracklist.length; i++)
                             {
                               this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: x.tracklist[i] }); 
