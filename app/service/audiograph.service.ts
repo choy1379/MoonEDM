@@ -139,20 +139,7 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
          
          function callback(){
            var sourceBuffer = ms.addSourceBuffer('audio/mpeg')
-
-           sourceBuffer.addEventListener('updatestart', function (e) {
-                                        },false);
-
-            sourceBuffer.addEventListener('update', function () {
-              //  console.log('update: ' + ms.readyState);
-            },false);
-            sourceBuffer.addEventListener('updateend', function (e) {
-                // console.log('updateend: ' + ms.readyState);
-            });
-
-            sourceBuffer.addEventListener('error', function (e) {
-                console.log('error: ' + ms.readyState);
-            });
+          sourceBuffer.appendWindowEnd = 4.0;
             sourceBuffer.addEventListener('abort', function (e) {
                 console.log('abort: ' + ms.readyState)
                 ms.endOfStream();
@@ -161,6 +148,10 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
             payload.stream.on('data', function (data) {
               // console.log(data)
                 sourceBuffer.appendBuffer(data);
+
+                sourceBuffer.addEventListener('updateend',function(){
+                  ms.endOfStream()
+                })
             });
               // 데이터 전송이 완료되었을 경우 발생한다.
             payload.stream.on('end', function () {
