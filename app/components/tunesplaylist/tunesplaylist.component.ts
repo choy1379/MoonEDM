@@ -33,11 +33,11 @@ constructor(private store: Store<any>,private _tunesplaysearchService:tunesplays
          이렇게 해주는이유는 offliberty 같은경우는 동시에 많은 다운로드를 받을시 다운을 막아버린다
          이를 해결하기위해 서버자체에서 받아서 하는방법이있지만 서버용량이작다..
       */
+      this.init()
       if(localStorage.getItem('track') == null)
       {
         if(localStorage.getItem('profile') ==  null)
           {
-            
           }
           else
           {
@@ -101,5 +101,13 @@ constructor(private store: Store<any>,private _tunesplaysearchService:tunesplays
  }
   ngAfterViewInit() {
     // document.querySelector('#canvas').setAttribute('style','')
+  }
+  init()
+  {
+    document.getElementById('nav_playlist').setAttribute('style','display:block')
+    document.getElementById('nav_textsearch').setAttribute('style','display:none')
+    document.getElementById('select').setAttribute('style','display:none')
+    document.getElementById('temp').setAttribute('style','display:none')
+    document.getElementById('tempad').setAttribute('style','display:none')
   }
 }

@@ -96,7 +96,7 @@ exports.audiograph = function (state, action) {
         state.playlist[currentTrackIndex].active = true;
         state.playlist[currentTrackIndex].playing = true;
         //socket stream
-        var socket = io.connect('http://localhost:8000/stream');
+        var socket = io.connect('http://localhost:4100/stream');
         var stream = ss.createStream();
         ss(socket).emit('PlayTrack', stream, { track: state.playlist[currentTrackIndex].videoURL });
         ss(socket).on('result', function (data) {
@@ -105,13 +105,14 @@ exports.audiograph = function (state, action) {
             var ms = new MediaSource();
             var url = URL.createObjectURL(ms);
             audio.src = url;
+            audio.load();
             ms.addEventListener('sourceopen', callback, false);
             ms.addEventListener('sourceended', function (e) {
                 console.log('mediaSource readystate: ' + this.readystate);
             }, false);
             function callback() {
                 var sourceBuffer = ms.addSourceBuffer('audio/mpeg');
-                sourceBuffer.appendWindowEnd = 4.0;
+                // sourceBuffer.appendWindowEnd = 4.0;
                 sourceBuffer.addEventListener('abort', function (e) {
                     console.log('abort: ' + ms.readyState);
                     ms.endOfStream();
@@ -120,9 +121,6 @@ exports.audiograph = function (state, action) {
                 payload.stream.on('data', function (data) {
                     // console.log(data)
                     sourceBuffer.appendBuffer(data);
-                    sourceBuffer.addEventListener('updateend', function () {
-                        ms.endOfStream();
-                    });
                 });
                 // 데이터 전송이 완료되었을 경우 발생한다.
                 payload.stream.on('end', function () {

@@ -1,4 +1,4 @@
-    <nav class="navbar navbar-default" style="opacity: 0.7">
+<nav class="navbar navbar-default" style="opacity: 0.7">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -9,27 +9,28 @@
       </button>
       <a class="navbar-brand" href="#">MoonEDM</a>
       <a *ngIf="auth.authenticated()">
-      <a class="navbar-brand" data-hint="플레이리스트"  routerLink="/tunesplaylist">플레이리스트</a>
+      <a id = "nav_playlist" class="navbar-brand" data-hint="플레이리스트"  routerLink="/tunesplaylist">플레이리스트</a>
       </a>
-       <a class="navbar-brand" data-hint="텍스트검색" href="/textsearch">텍스트검색</a>
+       <a id = "nav_textsearch" class="navbar-brand" data-hint="텍스트검색" routerLink="/textsearch">텍스트검색</a>
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-    <select id = "select" class = "form-control" [(ngModel)]="selectedList" (ngModelChange)="onChange($event)" >
-      <option *ngFor="let list of List" [ngValue]="list"> {{list.name}} </option>
-    </select>
-      </ul>
-      <!--<form class="navbar-form navbar-left">-->
-        <div id = "temp" class="nav navbar-nav">
-          <input #searchDJ (keyup.enter)="search(searchDJ.value)" (keyup)="$event" type="text"class="form-control" placeholder="Search DJ" >
-        </div>
-        <a id = "tempad" class="btn btn-default" routerLink="/DJ/{{searchDJ.value}}" >검색</a>
-        <a href="#" (click)="auth.login()" *ngIf="!auth.authenticated()">Login</a>
-         <!--<a routerLink="/profile" *ngIf="auth.authenticated()">Profile</a>-->
-        <a href="#" (click)="auth.logout()" *ngIf="auth.authenticated()">Logout</a>
-        <a id = "temptracklist" class="btn btn-default" routerLink="/tracklist/{{searchDJ.value}}" style="display:none"></a>
-       <a id = "tempArtist" class="btn btn-default" routerLink="/bugsartist/{{searchDJ.value}}" style="display:none"></a>
-      <!--</form>-->
+        <ul class="nav navbar-nav">
+      <select id = "select" class = "form-control" [(ngModel)]="selectedList" (ngModelChange)="onChange($event)" >
+        <option *ngFor="let list of List" [ngValue]="list"> {{list.name}} </option>
+      </select>
+        </ul>
+         <div class="navbar-header">
+              <div id = "temp" class="nav navbar-nav">
+                <input #searchDJ (keyup.enter)="search(searchDJ.value)" (keyup)="$event" type="text"class="form-control" placeholder="Search DJ" >
+              </div>
+                <a  id = "tempad" class="btn btn-default" routerLink="/DJ/{{searchDJ.value}}" >검색</a>
+                <a id = "temptracklist" class="btn btn-default" routerLink="/tracklist/{{searchDJ.value}}" style="display:none"></a>
+               <a id = "tempArtist" class="btn btn-default" routerLink="/bugsartist/{{searchDJ.value}}" style="display:none"></a>
+         </div>
+         <ul class="nav navbar-nav navbar-right">
+              <a  class="navbar-brand" href="#" (click)="auth.login()" *ngIf="!auth.authenticated()">Login</a>
+              <a  class="navbar-brand" href="#" (click)="auth.logout()" *ngIf="auth.authenticated()">Logout</a>
+         </ul>
     </div>
   </div>
 </nav>

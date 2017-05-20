@@ -33,6 +33,7 @@ constructor(private store: Store<any>,  private router:ActivatedRoute,private ht
             var result : any
             this.loading = true 
             this.playlistModal = true
+            this.tempPlaylist = []
             result = this._searchService.searchDJ(params)
             result.subscribe(x => {
                  this.loading = false
@@ -97,16 +98,10 @@ constructor(private store: Store<any>,  private router:ActivatedRoute,private ht
           {
              this.eventid = event.path[7].id
           }
-          var query = {
-                        "videoURL" : res.videoURL
-                      }
-          result = this._searchService.youtube_dl(query);
-          result.subscribe(x => {
-              var url = x.URL
               let newTrack: IPlaylistTrack = {
                 trackName: res.tracks,
                 artist: res.Artist,
-                videoURL: res.videoURL[0],
+                videoURL: res.videoURL,
                 frequencies: [[145, 5000], [145, 5000]]
               };
 
@@ -119,12 +114,11 @@ constructor(private store: Store<any>,  private router:ActivatedRoute,private ht
                         "track" : res.track,
                         "Artist" : '',
                         "id" : JSON.parse(localStorage.getItem('profile')).nickname,
-                        "Url" : url
+                        "videoURL" : res.videoURL
                       }
                     Add_track = this._searchService.PlaylistAdd(query)
                     Add_track.subscribe(x => {
                   });
               }
-        }); 
       }
 }
