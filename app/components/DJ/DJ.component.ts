@@ -29,6 +29,7 @@ constructor(private store: Store<any>,  private router:ActivatedRoute,private ht
     eventid : string
 
       ngOnInit(){
+          //sd
         this.router.params.subscribe((params) => {
             var result : any
             this.loading = true 
