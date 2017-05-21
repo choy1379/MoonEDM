@@ -85,7 +85,7 @@ var DJComponent = (function () {
             this.eventid = event.path[7].id;
         }
         var newTrack = {
-            trackName: res.tracks,
+            track: res.tracks,
             artist: res.Artist,
             videoURL: res.videoURL,
             frequencies: [[145, 5000], [145, 5000]]

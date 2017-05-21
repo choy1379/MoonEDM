@@ -65,7 +65,7 @@ constructor(private store: Store<any>,private _bugsService:bugsService,private _
               }
 
               let newTrack: IPlaylistTrack = {
-                trackName: res.tracks,
+                track: res.tracks,
                 artist: res.Artist,
                 videoURL: res.videoURL[0],
                 frequencies: [[145, 5000], [145, 5000]]

@@ -35,7 +35,7 @@ var tunesplaysearchResultComponent = (function () {
         Add_track = this._searchService.PlaylistAdd(query);
         Add_track.subscribe(function (x) {
             var newTrack = {
-                trackName: track.track,
+                track: track.track,
                 artist: '',
                 videoURL: track.videoURL,
                 frequencies: [[145, 5000], [145, 5000]]

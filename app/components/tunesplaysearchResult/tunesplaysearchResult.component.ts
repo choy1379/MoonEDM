@@ -31,7 +31,7 @@ public add(track: any, playbtn: any) {
                   Add_track = this._searchService.PlaylistAdd(query)
                   Add_track.subscribe(x => {
                          let newTrack: IPlaylistTrack = {
-                              trackName: track.track,
+                              track: track.track,
                               artist: '',
                               videoURL: track.videoURL,
                               frequencies: [[145, 5000], [145, 5000]]

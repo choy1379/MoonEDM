@@ -29,7 +29,6 @@ constructor(private store: Store<any>,  private router:ActivatedRoute,private ht
     eventid : string
 
       ngOnInit(){
-          //sd
         this.router.params.subscribe((params) => {
             var result : any
             this.loading = true 
@@ -100,7 +99,7 @@ constructor(private store: Store<any>,  private router:ActivatedRoute,private ht
              this.eventid = event.path[7].id
           }
               let newTrack: IPlaylistTrack = {
-                trackName: res.tracks,
+                track: res.tracks,
                 artist: res.Artist,
                 videoURL: res.videoURL,
                 frequencies: [[145, 5000], [145, 5000]]

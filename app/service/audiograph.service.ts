@@ -10,7 +10,7 @@ const CATEGORY: string = 'Audiograph';
 var audio = new Audio();
 audio.controls = true;
 export interface IPlaylistTrack {
-  trackName: string;
+  track: string;
   artist: string;
   // NOTE not crazy about the `src` property name
   // but using this name prevents having to make other code changes in this library 
@@ -120,7 +120,7 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
     state.playlist[currentTrackIndex].playing = true;
 
     //socket stream
-    var socket = io.connect('https://moonedm.herokuapp.com/stream')
+    var socket = io.connect('http://localhost:4100/stream')
     var stream = ss.createStream()
     ss(socket).emit('PlayTrack',stream,{track:state.playlist[currentTrackIndex].videoURL})
     
@@ -129,10 +129,10 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
          var payload = data.payload
          var ms = new MediaSource()
          var url = URL.createObjectURL(ms)
-    
-         audio.src = url
+      
          audio.load()
-
+         audio.src = url
+            
          ms.addEventListener('sourceopen',callback,false)
          ms.addEventListener('sourceended',function(e){
           console.log('mediaSource readystate: ' + this.readystate)
@@ -146,9 +146,11 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
                 ms.endOfStream();
                 socket.close()
             });
+
             payload.stream.on('data', function (data) {
               // console.log(data)
                 sourceBuffer.appendBuffer(data);
+              
             });
               // 데이터 전송이 완료되었을 경우 발생한다.
             payload.stream.on('end', function () {
@@ -347,3 +349,13 @@ function shuffle(array) {
 
   return array;
 }
+  // var parts = [];
+  //       payload.stream.on('data', function(chunk){
+  //           parts.push(chunk);
+  //       });
+  //       payload.stream.on('end', function () {
+  //           audio.src = (window.URL || window.webkitURL).createObjectURL(new Blob(parts));
+  //           audio.play();
+  //           ms.endOfStream();
+  //           socket.close()
+  //       });

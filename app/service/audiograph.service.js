@@ -96,7 +96,7 @@ exports.audiograph = function (state, action) {
         state.playlist[currentTrackIndex].active = true;
         state.playlist[currentTrackIndex].playing = true;
         //socket stream
-        var socket = io.connect('https://moonedm.herokuapp.com/stream');
+        var socket = io.connect('http://localhost:4100/stream');
         var stream = ss.createStream();
         ss(socket).emit('PlayTrack', stream, { track: state.playlist[currentTrackIndex].videoURL });
         ss(socket).on('result', function (data) {
@@ -104,8 +104,8 @@ exports.audiograph = function (state, action) {
             var payload = data.payload;
             var ms = new MediaSource();
             var url = URL.createObjectURL(ms);
-            audio.src = url;
             audio.load();
+            audio.src = url;
             ms.addEventListener('sourceopen', callback, false);
             ms.addEventListener('sourceended', function (e) {
                 console.log('mediaSource readystate: ' + this.readystate);
@@ -306,4 +306,14 @@ function shuffle(array) {
     }
     return array;
 }
+// var parts = [];
+//       payload.stream.on('data', function(chunk){
+//           parts.push(chunk);
+//       });
+//       payload.stream.on('end', function () {
+//           audio.src = (window.URL || window.webkitURL).createObjectURL(new Blob(parts));
+//           audio.play();
+//           ms.endOfStream();
+//           socket.close()
+//       }); 
 //# sourceMappingURL=audiograph.service.js.map

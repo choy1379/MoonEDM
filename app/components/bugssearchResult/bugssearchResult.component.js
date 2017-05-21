@@ -60,7 +60,7 @@ var bugssearchResultComponent = (function () {
             this.eventid = event.path[6].id;
         }
         var newTrack = {
-            trackName: res.tracks,
+            track: res.tracks,
             artist: res.Artist,
             videoURL: res.videoURL[0],
             frequencies: [[145, 5000], [145, 5000]]
