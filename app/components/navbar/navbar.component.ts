@@ -12,7 +12,8 @@ declare  var $:any;
 
 export class NavbarComponent implements OnInit{ 
 constructor(private _searchService: searchService,private auth: Auth){
-    }
+    
+  }
   List = [{'name': 'DJ'}, {'name': 'tracklist'},{'name':'Artist'}];
   selectedList = this.List[0];
   selected = ''
@@ -26,7 +27,7 @@ constructor(private _searchService: searchService,private auth: Auth){
     }
     search(event:any)
     {
-
+       
         if(this.selected == "tracklist")
         {
             $('#temptracklist')[0].click()

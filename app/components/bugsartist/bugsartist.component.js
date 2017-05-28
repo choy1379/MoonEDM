@@ -23,17 +23,17 @@ var bugsartistComponent = (function () {
         this._searchService = _searchService;
         this.router = router;
         this.http = http;
+        this.state$ = this.store.select('bugs');
     }
     bugsartistComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.router.params.subscribe(function (params) {
             var result;
             _this.Artist = [];
-            _this.loading = true;
-            _this.playlistModal = true;
+            _this.store.dispatch({ type: bugs_service_1.bugs_ACTIONS.ARTIST_LOADING });
             result = _this._bugsService.bugsartist(params);
             result.subscribe(function (x) {
-                _this.loading = false;
+                _this.store.dispatch({ type: bugs_service_1.bugs_ACTIONS.ARTIST_LOADING, payload: 'false' });
                 _this.Artist = x.data;
                 _this._searchService.getDocument('portfolio').style.display = 'inline';
             });

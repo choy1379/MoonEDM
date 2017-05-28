@@ -6,9 +6,10 @@ declare var Auth0Lock: any;
 
 @Injectable()
 export class Auth {
+    
     // Configure Auth0
     lock = new Auth0Lock('4IccI1vtH2pWEfoqjDyghqo6lgEkzPkn', 'choy1379.auth0.com',options);
-    
+
     constructor(){
 
          // Add callback for lock `authenticated` event
@@ -25,7 +26,7 @@ export class Auth {
         });
 
     }
-    
+
     public login() {
         // Call the show method to display the widget.
          this.lock.show();
@@ -42,4 +43,5 @@ export class Auth {
         localStorage.removeItem('track');
 
     };
+
 }

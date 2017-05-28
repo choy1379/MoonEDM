@@ -18,14 +18,16 @@ var initialState = {
     showResults: false,
     modalloading: false,
     downloading: false,
-    IMG_LOADING: true
+    IMG_LOADING: true,
+    ArtistLoading: true,
 };
 exports.bugs_ACTIONS = {
     RESULTS_CHANGE: "[" + CATEGORY + "] RESULTS_CHANGE",
     RESULTS_HIDE: "[" + CATEGORY + "] RESULTS_HIDE",
     IMG_RESULTS: "[" + CATEGORY + "] IMG_RESULTS",
     IMG_LOADING: "[" + CATEGORY + "] IMG_LOADING",
-    IMG_DOWNLOADING: "[" + CATEGORY + "] IMG_DOWNLOADING"
+    IMG_DOWNLOADING: "[" + CATEGORY + "] IMG_DOWNLOADING",
+    ARTIST_LOADING: "[" + CATEGORY + "] ARTIST_LOADING"
 };
 exports.bugsReducer = function (state, action) {
     if (state === void 0) { state = initialState; }
@@ -38,6 +40,13 @@ exports.bugsReducer = function (state, action) {
             return changeState();
         case exports.bugs_ACTIONS.RESULTS_HIDE:
             action.payload = { showResults: false };
+        case exports.bugs_ACTIONS.ARTIST_LOADING:
+            if (typeof action.payload === 'undefined') {
+                action.payload = { ArtistLoading: true };
+            }
+            else {
+                action.payload = { ArtistLoading: false };
+            }
             return changeState();
         case exports.bugs_ACTIONS.IMG_RESULTS:
             state = action.payload.results;

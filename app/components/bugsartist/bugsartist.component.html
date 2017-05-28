@@ -1,4 +1,4 @@
-<div *ngIf="loading == true" class="loader"></div>
+<div *ngIf="(state$ | async)?.ArtistLoading" class="loader"></div>
     <section id="portfolio" style="display:none"  >
         <div class="container">
             <div class="row">
@@ -24,7 +24,7 @@
             </div>
         </div>
 </section>
-<div *ngIf="loading == false">
+<div *ngIf="(state$ | async)?.ArtistLoading == false">
 <pagination-controls (pageChange)="p = $event" #api></pagination-controls>
 </div>
 <bugssearchResult></bugssearchResult>

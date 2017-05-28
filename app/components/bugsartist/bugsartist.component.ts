@@ -5,6 +5,7 @@ import {searchService} from '../../service/search.service';
 import { Store } from '@ngrx/store';
 import {bugsService,bugs_ACTIONS} from '../../service/bugs.service';
 import {bugssearchResultComponent} from '../bugssearchResult/bugssearchResult.component'
+import {Observable} from 'rxjs/Observable';
 
 @Component({
     moduleId:module.id,
@@ -15,13 +16,10 @@ import {bugssearchResultComponent} from '../bugssearchResult/bugssearchResult.co
 })
 
 export class bugsartistComponent implements OnInit { 
-   
+    state$ : Observable<any>
 constructor(private store: Store<any>,private _bugssearchResultComponent:bugssearchResultComponent,private _bugsService:bugsService,private _searchService: searchService,private router:ActivatedRoute,private http:Http){
-    }
-      loading: boolean;
-      modalloading:boolean;
-     downloadloading : boolean;
-     playlistModal:boolean;
+    this.state$ = this.store.select<any>('bugs')
+     }
       Artist : any 
       bugsAlbum : any
       bugstracks : any
@@ -31,11 +29,11 @@ constructor(private store: Store<any>,private _bugssearchResultComponent:bugssea
         this.router.params.subscribe((params) => {
             var result : any
             this.Artist = []
-            this.loading = true 
-            this.playlistModal = true
+            this.store.dispatch({ type: bugs_ACTIONS.ARTIST_LOADING});
+
             result = this._bugsService.bugsartist(params)
             result.subscribe(x => {
-                 this.loading = false
+                 this.store.dispatch({ type: bugs_ACTIONS.ARTIST_LOADING , payload : 'false'});
                  this.Artist = x.data
                  this._searchService.getDocument('portfolio').style.display='inline'
 

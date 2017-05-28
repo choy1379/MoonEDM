@@ -16,13 +16,15 @@ export interface bugsState {
   modalloading?: boolean;
   downloading?: boolean;
   IMG_LOADING ?: boolean;
+  ArtistLoading ?: boolean;
 }
 const initialState: bugsState = {
   results: [],
   showResults: false,
   modalloading: false,
   downloading: false,
-  IMG_LOADING : true
+  IMG_LOADING : true,
+  ArtistLoading : true,
 };
 
 interface bugs_ACTIONS {
@@ -31,6 +33,7 @@ interface bugs_ACTIONS {
   IMG_RESULTS: string;
   IMG_LOADING : string;
   IMG_DOWNLOADING : string;
+  ARTIST_LOADING  :string;
 }
 
 export const bugs_ACTIONS: bugs_ACTIONS = {
@@ -38,7 +41,8 @@ export const bugs_ACTIONS: bugs_ACTIONS = {
   RESULTS_HIDE: `[${CATEGORY}] RESULTS_HIDE`,
   IMG_RESULTS: `[${CATEGORY}] IMG_RESULTS`,
   IMG_LOADING: `[${CATEGORY}] IMG_LOADING`,
-  IMG_DOWNLOADING: `[${CATEGORY}] IMG_DOWNLOADING`
+  IMG_DOWNLOADING: `[${CATEGORY}] IMG_DOWNLOADING`,
+  ARTIST_LOADING: `[${CATEGORY}] ARTIST_LOADING`
 };
 
 export const bugsReducer: ActionReducer<bugsState> = (state: bugsState = initialState, action: Action) => {
@@ -51,6 +55,12 @@ export const bugsReducer: ActionReducer<bugsState> = (state: bugsState = initial
       return changeState();
     case bugs_ACTIONS.RESULTS_HIDE:
       action.payload = { showResults: false };
+      case bugs_ACTIONS.ARTIST_LOADING:
+       if (typeof action.payload === 'undefined') {
+        action.payload = { ArtistLoading: true };      
+      }else{
+        action.payload = { ArtistLoading: false };   
+      }
       return changeState();
       case bugs_ACTIONS.IMG_RESULTS:
         state  = action.payload.results
@@ -83,13 +93,13 @@ export class bugsService{
     bugsartist(params){
             var headers = new Headers();
             headers.append('Content-Type', 'application/json');
-            return this._http.post('https://moonedm.herokuapp.com/bugsartist', params, {headers: headers})
+            return this._http.post('http://localhost:4100/bugsartist', params, {headers: headers})
                 .map(res => res.json());
         }
     bugstrack(params){
         var headers = new Headers();
         headers.append('Content-Type', 'application/X-www-form-urlencoded');
-        return this._http.post('https://moonedm.herokuapp.com/bugstrack', params, {headers: headers})
+        return this._http.post('http://localhost:4100/bugstrack', params, {headers: headers})
             .map(res => res.json());
     }
 }
