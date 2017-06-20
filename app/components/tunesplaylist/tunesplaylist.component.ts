@@ -34,6 +34,7 @@ constructor(private store: Store<any>,private _tunesplaysearchService:tunesplays
          이를 해결하기위해 서버자체에서 받아서 하는방법이있지만 서버용량이작다..
       */
       this.init()
+
       if(localStorage.getItem('track') == null)
       {
         if(localStorage.getItem('profile') ==  null)
@@ -73,6 +74,9 @@ constructor(private store: Store<any>,private _tunesplaysearchService:tunesplays
     toggleMenu(){
         this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.TOGGLE_MENU });
     }
+    toggleArtist(){
+      //  this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.MENU_ARTIST});
+     }
      togglePlay() {
          this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.TOGGLE_PLAY });
     }
@@ -102,12 +106,13 @@ constructor(private store: Store<any>,private _tunesplaysearchService:tunesplays
   ngAfterViewInit() {
     // document.querySelector('#canvas').setAttribute('style','')
   }
-  init()
-  {
+
+  init(){
     document.getElementById('nav_playlist').setAttribute('style','display:block')
-    document.getElementById('nav_textsearch').setAttribute('style','display:none')
-    document.getElementById('select').setAttribute('style','display:none')
-    document.getElementById('temp').setAttribute('style','display:none')
-    document.getElementById('tempad').setAttribute('style','display:none')
+      document.getElementById('nav_textsearch').setAttribute('style','display:none')
+      document.getElementById('select').setAttribute('style','display:none')
+      document.getElementById('temp').setAttribute('style','display:none')
+      document.getElementById('tempad').setAttribute('style','display:none')
+
   }
 }

@@ -48,13 +48,15 @@ exports.bugsReducer = function (state, action) {
                 action.payload = { ArtistLoading: false };
             }
             return changeState();
-        case exports.bugs_ACTIONS.IMG_RESULTS:
-            state = action.payload.results;
-            action.payload = { modalloading: false };
-            return changeState();
         case exports.bugs_ACTIONS.IMG_LOADING:
-            state = [];
-            action.payload = { modalloading: true };
+            if (typeof action.payload === 'undefined') {
+                state = [];
+                action.payload = { modalloading: true };
+            }
+            else {
+                state = action.payload.results;
+                action.payload = { modalloading: false };
+            }
             return changeState();
         case exports.bugs_ACTIONS.IMG_DOWNLOADING:
             if (typeof action.payload === 'undefined') {
@@ -80,13 +82,13 @@ var bugsService = (function () {
     bugsService.prototype.bugsartist = function (params) {
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
-        return this._http.post('http://localhost:4100/bugsartist', params, { headers: headers })
+        return this._http.post('https://moonedm.herokuapp.com/bugsartist', params, { headers: headers })
             .map(function (res) { return res.json(); });
     };
     bugsService.prototype.bugstrack = function (params) {
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/X-www-form-urlencoded');
-        return this._http.post('http://localhost:4100/bugstrack', params, { headers: headers })
+        return this._http.post('https://moonedm.herokuapp.com/bugstrack', params, { headers: headers })
             .map(function (res) { return res.json(); });
     };
     bugsService = __decorate([

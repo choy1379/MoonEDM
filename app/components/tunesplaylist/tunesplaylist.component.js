@@ -67,6 +67,9 @@ var tunesplaylistComponent = (function () {
     tunesplaylistComponent.prototype.toggleMenu = function () {
         this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.TOGGLE_MENU });
     };
+    tunesplaylistComponent.prototype.toggleArtist = function () {
+        //  this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.MENU_ARTIST});
+    };
     tunesplaylistComponent.prototype.togglePlay = function () {
         this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.TOGGLE_PLAY });
     };

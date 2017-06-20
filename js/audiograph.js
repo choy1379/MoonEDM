@@ -274,8 +274,9 @@ function setupScene(_ref) {
   var playlists = _ref.playlists;
 
   document.querySelector('#canvas').style.display = 'block';
-
-  // console.log('Total palettes', palettes.length);
+  //2017-06-19 opacity 0.3 modi
+  document.querySelector('#canvas').style.opacity = "0.3";
+  
   var geo = geoScene({ 
     palettes: palettes, 
     scene: scene, 

@@ -32,6 +32,7 @@ selectedTracks[0].active = true;
 var initialState = {
     playlist: selectedTracks,
     menuOpen: false,
+    // artistmenuOpen : false,
     playing: true
 };
 window.addEventListener('keydown', function (ev) {
@@ -53,7 +54,7 @@ exports.AUDIOGRAPH_ACTIONS = {
     PREV_TRACK: "[" + CATEGORY + "] PREV_TRACK",
     TARGET_TRACK: "[" + CATEGORY + "] TARGET_TRACK",
     VOLUME_CONTROL: "[" + CATEGORY + "] VOLUME_CONTROL",
-    CURRENT_CLICK: "[" + CATEGORY + "] CURRENT_CLICK"
+    CURRENT_CLICK: "[" + CATEGORY + "] CURRENT_CLICK",
 };
 exports.audiograph = function (state, action) {
     if (state === void 0) { state = initialState; }
@@ -95,7 +96,6 @@ exports.audiograph = function (state, action) {
         }
         state.playlist[currentTrackIndex].active = true;
         state.playlist[currentTrackIndex].playing = true;
-        //socket stream
         var socket = io.connect('http://localhost:4100/stream');
         var stream = ss.createStream();
         ss(socket).emit('PlayTrack', stream, { track: state.playlist[currentTrackIndex].videoURL });
@@ -104,8 +104,8 @@ exports.audiograph = function (state, action) {
             var payload = data.payload;
             var ms = new MediaSource();
             var url = URL.createObjectURL(ms);
-            audio.load();
             audio.src = url;
+            audio.load();
             ms.addEventListener('sourceopen', callback, false);
             ms.addEventListener('sourceended', function (e) {
                 console.log('mediaSource readystate: ' + this.readystate);
@@ -129,6 +129,7 @@ exports.audiograph = function (state, action) {
                     socket.close();
                 });
             }
+            audio.src = url;
         });
         console.log("Track change: " + state.playlist[currentTrackIndex].trackName);
         action.payload = { playlist: state.playlist.slice(), playing: true };
@@ -267,6 +268,7 @@ var AudiographService = (function () {
             _this.store.dispatch({ type: exports.AUDIOGRAPH_ACTIONS.NEXT_TRACK });
             // console.log('Audiograph: playNext() function called!');
         });
+        "";
         $audiograph.addListener('playPrevious', function () {
             _this.store.dispatch({ type: exports.AUDIOGRAPH_ACTIONS.PREV_TRACK });
             // console.log('Audiograph: playPrevious() function called!');
@@ -306,14 +308,4 @@ function shuffle(array) {
     }
     return array;
 }
-// var parts = [];
-//       payload.stream.on('data', function(chunk){
-//           parts.push(chunk);
-//       });
-//       payload.stream.on('end', function () {
-//           audio.src = (window.URL || window.webkitURL).createObjectURL(new Blob(parts));
-//           audio.play();
-//           ms.endOfStream();
-//           socket.close()
-//       }); 
 //# sourceMappingURL=audiograph.service.js.map

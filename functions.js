@@ -15,8 +15,8 @@ youTube.setKey('AIzaSyB2QPeJGn6xo9rrjjzZrk9OT33aO-Ubzxo');
 
 //textdownload , searchPlaylist
 function parallelDJ (tracks,arr,count,res) {
-                                                        function youtubesearch(i) {
-                                                        return function(callback) {
+                                                function youtubesearch(i) {
+                                                        return function(callback) {                                      
                                                                 youTube.search(tracks[i], 1, function(error, result) {
                                                                         if (error) {
                                                                         console.log(error);
@@ -48,14 +48,16 @@ function parallelDJ (tracks,arr,count,res) {
                                                                 return callback();
                                                         };
                                                         var youtubeFunctions = [];
+                                                        //2 push youtubesearch function(k)
                                                         for (var i=0; i < tracks.length; i++) {
                                                                 (function (k) {
                                                                         youtubeFunctions.push(youtubesearch(k));
                                                                 })(i);
                                                         }
+                                                        //3 async.parallel youtubeFuncrions --> endyoutube --> callback --> youtube
                                                         return async.parallel(youtubeFunctions, endyoutube );
                                                 }
-
+                                                //1 youtube function()
                                                 youtube( function() {
                                                         if(arr == 'Youtubearr')
                                                         res.json({success: true, data:config.Youtubearr});
@@ -100,6 +102,7 @@ function parallelDJ (tracks,arr,count,res) {
                                                                                 }
                                                                                 
                                                                         ], function (err, result) {
+                                                                                //20170620 Add = false 일 경우만 사용 
                                                                                  if(!Add == true)
                                                                                 {
                                                                                         youtubelist = new Object()
@@ -265,8 +268,7 @@ functions = {
                                 e.details = err;
                                 throw e;
                         }
-
-
+                        console.log(url)
                         spooky.start(url);
 
                         spooky.then(function(){
@@ -331,6 +333,7 @@ functions = {
                                                 config.DJarr.push(DJlist)
                                                 });
                 spooky.on('end', function (end) {
+                                                console.log('DJarr')
                                                res.json({success: true, data:config.DJarr});
                                                 });     
         },

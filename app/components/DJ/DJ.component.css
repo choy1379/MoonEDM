@@ -1,3 +1,29 @@
+
+.playlist{
+  position: absolute;
+  top: 80px;
+  width: 25em;
+  left: -30em;
+
+    background-color: #2d2e2f;
+  z-index: 50;
+  max-height: calc(85% - 75px);
+
+  transition: left .3s;
+  -webkit-transition: left .3s;
+  -moz-transition: left .3s;
+  margin-top: 75px;
+  padding-top: 15px;
+  overflow-y: scroll;
+
+  
+}
+
+.playlist.open{
+    left: 0em;
+}
+
+
 .loader,
 .loader:before,
 .loader:after {

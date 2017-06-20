@@ -49,7 +49,7 @@ var bugsartistComponent = (function () {
         var playList = 'href=' + res.href;
         result = this._bugsService.bugstrack(playList);
         result.subscribe(function (x) {
-            _this.store.dispatch({ type: bugs_service_1.bugs_ACTIONS.IMG_RESULTS, payload: { results: x } });
+            _this.store.dispatch({ type: bugs_service_1.bugs_ACTIONS.IMG_LOADING, payload: { results: x } });
         });
     };
     bugsartistComponent = __decorate([

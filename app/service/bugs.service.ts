@@ -46,6 +46,7 @@ export const bugs_ACTIONS: bugs_ACTIONS = {
 };
 
 export const bugsReducer: ActionReducer<bugsState> = (state: bugsState = initialState, action: Action) => {
+ 
   let changeState = () => {
     return Object.assign({}, state, action.payload);
   };
@@ -62,13 +63,14 @@ export const bugsReducer: ActionReducer<bugsState> = (state: bugsState = initial
         action.payload = { ArtistLoading: false };   
       }
       return changeState();
-      case bugs_ACTIONS.IMG_RESULTS:
-        state  = action.payload.results
-        action.payload = { modalloading: false };
-      return changeState();
       case bugs_ACTIONS.IMG_LOADING:
-        state = [];
-        action.payload = { modalloading: true };      
+       if (typeof action.payload === 'undefined') {
+              state = [];
+        action.payload = { modalloading: true };        
+      }else{
+        state  = action.payload.results
+        action.payload = { modalloading: false };   
+      }
       return changeState();
       case bugs_ACTIONS.IMG_DOWNLOADING:
       if (typeof action.payload === 'undefined') {
@@ -93,13 +95,13 @@ export class bugsService{
     bugsartist(params){
             var headers = new Headers();
             headers.append('Content-Type', 'application/json');
-            return this._http.post('http://localhost:4100/bugsartist', params, {headers: headers})
+            return this._http.post('https://moonedm.herokuapp.com/bugsartist', params, {headers: headers})
                 .map(res => res.json());
         }
     bugstrack(params){
         var headers = new Headers();
         headers.append('Content-Type', 'application/X-www-form-urlencoded');
-        return this._http.post('http://localhost:4100/bugstrack', params, {headers: headers})
+        return this._http.post('https://moonedm.herokuapp.com/bugstrack', params, {headers: headers})
             .map(res => res.json());
     }
 }

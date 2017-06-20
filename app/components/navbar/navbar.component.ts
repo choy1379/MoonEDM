@@ -27,7 +27,6 @@ constructor(private _searchService: searchService,private auth: Auth){
     }
     search(event:any)
     {
-       
         if(this.selected == "tracklist")
         {
             $('#temptracklist')[0].click()

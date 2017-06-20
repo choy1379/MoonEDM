@@ -51,7 +51,7 @@ constructor(private store: Store<any>,private _bugssearchResultComponent:bugssea
         var playList = 'href=' + res.href 
         result = this._bugsService.bugstrack(playList)
         result.subscribe(x =>{
-                this.store.dispatch({ type: bugs_ACTIONS.IMG_RESULTS, payload: { results: x } });     
+                this.store.dispatch({ type: bugs_ACTIONS.IMG_LOADING, payload: { results: x } });     
         });
 
     }

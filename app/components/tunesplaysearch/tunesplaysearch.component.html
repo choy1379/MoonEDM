@@ -6,9 +6,13 @@
         #searchInput 
         (keyup.enter)="search(searchInput.value)">
       <span class="input-group-btn">
-        <button class="btn btn-default" type="button" (click)="search(searchInput.value)">
+        <!--<button class="btn btn-default" type="button" (click)="search(searchInput.value)">
           <i class="fa fa-search"></i>
-        </button>
+        </button>-->
+           <a class="btn btn-default" type="button" (click)="search(searchInput.value)">
+          <i class="fa fa-search"></i>
+        </a>
       </span>
     </div>
 </div>
+
