@@ -1,5 +1,5 @@
 
-<div *ngIf="loading == true" class="loader"></div>
+  <div *ngIf="(state$ | async)?.mainLoading" class="loader"></div>
     <section id="portfolio" style="display:none"  >
         <div class="container">
             <div class="row">
@@ -35,8 +35,8 @@
                     <div class="col-lg-8 col-lg-offset-2">
                         <div class="modal-body">
                             <h2>Play list</h2>
-                            <div *ngIf="modalloading == true" class="loader">
-                            </div>
+                             <div *ngIf="(state$ | async)?.modalLoading" class="loader">
+                             </div>
                             <div id = "{{res.track}}" *ngFor="let res of tempPlaylist" (click)="playlistclick(res,$event)">
                             <div *ngIf="res.track == eventid">
                                 <div *ngIf="downloadloading == true" class="loader">

@@ -275,7 +275,7 @@ function setupScene(_ref) {
 
   document.querySelector('#canvas').style.display = 'block';
   //2017-06-19 opacity 0.3 modi
-  document.querySelector('#canvas').style.opacity = "0.3";
+  // document.querySelector('#canvas').style.opacity = "0.3";
   
   var geo = geoScene({ 
     palettes: palettes, 
@@ -1617,6 +1617,7 @@ module.exports = function () {
     intro3.innerHTML = '';//'Release <span class="spacebar">tap</span> to play';
   } else {
     intro2.innerHTML = 'Hold <span class="spacebar">-&gt;</span> to load a new track';
+    // intro2.innerHTML = '<img src="http://image.bugsm.co.kr/album/images/200/3330/333047.jpg?version=20161001014139">' 
     intro3.innerHTML = 'Release <span class="spacebar">-&gt;</span> to play';
   }
 

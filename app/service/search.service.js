@@ -15,18 +15,6 @@ var searchService = (function () {
     function searchService(_http) {
         this._http = _http;
     }
-    searchService.prototype.searchDJ = function (params) {
-        var headers = new http_1.Headers();
-        headers.append('Content-Type', 'application/json');
-        return this._http.post('http://localhost:4100/searchDJ', params, { headers: headers })
-            .map(function (res) { return res.json(); });
-    };
-    searchService.prototype.searchPlaylist = function (params) {
-        var headers = new http_1.Headers();
-        headers.append('Content-Type', 'application/X-www-form-urlencoded');
-        return this._http.post('http://localhost:4100/searchPlaylist', params, { headers: headers })
-            .map(function (res) { return res.json(); });
-    };
     searchService.prototype.youtube_dl_one = function (params) {
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');

@@ -62,6 +62,7 @@ var bugssearchResultComponent = (function () {
         var newTrack = {
             track: res.tracks,
             artist: res.Artist,
+            albumImg: res.AlbumImg,
             videoURL: res.videoURL[0],
             frequencies: [[145, 5000], [145, 5000]]
         };
@@ -74,8 +75,10 @@ var bugssearchResultComponent = (function () {
                 "track": res.tracks,
                 "Artist": res.Artist,
                 "id": JSON.parse(localStorage.getItem('profile')).nickname,
-                "videoURL": res.videoURL[0]
+                "videoURL": res.videoURL[0],
+                "AlbumImg": res.AlbumImg
             };
+            console.log(query);
             Add_track = this._searchService.PlaylistAdd(query);
             // AUDIOGRAPH_ACTIONS.ADD_TRACK 을 하지않는 이유는 oninit 시 디비에서 값가져오기때문..
             Add_track.subscribe(function (x) {

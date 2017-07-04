@@ -14,25 +14,27 @@ var http_1 = require('@angular/http');
 var store_1 = require('@ngrx/store');
 var search_service_1 = require('../../service/search.service');
 var audiograph_service_1 = require('../../service/audiograph.service');
+var DJ_service_1 = require('../../service/DJ.service');
 var DJComponent = (function () {
-    function DJComponent(store, router, http, _searchService) {
+    function DJComponent(store, router, http, _searchService, _DJService) {
         this.store = store;
         this.router = router;
         this.http = http;
         this._searchService = _searchService;
+        this._DJService = _DJService;
         this.DJlist = new Array();
         this.tempPlaylist = new Array();
+        this.state$ = this.store.select('DJ');
     }
     DJComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.router.params.subscribe(function (params) {
             var result;
-            _this.loading = true;
-            _this.playlistModal = true;
             _this.tempPlaylist = [];
-            result = _this._searchService.searchDJ(params);
+            _this.store.dispatch({ type: DJ_service_1.DJ_ACTIONS.MAIN_LOADING });
+            result = _this._DJService.searchDJ(params);
             result.subscribe(function (x) {
-                _this.loading = false;
+                _this.store.dispatch({ type: DJ_service_1.DJ_ACTIONS.MAIN_LOADING, payload: 'false' });
                 _this.DJlist = x.data;
                 _this._searchService.getDocument('portfolio').style.display = 'inline';
             });
@@ -42,13 +44,13 @@ var DJComponent = (function () {
         var _this = this;
         this.tempPlaylist = [];
         this._searchService.getDocument(res.list).setAttribute('href', '#Playlist');
-        this.modalloading = true;
+        this.store.dispatch({ type: DJ_service_1.DJ_ACTIONS.MODAL_LOADING });
         var playList = 'playList=' + res.Detail;
         var result;
-        result = this._searchService.searchPlaylist(playList);
+        result = this._DJService.searchPlaylist(playList);
         result.subscribe(function (x) {
             _this.tempPlaylist = x.data;
-            _this.modalloading = false;
+            _this.store.dispatch({ type: DJ_service_1.DJ_ACTIONS.MODAL_LOADING, payload: 'false' });
         });
     };
     DJComponent.prototype.playlistclick = function (res, event) {
@@ -88,6 +90,7 @@ var DJComponent = (function () {
             track: res.tracks,
             artist: res.Artist,
             videoURL: res.videoURL,
+            albumImg: res.albumImg,
             frequencies: [[145, 5000], [145, 5000]]
         };
         if (localStorage.getItem('profile') == null) {
@@ -97,6 +100,7 @@ var DJComponent = (function () {
             var query = {
                 "track": res.track,
                 "Artist": '',
+                "AlbumImg": res.albumImg,
                 "id": JSON.parse(localStorage.getItem('profile')).nickname,
                 "videoURL": res.videoURL
             };
@@ -110,9 +114,10 @@ var DJComponent = (function () {
             moduleId: module.id,
             selector: 'DJ',
             templateUrl: 'DJ.component.html',
-            styleUrls: ['DJ.component.css']
+            styleUrls: ['DJ.component.css'],
+            providers: [DJ_service_1.DJService]
         }), 
-        __metadata('design:paramtypes', [store_1.Store, router_1.ActivatedRoute, http_1.Http, search_service_1.searchService])
+        __metadata('design:paramtypes', [store_1.Store, router_1.ActivatedRoute, http_1.Http, search_service_1.searchService, DJ_service_1.DJService])
     ], DJComponent);
     return DJComponent;
 }());

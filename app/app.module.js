@@ -17,6 +17,7 @@ var store_1 = require('@ngrx/store');
 var audiograph_service_1 = require('./service/audiograph.service');
 var tunesplaysearch_service_1 = require('./service/tunesplaysearch.service');
 var bugs_service_1 = require('./service/bugs.service');
+var DJ_service_1 = require('./service/DJ.service');
 var ng2_pagination_1 = require('ng2-pagination');
 var angular2_jwt_1 = require('angular2-jwt');
 var auth_service_1 = require('./service/auth.service');
@@ -40,7 +41,7 @@ var AppModule = (function () {
     AppModule = __decorate([
         core_1.NgModule({
             imports: [platform_browser_1.BrowserModule, app_routing_1.routing, http_1.HttpModule, forms_1.FormsModule, forms_1.ReactiveFormsModule, ng2_pagination_1.Ng2PaginationModule,
-                store_1.StoreModule.provideStore({ audiograph: audiograph_service_1.audiograph, tunesplaysearch: tunesplaysearch_service_1.tunesplaysearchReducer, bugs: bugs_service_1.bugsReducer })
+                store_1.StoreModule.provideStore({ audiograph: audiograph_service_1.audiograph, tunesplaysearch: tunesplaysearch_service_1.tunesplaysearchReducer, bugs: bugs_service_1.bugsReducer, DJ: DJ_service_1.DJReducer })
             ],
             declarations: [app_component_1.AppComponent,
                 navbar_component_1.NavbarComponent,

@@ -12,6 +12,7 @@ audio.controls = true;
 export interface IPlaylistTrack {
   track: string;
   artist: string;
+  albumImg: string;
   // NOTE not crazy about the `src` property name
   // but using this name prevents having to make other code changes in this library 
   videoURL: string;
@@ -30,18 +31,17 @@ interface IAUDIOGRAPH_ACTIONS {
   TARGET_TRACK: string;
   VOLUME_CONTROL: string;
   CURRENT_CLICK:string
-  // MENU_ARTIST : string
 }
 export interface IAudiographState {
   playlist?: Array<any>;
   menuOpen?: boolean;
-  artistmenuOpen?:boolean;
   playing?: boolean;
 }
 var selectedTracks: Array<any> = shuffle([
   {
     trackName: '',
     artist: '',
+    albumImg:'',
     videoURL: '',
       frequencies: [[60, 4000], [20, 5000]],
     playing: false,
@@ -56,9 +56,8 @@ selectedTracks[0].active = true;
 const initialState: IAudiographState = {
   playlist: selectedTracks,
   menuOpen: false,
-  // artistmenuOpen : false,
   playing: true
-};
+}  ;
 window.addEventListener('keydown', function (ev) {
       if (ev.keyCode === 39 ) {
         $audiograph.playNext();
@@ -80,8 +79,7 @@ export const AUDIOGRAPH_ACTIONS: IAUDIOGRAPH_ACTIONS = {
   PREV_TRACK: `[${CATEGORY}] PREV_TRACK`,
   TARGET_TRACK: `[${CATEGORY}] TARGET_TRACK`,
   VOLUME_CONTROL: `[${CATEGORY}] VOLUME_CONTROL`,
-  CURRENT_CLICK:`[${CATEGORY}] CURRENT_CLICK`,
-  // MENU_ARTIST :`[${CATEGORY}] MENU_ARTIST`
+  CURRENT_CLICK:`[${CATEGORY}] CURRENT_CLICK`
 };
 
 export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographState = initialState, action: Action) => {
@@ -123,9 +121,8 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
     state.playlist[currentTrackIndex].active = true;
     state.playlist[currentTrackIndex].playing = true;
 
-
+    //socket stream
     var socket = io.connect('http://localhost:4100/stream')
-
     var stream = ss.createStream()
     ss(socket).emit('PlayTrack',stream,{track:state.playlist[currentTrackIndex].videoURL})
     
@@ -135,9 +132,11 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
          var ms = new MediaSource()
          var url = URL.createObjectURL(ms)
 
-         audio.src = url
+         getAlbumart(state.playlist[currentTrackIndex].AlbumImg)
+
          audio.load()
-        
+         audio.src = url
+            
          ms.addEventListener('sourceopen',callback,false)
          ms.addEventListener('sourceended',function(e){
           console.log('mediaSource readystate: ' + this.readystate)
@@ -151,8 +150,8 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
                 ms.endOfStream();
                 socket.close()
             });
+
             payload.stream.on('data', function (data) {
-              // console.log(data)
                 sourceBuffer.appendBuffer(data);
             });
               // 데이터 전송이 완료되었을 경우 발생한다.
@@ -162,7 +161,6 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
                 socket.close()
             });
          }
-         audio.src = url
     });
     console.log(`Track change: ${state.playlist[currentTrackIndex].trackName}`);
     action.payload = { playlist: [...state.playlist], playing: true };
@@ -308,7 +306,7 @@ export class AudiographService {
     $audiograph.addListener('playNext', () => {     
       this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.NEXT_TRACK });
       // console.log('Audiograph: playNext() function called!');
-    });``
+    });
 
     $audiograph.addListener('playPrevious', () => {
       this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.PREV_TRACK });
@@ -352,4 +350,9 @@ function shuffle(array) {
   }
 
   return array;
+}
+
+function getAlbumart(url){
+     var getImage = document.querySelector('.intro-2')
+         getImage.innerHTML = '<img src="'+url+'" style="width: 480px;height: 360px;border-bottom-left-radius: 30px 30px;border-bottom-right-radius: 30px 30px;border-top-left-radius: 50px 50px;border-top-right-radius: 50px 50px;opacity: 0.9;">'
 }

@@ -37,6 +37,7 @@ function parallelDJ (tracks,arr,count,res) {
                                                                         youtubelist.videoID =  "https://www.youtube.com/embed/"+result[i].id.videoId+"?enablejsapi=1&theme=light&showinfo=0"
                                                                         youtubelist.track = result[i].snippet.title, null, 1
                                                                         youtubelist.count = count++
+                                                                        youtubelist.albumImg = result[i].snippet.thumbnails.high.url
                                                                         youtubelist.tbcell = randomString()
                                                                         youtubelist.iframe = randomString()
                                                                         youtubelist.videoURL = result[i].id.videoId
@@ -112,6 +113,7 @@ function parallelDJ (tracks,arr,count,res) {
                                                                                         youtubelist.iframe = randomString()
                                                                                         youtubelist.videoURL = result
                                                                                         //bugsResult albumtitle
+                                                                                        youtubelist.AlbumImg = config.bugstrack[0].AlbumImg
                                                                                         youtubelist.tracks = track
                                                                                         youtubelist.Artist = Artist
                                                                                         config.bugsYoutubearr.push(youtubelist)
@@ -325,6 +327,7 @@ functions = {
                         });
                         spooky.then(function(){
                                 this.emit('end','end')
+                                this.exit()
                         });
                         spooky.run();
                       
@@ -395,6 +398,7 @@ functions = {
 
                         spooky.then(function(){
                                 this.emit('end','end')
+                                this.exit()
                         });
                         
                         spooky.run();

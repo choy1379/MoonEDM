@@ -12,58 +12,46 @@ var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/map');
 var store_1 = require('@ngrx/store');
-var CATEGORY = 'bugs';
+var CATEGORY = 'DJ';
 var initialState = {
     results: [],
-    showResults: false,
-    modalloading: false,
-    downloading: false,
-    IMG_LOADING: true,
-    ArtistLoading: true,
+    toggle: false,
+    mainLoading: false,
+    modalLoading: false,
+    modalPlaylist: false,
+    downloadLoading: false
 };
-exports.bugs_ACTIONS = {
-    RESULTS_CHANGE: "[" + CATEGORY + "] RESULTS_CHANGE",
-    RESULTS_HIDE: "[" + CATEGORY + "] RESULTS_HIDE",
-    IMG_RESULTS: "[" + CATEGORY + "] IMG_RESULTS",
-    IMG_LOADING: "[" + CATEGORY + "] IMG_LOADING",
-    IMG_DOWNLOADING: "[" + CATEGORY + "] IMG_DOWNLOADING",
-    ARTIST_LOADING: "[" + CATEGORY + "] ARTIST_LOADING"
+exports.DJ_ACTIONS = {
+    TOGGLE_CHK: "[" + CATEGORY + "] TOGGLE_CHK",
+    MAIN_LOADING: "[" + CATEGORY + "] MAIN_LOADING",
+    MODAL_LOADING: "[" + CATEGORY + "] MODAL_LOADING",
+    MODAL_Playlist: "[" + CATEGORY + "] MODAL_Playlist",
+    DOWNLOAD_LOADING: "[" + CATEGORY + "] DOWNLOAD_LOADING"
 };
-exports.bugsReducer = function (state, action) {
+exports.DJReducer = function (state, action) {
     if (state === void 0) { state = initialState; }
     var changeState = function () {
         return Object.assign({}, state, action.payload);
     };
     switch (action.type) {
-        case exports.bugs_ACTIONS.RESULTS_CHANGE:
-            action.payload.showResults = true;
+        // 마지막에 작업 
+        case exports.DJ_ACTIONS.TOGGLE_CHK:
+            action.payload.toggle = true;
             return changeState();
-        case exports.bugs_ACTIONS.RESULTS_HIDE:
-            action.payload = { showResults: false };
-        case exports.bugs_ACTIONS.ARTIST_LOADING:
+        case exports.DJ_ACTIONS.MODAL_LOADING:
             if (typeof action.payload === 'undefined') {
-                action.payload = { ArtistLoading: true };
+                action.payload = { modalLoading: true };
             }
             else {
-                action.payload = { ArtistLoading: false };
+                action.payload = { modalLoading: false };
             }
             return changeState();
-        case exports.bugs_ACTIONS.IMG_LOADING:
+        case exports.DJ_ACTIONS.MAIN_LOADING:
             if (typeof action.payload === 'undefined') {
-                state = [];
-                action.payload = { modalloading: true };
+                action.payload = { mainLoading: true, modalPlaylist: true };
             }
             else {
-                state = action.payload.results;
-                action.payload = { modalloading: false };
-            }
-            return changeState();
-        case exports.bugs_ACTIONS.IMG_DOWNLOADING:
-            if (typeof action.payload === 'undefined') {
-                action.payload = { downloading: true };
-            }
-            else {
-                action.payload = { downloading: false };
+                action.payload = { mainLoading: false };
             }
             return changeState();
         default:
@@ -71,31 +59,28 @@ exports.bugsReducer = function (state, action) {
     }
     ;
 };
-/**
- * ngrx end --
- */
-var bugsService = (function () {
-    function bugsService(_http, store) {
+var DJService = (function () {
+    function DJService(_http, store) {
         this._http = _http;
         this.store = store;
     }
-    bugsService.prototype.bugsartist = function (params) {
+    DJService.prototype.searchDJ = function (params) {
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
-        return this._http.post('http://localhost:4100/bugsartist', params, { headers: headers })
+        return this._http.post('http://localhost:4100/searchDJ', params, { headers: headers })
             .map(function (res) { return res.json(); });
     };
-    bugsService.prototype.bugstrack = function (params) {
+    DJService.prototype.searchPlaylist = function (params) {
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/X-www-form-urlencoded');
-        return this._http.post('http://localhost:4100/bugstrack', params, { headers: headers })
+        return this._http.post('http://localhost:4100/searchPlaylist', params, { headers: headers })
             .map(function (res) { return res.json(); });
     };
-    bugsService = __decorate([
+    DJService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http, store_1.Store])
-    ], bugsService);
-    return bugsService;
+    ], DJService);
+    return DJService;
 }());
-exports.bugsService = bugsService;
-//# sourceMappingURL=bugs.service.js.map
+exports.DJService = DJService;
+//# sourceMappingURL=DJ.service.js.map
