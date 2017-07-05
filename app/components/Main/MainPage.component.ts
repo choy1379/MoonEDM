@@ -11,7 +11,8 @@ export class MainPageComponent implements OnInit {
     constructor(private auth: Auth){
     }
  ngOnInit(){
-    //   document.querySelector('#canvas').setAttribute('style','width:1px')
+    //   document.querySelector('#canvas').setAttribute('style','opacity:0')
+    // 0을 설정해주면 width , height 값이 초기화되버린다 이걸 추가를 하는방향으로 잡아야될거같음 
     }
 
 }

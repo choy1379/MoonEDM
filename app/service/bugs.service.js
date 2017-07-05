@@ -98,4 +98,6 @@ var bugsService = (function () {
     return bugsService;
 }());
 exports.bugsService = bugsService;
+// http://localhost:4100/
+// https://moonedm.herokuapp.com/ 
 //# sourceMappingURL=bugs.service.js.map

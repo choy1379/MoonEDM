@@ -105,3 +105,5 @@ export class bugsService{
             .map(res => res.json());
     }
 }
+// http://localhost:4100/
+// https://moonedm.herokuapp.com/

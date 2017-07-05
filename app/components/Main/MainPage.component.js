@@ -15,7 +15,7 @@ var MainPageComponent = (function () {
         this.auth = auth;
     }
     MainPageComponent.prototype.ngOnInit = function () {
-        //   document.querySelector('#canvas').setAttribute('style','width:1px')
+        document.querySelector('#canvas').setAttribute('style', 'opacity:0');
     };
     MainPageComponent = __decorate([
         core_1.Component({

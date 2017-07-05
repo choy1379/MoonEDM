@@ -67,13 +67,13 @@ var DJService = (function () {
     DJService.prototype.searchDJ = function (params) {
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
-        return this._http.post('http://localhost:4100/searchDJ', params, { headers: headers })
+        return this._http.post('https://moonedm.herokuapp.com/searchDJ', params, { headers: headers })
             .map(function (res) { return res.json(); });
     };
     DJService.prototype.searchPlaylist = function (params) {
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/X-www-form-urlencoded');
-        return this._http.post('http://localhost:4100/searchPlaylist', params, { headers: headers })
+        return this._http.post('https://moonedm.herokuapp.com/searchPlaylist', params, { headers: headers })
             .map(function (res) { return res.json(); });
     };
     DJService = __decorate([

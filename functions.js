@@ -112,7 +112,6 @@ function parallelDJ (tracks,arr,count,res) {
                                                                                         youtubelist.tbcell = randomString()
                                                                                         youtubelist.iframe = randomString()
                                                                                         youtubelist.videoURL = result
-                                                                                        //bugsResult albumtitle
                                                                                         youtubelist.AlbumImg = config.bugstrack[0].AlbumImg
                                                                                         youtubelist.tracks = track
                                                                                         youtubelist.Artist = Artist
@@ -657,6 +656,7 @@ functions = {
 
                          spooky.then(function(){
                                 this.emit('end','end')
+                                this.exit()
                         });
 
                         spooky.run();
@@ -789,6 +789,7 @@ functions = {
 
                          spooky.then(function(){
                                 this.emit('end','end')
+                                this.exit()
                         });
 
                         spooky.run();

@@ -28,8 +28,9 @@ constructor(private store: Store<any>,  private router:ActivatedRoute,private ht
 
       ngOnInit(){
         this.router.params.subscribe((params) => {
+            
             var result : any
-            this.tempPlaylist = []
+            this.loadingInit()
             this.store.dispatch({ type: DJ_ACTIONS.MAIN_LOADING});
             result = this._DJService.searchDJ(params)
             result.subscribe(x => {
@@ -118,5 +119,11 @@ constructor(private store: Store<any>,  private router:ActivatedRoute,private ht
                     Add_track.subscribe(x => {
                   });
               }
+      }
+      loadingInit()
+      {
+          this.tempPlaylist = []
+          this.DJlist = []
+          this._searchService.getDocument('portfolio').style.display='none'
       }
 }

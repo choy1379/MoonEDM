@@ -27,6 +27,7 @@ var bugssearchResultComponent = (function () {
         this.state$ = this.store.select('bugs');
     }
     bugssearchResultComponent.prototype.playlistclick = function (res, event) {
+        console.log(res);
         if (this._searchService.getDocument(res.tbcell).style.display == 'inline') {
             this._searchService.getDocument(res.tbcell).style.display = 'none';
         }

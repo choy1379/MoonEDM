@@ -76,13 +76,13 @@ export class DJService{
      searchDJ(params){
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        return this._http.post('http://localhost:4100/searchDJ', params, {headers: headers})
+        return this._http.post('https://moonedm.herokuapp.com/searchDJ', params, {headers: headers})
             .map(res => res.json());
     }
     searchPlaylist(params){
         var headers = new Headers();
         headers.append('Content-Type', 'application/X-www-form-urlencoded');
-        return this._http.post('http://localhost:4100/searchPlaylist', params, {headers: headers})
+        return this._http.post('https://moonedm.herokuapp.com/searchPlaylist', params, {headers: headers})
             .map(res => res.json());
     }
 

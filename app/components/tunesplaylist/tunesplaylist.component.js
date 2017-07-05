@@ -29,12 +29,6 @@ var tunesplaylistComponent = (function () {
     }
     tunesplaylistComponent.prototype.ngOnInit = function () {
         var _this = this;
-        /* 우선은 임시로 offliberty 를 이용해서 한번다운로드받은후 localStorage 에 저장한후 다른페이지이동후 다시 플레이리스트에 올시
-           localStorage 값 유무를판단후 서버상에있는 config.playlist_ADD 를 불러와 목록을보여준다
-           config.playlist_ADD 같은경우는 새로운로그인을할때마다 초기화를 시켜준다.
-           이렇게 해주는이유는 offliberty 같은경우는 동시에 많은 다운로드를 받을시 다운을 막아버린다
-           이를 해결하기위해 서버자체에서 받아서 하는방법이있지만 서버용량이작다..
-        */
         this.init();
         if (localStorage.getItem('track') == null) {
             if (localStorage.getItem('profile') == null) {

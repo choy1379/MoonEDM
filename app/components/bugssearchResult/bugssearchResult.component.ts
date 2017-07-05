@@ -25,6 +25,7 @@ constructor(private store: Store<any>,private _bugsService:bugsService,private _
    
        playlistclick(res:any,event:any)
       {   
+            console.log(res)
                if( this._searchService.getDocument(res.tbcell).style.display== 'inline')
                {
                    this._searchService.getDocument(res.tbcell).style.display='none'

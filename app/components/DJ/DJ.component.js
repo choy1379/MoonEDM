@@ -30,7 +30,7 @@ var DJComponent = (function () {
         var _this = this;
         this.router.params.subscribe(function (params) {
             var result;
-            _this.tempPlaylist = [];
+            _this.loadingInit();
             _this.store.dispatch({ type: DJ_service_1.DJ_ACTIONS.MAIN_LOADING });
             result = _this._DJService.searchDJ(params);
             result.subscribe(function (x) {
@@ -108,6 +108,11 @@ var DJComponent = (function () {
             Add_track.subscribe(function (x) {
             });
         }
+    };
+    DJComponent.prototype.loadingInit = function () {
+        this.tempPlaylist = [];
+        this.DJlist = [];
+        this._searchService.getDocument('portfolio').style.display = 'none';
     };
     DJComponent = __decorate([
         core_1.Component({
