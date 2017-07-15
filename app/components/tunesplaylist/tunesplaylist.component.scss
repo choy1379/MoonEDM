@@ -131,25 +131,25 @@
   cursor: pointer;
 }
 .plus{
-left:750px;
+left:75%;
 }
 .minus{
-left:870px;
+left:93%;
 }
 .timestamp{
-  left:300px;
+  left:35%;
 }
 .volumetext{
-  left:800px;
+  left:85%;
 }
 .prev-track {
-  left:28px;
+  left:2%;
 }
 .toggle-play {
-  left:95px;
+  left:12%;
 }
 .next-track {
-  left:155px;
+  left:20%;
 }
 
 @media (max-width: 500px) {
@@ -175,21 +175,21 @@ left:870px;
     }
   }
 
-  .prev-track {
-    left:28px;
-  }
-  .toggle-play {
-    left:95px;
-  }
-  .next-track {
-    left:155px;
-  }
+  // .prev-track {
+  //   left:28px;
+  // }
+  // .toggle-play {
+  //   left:95px;
+  // }
+  // .next-track {
+  //   left:155px;
+  // }
 }
 
 @media (max-width: 375px) {
-  .player-control {
-    bottom:42px;
-  }
+  // .player-control {
+  //   bottom:42px;
+  // }
 }
 
 // @media (max-width: 350px) {

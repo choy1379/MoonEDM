@@ -89,27 +89,27 @@ function getConnectedList ()
 
 console.log( getConnectedList() )
 
-
+//socket disconnect 07/12
 Object.keys(io.sockets.sockets).forEach(function(s) {
     if(socket.client.id != io.sockets.sockets[s].id)
     {
-        console.log(io.sockets.sockets[s].id + ' _disconnected')
+        console.log(io.sockets.sockets[s].id + '  _disconnected')
         io.sockets.sockets[s].disconnect(true);
     }
+    else
+    {
+        var id = data.track
+        var url = 'https://www.youtube.com/watch?v=' + id;
+        var streams = ss.createStream()
+        youtubeStream(url).pipe(streams)
+
+        ss(socket).emit('result', {
+            payload: {
+            stream: streams
+            }
+        });
+    }
 });
-
-console.log( getConnectedList() )
-
-var id = data.track
-var url = 'https://www.youtube.com/watch?v=' + id;
-var streams = ss.createStream()
-youtubeStream(url).pipe(streams)
-
-    ss(socket).emit('result', {
-        payload: {
-        stream: streams
-        }
-    });
 })
 
 socket.on('disconnect', () => {
