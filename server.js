@@ -69,11 +69,37 @@ app.post('/PlaylistDelete',functions.PlaylistDelete)
 app.post('/toMp3',functions.toMp3)
 app.use(express.static(__dirname));
 
+
 io.of('/stream').on('connection', (socket) => {
 console.log('User Connected...');
 
 ss(socket).on('PlayTrack',function(stream,data){
-console.log(data)
+
+function getConnectedList ()
+{
+    let list = []
+
+    for ( let client in io.sockets.connected )
+    {
+        list.push(client)
+    }
+
+    return list
+}
+
+console.log( getConnectedList() )
+
+
+Object.keys(io.sockets.sockets).forEach(function(s) {
+    if(socket.client.id != io.sockets.sockets[s].id)
+    {
+        console.log(io.sockets.sockets[s].id + ' _disconnected')
+        io.sockets.sockets[s].disconnect(true);
+    }
+});
+
+console.log( getConnectedList() )
+
 var id = data.track
 var url = 'https://www.youtube.com/watch?v=' + id;
 var streams = ss.createStream()

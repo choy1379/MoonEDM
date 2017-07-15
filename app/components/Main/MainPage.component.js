@@ -15,7 +15,8 @@ var MainPageComponent = (function () {
         this.auth = auth;
     }
     MainPageComponent.prototype.ngOnInit = function () {
-        document.querySelector('#canvas').setAttribute('style', 'opacity:0');
+        //   document.querySelector('#canvas').setAttribute('style','opacity:0')
+        // 0을 설정해주면 width , height 값이 초기화되버린다 이걸 추가를 하는방향으로 잡아야될거같음 
     };
     MainPageComponent = __decorate([
         core_1.Component({

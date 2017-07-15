@@ -275,8 +275,9 @@ function setupScene(_ref) {
 
   document.querySelector('#canvas').style.display = 'block';
   //2017-06-19 opacity 0.3 modi
-  // document.querySelector('#canvas').style.opacity = "1";
-  
+  // document.querySelector('#canvas').setAttribute('style','opacity:1')
+  document.querySelector('#canvas').style.opacity = 1;
+
   var geo = geoScene({ 
     palettes: palettes, 
     scene: scene, 
