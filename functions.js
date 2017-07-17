@@ -29,6 +29,7 @@ function parallelDJ (tracks,arr,count,res) {
                                                 }
 
                                                 function youtube(callback) {
+                                                try{
                                                         var endyoutube = function(err, result) {
                                                                 console.log('end')
                                                                 for(var i = 0; i < result.length; i++)
@@ -48,6 +49,8 @@ function parallelDJ (tracks,arr,count,res) {
                                                                 } 
                                                                 return callback();
                                                         };
+                                                     }
+                                                     finally{}
                                                         var youtubeFunctions = [];
                                                         //2 push youtubesearch function(k)
                                                         for (var i=0; i < tracks.length; i++) {
@@ -248,6 +251,9 @@ functions = {
                 var url = 'http://www.1001tracklists.com/dj/'+DJname+'/index.html'
                 var Spooky = require('spooky');
                 var spooky = new Spooky({
+                           child: {
+                                transport: 'http'
+                           },
                         casper: {
                                 logLevel: 'debug',
                                 verbose: false,
@@ -345,6 +351,9 @@ functions = {
                 var url = 'http://www.1001tracklists.com'+req.body.playList+''
                 var Spooky = require('spooky');
                 var spooky = new Spooky({
+                         child: {
+                                transport: 'http'
+                                },
                         casper: {
                                 logLevel: 'debug',
                                 verbose: false,

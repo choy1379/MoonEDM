@@ -123,3 +123,14 @@ figcaption {
 figure:hover figcaption {
     box-shadow: 0 20px 15px -10px hsla(0,0%,0%,.25);
 }
+@media (max-width: 375px) {
+  .portfolio-modal .close-modal .lr {
+        height: 35px;
+  }
+  .portfolio-modal .close-modal .lr .rl{
+        height: 35px;
+  }
+  .portfolio-modal .modal-content{
+        padding: 50px 0;
+  }
+}

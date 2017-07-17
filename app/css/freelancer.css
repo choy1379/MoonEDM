@@ -248,9 +248,9 @@ section.success {
 #portfolio * {
   z-index: 2;
 }
-@media (min-width: 767px) {
+@media (max-width: 375px) {
   #portfolio .portfolio-item {
-    margin: 0 0 30px;
+    margin-bottom: 200px;
   }
 }
 .floating-label-form-group {

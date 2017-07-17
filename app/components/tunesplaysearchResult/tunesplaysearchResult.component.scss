@@ -36,7 +36,7 @@
 }
 
 .track {
-  font-size: 1.3em;
+  font-size: 1em;
 }
 
 .track, .artist {
@@ -64,17 +64,17 @@
 }
 .fa-close {
   position: absolute;
-  top: 65px;
-  left: calc(65% + 5em);
+  top: 75px;
+  left: calc(70% + 5em);
   display: block;
   cursor: pointer;
 }
 
 @media (max-width: 500px) {
   .fa-close {
-        top: 75px;
+        top: 70px;
     z-index: 1000;
-    left: calc(50% + 9em);
+    left: calc(60% + 9em);
   }
   .search-results-container{
     width: 21em;
@@ -130,4 +130,7 @@
       }
     }
   }
+}
+.fa{
+  font-size: 20px;
 }
