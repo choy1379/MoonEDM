@@ -23,6 +23,7 @@ constructor(private store: Store<any>,  private router:ActivatedRoute,private ht
     this.state$ = this.store.select<any>('DJ')
 }
     downloadloading : boolean;
+    playlistAdds    : boolean;
     portfolioModal : string;
     eventid : string
 
@@ -51,6 +52,13 @@ constructor(private store: Store<any>,  private router:ActivatedRoute,private ht
             result.subscribe(x => {
                 this.tempPlaylist = x.data
                this.store.dispatch({type:DJ_ACTIONS.MODAL_LOADING, payload :'false'})
+                if(localStorage.getItem('profile') ==  null){
+                    this.store.dispatch({ type: DJ_ACTIONS.PLAYLIST_ADD });
+                }
+                else
+                {
+                    this.store.dispatch({ type: DJ_ACTIONS.PLAYLIST_ADD , payload : 'true'});
+                }
             });
       }
       playlistclick(res:any,event:any)
@@ -102,23 +110,17 @@ constructor(private store: Store<any>,  private router:ActivatedRoute,private ht
                 albumImg : res.albumImg,
                 frequencies: [[145, 5000], [145, 5000]]
               };
-
-              if(localStorage.getItem('profile') ==  null){
-              this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: newTrack });
-              }
-              else
-              {
-                  var query = {
-                        "track" : res.track,
-                        "Artist" : '',
-                        "AlbumImg" :res.albumImg,
-                        "id" : JSON.parse(localStorage.getItem('profile')).nickname,
-                        "videoURL" : res.videoURL
-                      }
-                    Add_track = this._searchService.PlaylistAdd(query)
-                    Add_track.subscribe(x => {
-                  });
-              }
+            var query = {
+                "track" : res.track,
+                "Artist" : '',
+                "AlbumImg" :res.albumImg,
+                "id" : JSON.parse(localStorage.getItem('profile')).nickname,
+                "videoURL" : res.videoURL
+                }
+            Add_track = this._searchService.PlaylistAdd(query)
+            Add_track.subscribe(x => {
+                 });
+              
       }
       loadingInit()
       {

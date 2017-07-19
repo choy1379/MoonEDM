@@ -19,14 +19,16 @@ var initialState = {
     mainLoading: false,
     modalLoading: false,
     modalPlaylist: false,
-    downloadLoading: false
+    downloadLoading: false,
+    playlistAdd: false
 };
 exports.DJ_ACTIONS = {
     TOGGLE_CHK: "[" + CATEGORY + "] TOGGLE_CHK",
     MAIN_LOADING: "[" + CATEGORY + "] MAIN_LOADING",
     MODAL_LOADING: "[" + CATEGORY + "] MODAL_LOADING",
     MODAL_Playlist: "[" + CATEGORY + "] MODAL_Playlist",
-    DOWNLOAD_LOADING: "[" + CATEGORY + "] DOWNLOAD_LOADING"
+    DOWNLOAD_LOADING: "[" + CATEGORY + "] DOWNLOAD_LOADING",
+    PLAYLIST_ADD: "[" + CATEGORY + "] PLAYLIST_ADD"
 };
 exports.DJReducer = function (state, action) {
     if (state === void 0) { state = initialState; }
@@ -52,6 +54,14 @@ exports.DJReducer = function (state, action) {
             }
             else {
                 action.payload = { mainLoading: false };
+            }
+            return changeState();
+        case exports.DJ_ACTIONS.PLAYLIST_ADD:
+            if (typeof action.payload === 'undefined') {
+                action.payload = { playlistAdd: false };
+            }
+            else {
+                action.payload = { playlistAdd: true };
             }
             return changeState();
         default:

@@ -26,7 +26,8 @@ public add(track: any, playbtn: any) {
                       "track" : track.track,
                       "Artist" : '',
                       "id" : JSON.parse(localStorage.getItem('profile')).nickname,
-                      "videoURL" : track.videoURL
+                      "videoURL" : track.videoURL,
+                      "AlbumImg" : track.albumImg
                     }
                   Add_track = this._searchService.PlaylistAdd(query)
                   Add_track.subscribe(x => {
@@ -34,6 +35,7 @@ public add(track: any, playbtn: any) {
                               track: track.track,
                               artist: '',
                               videoURL: track.videoURL,
+                              albumImg : track.albumImg,
                               frequencies: [[145, 5000], [145, 5000]]
                             };
                     this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: newTrack });

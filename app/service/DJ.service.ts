@@ -14,6 +14,7 @@ export interface DJState {
   modalLoading?: boolean;       // modalloading
   modalPlaylist?: boolean;      // playlistModal
   downloadLoading?: boolean;    // downloadloading
+  playlistAdd?: boolean;
 }
 const initialState: DJState = {
   results: [],
@@ -21,7 +22,8 @@ const initialState: DJState = {
   mainLoading: false, 
   modalLoading: false,     
   modalPlaylist: false,   
-  downloadLoading: false     
+  downloadLoading: false,
+  playlistAdd : false
 };
 
 interface DJ_ACTIONS {
@@ -30,6 +32,7 @@ interface DJ_ACTIONS {
   MODAL_LOADING: string;
   MODAL_Playlist: string;
   DOWNLOAD_LOADING: string;
+  PLAYLIST_ADD    : string;
 
 }
 
@@ -38,7 +41,8 @@ export const DJ_ACTIONS: DJ_ACTIONS = {
   MAIN_LOADING: `[${CATEGORY}] MAIN_LOADING`,
   MODAL_LOADING: `[${CATEGORY}] MODAL_LOADING`,
   MODAL_Playlist: `[${CATEGORY}] MODAL_Playlist`,
-  DOWNLOAD_LOADING: `[${CATEGORY}] DOWNLOAD_LOADING`
+  DOWNLOAD_LOADING: `[${CATEGORY}] DOWNLOAD_LOADING`,
+  PLAYLIST_ADD: `[${CATEGORY}] PLAYLIST_ADD`
 };
 
 export const DJReducer: ActionReducer<DJState> = (state: DJState = initialState, action: Action) => {
@@ -62,6 +66,13 @@ export const DJReducer: ActionReducer<DJState> = (state: DJState = initialState,
          action.payload = { mainLoading: true , modalPlaylist : true};
       }else{
         action.payload = { mainLoading: false };   
+      }
+      return changeState();
+      case DJ_ACTIONS.PLAYLIST_ADD:
+     if (typeof action.payload === 'undefined') {
+         action.payload = { playlistAdd: false};
+      }else{
+          action.payload = { playlistAdd: true};
       }
       return changeState();
     default:

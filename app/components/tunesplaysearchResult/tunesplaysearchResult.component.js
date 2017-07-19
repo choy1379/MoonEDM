@@ -30,7 +30,8 @@ var tunesplaysearchResultComponent = (function () {
             "track": track.track,
             "Artist": '',
             "id": JSON.parse(localStorage.getItem('profile')).nickname,
-            "videoURL": track.videoURL
+            "videoURL": track.videoURL,
+            "AlbumImg": track.albumImg
         };
         Add_track = this._searchService.PlaylistAdd(query);
         Add_track.subscribe(function (x) {
@@ -38,6 +39,7 @@ var tunesplaysearchResultComponent = (function () {
                 track: track.track,
                 artist: '',
                 videoURL: track.videoURL,
+                albumImg: track.albumImg,
                 frequencies: [[145, 5000], [145, 5000]]
             };
             _this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: newTrack });

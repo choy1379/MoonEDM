@@ -475,6 +475,7 @@ functions = {
                                         youtubelist.videoURL = result.items[i].id.videoId
                                         youtubelist.tbcell = randomString()
                                         youtubelist.iframe = randomString()
+                                        youtubelist.albumImg = result.items[i].snippet.thumbnails.high.url
                                         config.youtubedl_multi.push(youtubelist)
                                 }
                                         // console.log(config.youtubedl_multi)
@@ -647,7 +648,7 @@ functions = {
                                                                 return elements.map(function(e) {
                                                                 return e.getAttribute('src')
                                                                 });
-                                                });     
+                                                });
                                                 for(var i = 0; i<Album.length; i++)
                                                 {
                                                         Albumlist = new Object() 
@@ -823,6 +824,7 @@ functions = {
                                         youtubelist.videoURL = req.body.videoURL
                                         youtubelist.track = req.body.track
                                         youtubelist.Artist = req.body.Artist
+                                        youtubelist.AlbumImg = req.body.AlbumImg
                                         youtubelist.freequencies = [[145, 5000], [145, 5000]]
                                         config.playlist_ADD.push(youtubelist)  
                                         res.json({success: true});

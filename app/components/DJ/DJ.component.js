@@ -13,7 +13,6 @@ var router_1 = require('@angular/router');
 var http_1 = require('@angular/http');
 var store_1 = require('@ngrx/store');
 var search_service_1 = require('../../service/search.service');
-var audiograph_service_1 = require('../../service/audiograph.service');
 var DJ_service_1 = require('../../service/DJ.service');
 var DJComponent = (function () {
     function DJComponent(store, router, http, _searchService, _DJService) {
@@ -51,6 +50,12 @@ var DJComponent = (function () {
         result.subscribe(function (x) {
             _this.tempPlaylist = x.data;
             _this.store.dispatch({ type: DJ_service_1.DJ_ACTIONS.MODAL_LOADING, payload: 'false' });
+            if (localStorage.getItem('profile') == null) {
+                _this.store.dispatch({ type: DJ_service_1.DJ_ACTIONS.PLAYLIST_ADD });
+            }
+            else {
+                _this.store.dispatch({ type: DJ_service_1.DJ_ACTIONS.PLAYLIST_ADD, payload: 'true' });
+            }
         });
     };
     DJComponent.prototype.playlistclick = function (res, event) {
@@ -93,21 +98,16 @@ var DJComponent = (function () {
             albumImg: res.albumImg,
             frequencies: [[145, 5000], [145, 5000]]
         };
-        if (localStorage.getItem('profile') == null) {
-            this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: newTrack });
-        }
-        else {
-            var query = {
-                "track": res.track,
-                "Artist": '',
-                "AlbumImg": res.albumImg,
-                "id": JSON.parse(localStorage.getItem('profile')).nickname,
-                "videoURL": res.videoURL
-            };
-            Add_track = this._searchService.PlaylistAdd(query);
-            Add_track.subscribe(function (x) {
-            });
-        }
+        var query = {
+            "track": res.track,
+            "Artist": '',
+            "AlbumImg": res.albumImg,
+            "id": JSON.parse(localStorage.getItem('profile')).nickname,
+            "videoURL": res.videoURL
+        };
+        Add_track = this._searchService.PlaylistAdd(query);
+        Add_track.subscribe(function (x) {
+        });
     };
     DJComponent.prototype.loadingInit = function () {
         this.tempPlaylist = [];
