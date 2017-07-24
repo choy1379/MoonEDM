@@ -82,13 +82,13 @@ var bugsService = (function () {
     bugsService.prototype.bugsartist = function (params) {
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
-        return this._http.post('http://localhost:4100/bugsartist', params, { headers: headers })
+        return this._http.post('https://moonedm.herokuapp.com/bugsartist', params, { headers: headers })
             .map(function (res) { return res.json(); });
     };
     bugsService.prototype.bugstrack = function (params) {
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/X-www-form-urlencoded');
-        return this._http.post('http://localhost:4100/bugstrack', params, { headers: headers })
+        return this._http.post('https://moonedm.herokuapp.com/bugstrack', params, { headers: headers })
             .map(function (res) { return res.json(); });
     };
     bugsService = __decorate([
