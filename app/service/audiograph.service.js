@@ -33,7 +33,8 @@ selectedTracks[0].active = true;
 var initialState = {
     playlist: selectedTracks,
     menuOpen: false,
-    playing: true
+    playing: true,
+    random: false
 };
 window.addEventListener('keydown', function (ev) {
     if (ev.keyCode === 39) {
@@ -54,6 +55,7 @@ exports.AUDIOGRAPH_ACTIONS = {
     PREV_TRACK: "[" + CATEGORY + "] PREV_TRACK",
     TARGET_TRACK: "[" + CATEGORY + "] TARGET_TRACK",
     VOLUME_CONTROL: "[" + CATEGORY + "] VOLUME_CONTROL",
+    RANDOM_TRACK: "[" + CATEGORY + "] RANDOM_TRACK",
     CURRENT_CLICK: "[" + CATEGORY + "] CURRENT_CLICK"
 };
 exports.audiograph = function (state, action) {
@@ -72,7 +74,7 @@ exports.audiograph = function (state, action) {
         }
         return currentTrackIndex;
     };
-    var changeTrack = function (direction, index) {
+    var changeTrack = function (direction, index, random) {
         var currentTrackIndex = resetPlaying();
         state.playlist[currentTrackIndex].active = false;
         if (typeof index !== 'undefined') {
@@ -93,6 +95,12 @@ exports.audiograph = function (state, action) {
         else if (currentTrackIndex < 0) {
             // go to the end (looping back in reverse)
             currentTrackIndex = state.playlist.length - 1;
+        }
+        //random 0724
+        if (random == true) {
+            for (var k = 0; k < direction; k++) {
+                currentTrackIndex++;
+            }
         }
         state.playlist[currentTrackIndex].active = true;
         state.playlist[currentTrackIndex].playing = true;
@@ -166,8 +174,20 @@ exports.audiograph = function (state, action) {
                 audio.pause();
             }
             return changeState();
+        case exports.AUDIOGRAPH_ACTIONS.RANDOM_TRACK:
+            if (state.random == true)
+                state.random = false;
+            else
+                state.random = true;
+            return changeState();
         case exports.AUDIOGRAPH_ACTIONS.NEXT_TRACK:
-            changeTrack(1);
+            if (state.random == true) {
+                var random = generateRandom(0, state.playlist.length);
+                changeTrack(random, 0, true);
+            }
+            else {
+                changeTrack(1);
+            }
             return changeState();
         case exports.AUDIOGRAPH_ACTIONS.PREV_TRACK:
             changeTrack(-1);
@@ -281,6 +301,9 @@ var AudiographService = (function () {
         $audiograph.addListener('play', function () {
             // console.log('Audiograph: play() function called!');
         });
+        // $audiograph.addListener('random', () => {
+        //   this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.RANDOM_TRACK });
+        // });
         $audiograph.addListener('newPalette', function (palette) {
             console.log('Audiograph: the palette has been changed to - Background color = ' +
                 palette.backgroundColor + ', Foreground colors = ' + palette.foregroundColors);
@@ -311,5 +334,9 @@ function getAlbumart(url) {
     var getImage = document.querySelector('.intro-2');
     //  getImage.innerHTML = '<img src="'+url+'" style="width: 480px;height: 360px;border-bottom-left-radius: 30px 30px;border-bottom-right-radius: 30px 30px;border-top-left-radius: 50px 50px;border-top-right-radius: 50px 50px;opacity: 0.9;">'
     getImage.innerHTML = '<img src="' + url + '" style="width: 60%;height: 60%;border-bottom-left-radius: 30px 30px;border-bottom-right-radius: 30px 30px;border-top-left-radius: 50px 50px;border-top-right-radius: 50px 50px;opacity: 0.9;">';
+}
+function generateRandom(min, max) {
+    var ranNum = Math.floor(Math.random() * (max - min + 1)) + min;
+    return ranNum;
 }
 //# sourceMappingURL=audiograph.service.js.map

@@ -30,12 +30,14 @@ interface IAUDIOGRAPH_ACTIONS {
   PREV_TRACK: string;
   TARGET_TRACK: string;
   VOLUME_CONTROL: string;
+  RANDOM_TRACK: string;
   CURRENT_CLICK:string
 }
 export interface IAudiographState {
   playlist?: Array<any>;
   menuOpen?: boolean;
   playing?: boolean;
+  random?:boolean;
 }
 var selectedTracks: Array<any> = shuffle([
   {
@@ -56,7 +58,8 @@ selectedTracks[0].active = true;
 const initialState: IAudiographState = {
   playlist: selectedTracks,
   menuOpen: false,
-  playing: true
+  playing: true,
+  random:false
 }  ;
 window.addEventListener('keydown', function (ev) {
       if (ev.keyCode === 39 ) {
@@ -79,6 +82,7 @@ export const AUDIOGRAPH_ACTIONS: IAUDIOGRAPH_ACTIONS = {
   PREV_TRACK: `[${CATEGORY}] PREV_TRACK`,
   TARGET_TRACK: `[${CATEGORY}] TARGET_TRACK`,
   VOLUME_CONTROL: `[${CATEGORY}] VOLUME_CONTROL`,
+  RANDOM_TRACK:`[${CATEGORY}] RANDOM_TRACK`,
   CURRENT_CLICK:`[${CATEGORY}] CURRENT_CLICK`
 };
 
@@ -97,19 +101,18 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
     }
     return currentTrackIndex;
   };
-  var changeTrack = (direction: number, index?: number) => {
+  var changeTrack = (direction: number, index?:number, random?:boolean) => {
     var currentTrackIndex = resetPlaying();
     state.playlist[currentTrackIndex].active = false;
     if (typeof index !== 'undefined') {
       currentTrackIndex = index;
-      // currentTrackIndex = index.index;
- 
-    } else {
-      if (direction > 0) {
-        currentTrackIndex++;
-      } else {
-        currentTrackIndex--;
-      }
+    }
+     else {
+          if (direction > 0) {
+            currentTrackIndex++;
+          } else {
+            currentTrackIndex--;
+          }
     }
     if (currentTrackIndex === state.playlist.length) {
       // back to beginning
@@ -118,11 +121,19 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
       // go to the end (looping back in reverse)
       currentTrackIndex = state.playlist.length - 1;
     }
+    //random 0724
+    if(random == true)
+    {
+      for(var k = 0; k < direction; k++)
+      {
+        currentTrackIndex++;
+      }
+    }
     state.playlist[currentTrackIndex].active = true;
     state.playlist[currentTrackIndex].playing = true;
 
     //socket stream
-    var socket = io.connect('https://moonedm.herokuapp.com/stream')
+    var socket = io.connect('http://localhost:4100/stream')
     var stream = ss.createStream()
     ss(socket).emit('PlayTrack',stream,{track:state.playlist[currentTrackIndex].videoURL})
     
@@ -194,8 +205,22 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
         audio.pause()
       }
       return changeState();
+    case AUDIOGRAPH_ACTIONS.RANDOM_TRACK:
+      if(state.random == true)
+        state.random = false
+      else
+        state.random =true
+      return changeState();
     case AUDIOGRAPH_ACTIONS.NEXT_TRACK:
-      changeTrack(1);
+      if(state.random == true)
+      {
+        var random =  generateRandom(0,state.playlist.length)
+        changeTrack(random,0,true)
+      }
+      else
+      {
+        changeTrack(1);
+      }
       return changeState();
     case AUDIOGRAPH_ACTIONS.PREV_TRACK:
       changeTrack(-1);
@@ -303,7 +328,7 @@ export class AudiographService {
   init() {
     $audiograph.init(this.playlist);
     
-    $audiograph.addListener('playNext', () => {     
+    $audiograph.addListener('playNext', () => {
       this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.NEXT_TRACK });
       // console.log('Audiograph: playNext() function called!');
     });
@@ -324,6 +349,10 @@ export class AudiographService {
     $audiograph.addListener('play', () => {
       // console.log('Audiograph: play() function called!');
     });
+
+    // $audiograph.addListener('random', () => {
+    //   this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.RANDOM_TRACK });
+    // });
 
     $audiograph.addListener('newPalette', (palette) => {
       console.log('Audiograph: the palette has been changed to - Background color = ' + 
@@ -356,4 +385,9 @@ function getAlbumart(url){
      var getImage = document.querySelector('.intro-2')
         //  getImage.innerHTML = '<img src="'+url+'" style="width: 480px;height: 360px;border-bottom-left-radius: 30px 30px;border-bottom-right-radius: 30px 30px;border-top-left-radius: 50px 50px;border-top-right-radius: 50px 50px;opacity: 0.9;">'
          getImage.innerHTML = '<img src="'+url+'" style="width: 60%;height: 60%;border-bottom-left-radius: 30px 30px;border-bottom-right-radius: 30px 30px;border-top-left-radius: 50px 50px;border-top-right-radius: 50px 50px;opacity: 0.9;">'
+}
+
+function generateRandom(min,max){
+  var ranNum = Math.floor(Math.random()*(max-min+1)) + min;
+  return ranNum;
 }

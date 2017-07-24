@@ -19,6 +19,8 @@ export class playlistComponent implements OnInit {
   
    state$ : Observable<any>
    volumeLevel: number = 0;
+
+
   constructor(public _searchService:searchService,public audiograph: AudiographService,private store: Store<any>) {
     this.state$ = this.store.select<any>('audiograph')
     
@@ -54,7 +56,17 @@ export class playlistComponent implements OnInit {
   public play(index: number,track : any) {
          this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.TARGET_TRACK, payload: index});
   }
-
+  // private random(){
+  //     if(this.click==true)
+  //     {
+  //       this.click =false
+  //       this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.RANDOM_TRACK });
+  //     }else
+  //     {
+  //       this.click = true
+  //       this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.RANDOM_TRACK });
+  //     }
+  // }
 }
   // this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.TARGET_TRACK, payload: index});
 // this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.TARGET_TRACK, payload:{index :index , URL : x.URL}});

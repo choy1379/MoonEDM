@@ -1,5 +1,4 @@
 
-
 .playlist{
   position: absolute;
   top: 80px;
@@ -18,6 +17,14 @@
   overflow-y: scroll;
   // min-height: 100%;
   
+}
+.glyphicon.glyphicon-random{
+      padding-left: 68%;
+      opacity: 0.3;
+      font-size: 28px;
+}
+.glyphicon.glyphicon-random.click{
+      opacity: 1;
 }
 
 .playlist.open{

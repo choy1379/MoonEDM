@@ -1,7 +1,6 @@
 <div class="playlist" [ngClass]="{open: (state$ | async)?.menuOpen}">
   <div class="heading">
     PLAYLIST
-  </div>
   <ul class="playlist-list">
     <li *ngFor="let track of (state$ | async)?.playlist; let i = index" class="item" (click)="play(i,track)" [ngClass]="{playing: track.playing}">
       <div class="row">

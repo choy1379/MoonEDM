@@ -25,6 +25,8 @@
   <div class="player-control timestamp">
   <span class = "fa" id="tracktime">0 / 0</span>
   </div>
+   <div (click)="random()" class="player-control glyphicon glyphicon-random" [ngClass]="{click:click}">
+   </div>
   <div class="player-control plus" (click)="volumeControl(0.5)">
     <div class="fa fa-plus"></div>
   </div>

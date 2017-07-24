@@ -22,6 +22,7 @@ var tunesplaylistComponent = (function () {
         this.router = router;
         this.http = http;
         this._searchService = _searchService;
+        this.click = false;
         //audiograph.service.js 에서 state 변경하지않는한 Observable 리턴시  changeState() 값 그대로 리턴
         //만약 변경할 사항있을시 .subscribe 에서 (state: IAudiographState) 처리후 리턴 
         //return Object.assign({}, state, action.payload) -> observable state$
@@ -88,8 +89,17 @@ var tunesplaylistComponent = (function () {
         else
             this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.VOLUME_CONTROL, payload: { volume: index, bool: 'plus' } });
     };
+    tunesplaylistComponent.prototype.random = function () {
+        if (this.click == true) {
+            this.click = false;
+            this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.RANDOM_TRACK });
+        }
+        else {
+            this.click = true;
+            this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.RANDOM_TRACK });
+        }
+    };
     tunesplaylistComponent.prototype.ngAfterViewInit = function () {
-        // document.querySelector('#canvas').setAttribute('style','')
     };
     tunesplaylistComponent.prototype.init = function () {
         document.getElementById('nav_playlist').setAttribute('style', 'display:block');
