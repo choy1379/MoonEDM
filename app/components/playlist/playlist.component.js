@@ -48,6 +48,32 @@ var playlistComponent = (function () {
     playlistComponent.prototype.play = function (index, track) {
         this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.TARGET_TRACK, payload: index });
     };
+    playlistComponent.prototype.search = function (search) {
+        // Declare variables
+        var input, filter, ul, li, a, i;
+        input = document.getElementById('searchInput');
+        if (search.target.value != '') {
+            filter = search.target.value;
+        }
+        else if (typeof filter === 'undefined') {
+            filter = '';
+        }
+        else {
+            filter = search;
+        }
+        ul = document.getElementById("playUL");
+        li = ul.getElementsByTagName('li');
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("div")[0];
+            if (a.innerHTML.toLowerCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            }
+            else {
+                li[i].style.display = "none";
+            }
+        }
+    };
     playlistComponent = __decorate([
         core_1.Component({
             moduleId: module.id,

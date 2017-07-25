@@ -1,4 +1,9 @@
-
+.fa.fa-remove:hover{
+  opacity: 1;
+}
+.fa.fa-remove{
+  opacity: 0.5;
+}
 .playlist{
   position: absolute;
   top: 80px;
@@ -59,7 +64,6 @@
   //before 1.3em
   font-size: 1.0em;
 }
-
 .track, .artist {
   text-shadow: $textshadow;
 }
