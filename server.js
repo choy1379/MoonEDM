@@ -1,41 +1,8 @@
-// var express = require('express');
-// var bodyParser = require('body-parser');
-// var cors = require('cors');
-// var functions = require('./functions');
-
-// var app = require('express')();
-
-
-// app.use(bodyParser.json({limit: '50mb'}));
-// app.use(bodyParser.urlencoded({
-//         extended: true,
-//     parameterLimit: 10000,
-//     limit: 1024 * 1024 * 10
-// }));
-// app.use(cors());
-
-// app.post('/searchDJ', functions.DJsearch);
-// app.post('/searchPlaylist', functions.searchPlaylist)
-// app.post('/youtube_dl',functions.youtube_dl)
-// app.post('/youtube_dl_one',functions.youtube_dl_one)
-// app.post('/youtube_dl_multiple',functions.youtube_dl_multiple)
-// app.post('/textdownload',functions.textdownload)
-// app.post('/bugsartist',functions.bugsartist)
-// app.post('/bugstrack',functions.bugstrack)
-// app.post('/PlaylistAdd',functions.PlaylistAdd)
-// app.post('/PlaylistSearch',functions.PlaylistSearch)
-// app.post('/temp',functions.temp)
-// app.post('/PlaylistDelete',functions.PlaylistDelete)
-// app.post('/toMp3',functions.toMp3)
-// app.use(express.static(__dirname));
-
-// app.listen(process.env.PORT || 4100);
-
-
 var express = require('express');
 var bodyParser = require('body-parser');
 var cors = require('cors');
 var functions = require('./functions');
+var getdailyCharts = require('./getdailyCharts');
 var app = require('express')();
 var http = require('http')
 var ss = require('socket.io-stream')
@@ -68,6 +35,10 @@ app.post('/temp',functions.temp)
 app.post('/PlaylistDelete',functions.PlaylistDelete)
 app.post('/toMp3',functions.toMp3)
 app.use(express.static(__dirname));
+
+setTimeout(function() {
+        getdailyCharts.getDaily()
+}, 5000);
 
 
 io.of('/stream').on('connection', (socket) => {
