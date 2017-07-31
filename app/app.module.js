@@ -35,6 +35,7 @@ var tunesplaysearchResult_component_1 = require('./components/tunesplaysearchRes
 var app_routing_1 = require('./app.routing');
 var bugsartist_component_1 = require('./components/bugsartist/bugsartist.component');
 var bugssearchResult_component_1 = require('./components/bugssearchResult/bugssearchResult.component');
+var dailycharts_component_1 = require('./components/dailyCharts/dailycharts.component');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -54,7 +55,8 @@ var AppModule = (function () {
                 tunesplaysearch_component_1.tunesplaysearchComponent,
                 tunesplaysearchResult_component_1.tunesplaysearchResultComponent,
                 bugsartist_component_1.bugsartistComponent,
-                bugssearchResult_component_1.bugssearchResultComponent
+                bugssearchResult_component_1.bugssearchResultComponent,
+                dailycharts_component_1.dailyChartsComponent
             ],
             providers: [angular2_jwt_1.AUTH_PROVIDERS, auth_service_1.Auth],
             bootstrap: [app_component_1.AppComponent]

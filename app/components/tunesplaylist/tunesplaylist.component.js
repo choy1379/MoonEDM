@@ -15,6 +15,7 @@ var search_service_1 = require('../../service/search.service');
 var store_1 = require('@ngrx/store');
 var audiograph_service_1 = require('../../service/audiograph.service');
 var tunesplaysearch_service_1 = require('../../service/tunesplaysearch.service');
+var bugs_service_1 = require('../../service/bugs.service');
 var tunesplaylistComponent = (function () {
     function tunesplaylistComponent(store, _tunesplaysearchService, router, http, _searchService) {
         this.store = store;
@@ -62,8 +63,8 @@ var tunesplaylistComponent = (function () {
     tunesplaylistComponent.prototype.toggleMenu = function () {
         this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.TOGGLE_MENU });
     };
-    tunesplaylistComponent.prototype.toggleArtist = function () {
-        //  this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.MENU_ARTIST});
+    tunesplaylistComponent.prototype.toggleCharts = function () {
+        this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.TOGGLE_CHARTS });
     };
     tunesplaylistComponent.prototype.togglePlay = function () {
         this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.TOGGLE_PLAY });
@@ -114,7 +115,7 @@ var tunesplaylistComponent = (function () {
             selector: 'tunesplaylist',
             templateUrl: 'tunesplaylist.component.html',
             styleUrls: ['tunesplaylist.component.scss'],
-            providers: [audiograph_service_1.AudiographService, tunesplaysearch_service_1.tunesplaysearchService, search_service_1.searchService]
+            providers: [bugs_service_1.bugsService, audiograph_service_1.AudiographService, tunesplaysearch_service_1.tunesplaysearchService, search_service_1.searchService]
         }), 
         __metadata('design:paramtypes', [store_1.Store, tunesplaysearch_service_1.tunesplaysearchService, router_1.ActivatedRoute, http_1.Http, search_service_1.searchService])
     ], tunesplaylistComponent);

@@ -34,11 +34,12 @@ app.post('/PlaylistSearch',functions.PlaylistSearch)
 app.post('/temp',functions.temp)
 app.post('/PlaylistDelete',functions.PlaylistDelete)
 app.post('/toMp3',functions.toMp3)
+app.post('/getCharts',getdailyCharts.dailyChartSearch)
 app.use(express.static(__dirname));
 
-setTimeout(function() {
-        getdailyCharts.getDaily()
-}, 5000);
+// setTimeout(function() {
+//         getdailyCharts.getDaily()
+// }, 5000);
 
 
 io.of('/stream').on('connection', (socket) => {

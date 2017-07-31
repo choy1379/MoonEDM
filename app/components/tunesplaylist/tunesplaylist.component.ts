@@ -6,6 +6,7 @@ import {Observable} from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import {AUDIOGRAPH_ACTIONS,AudiographService } from '../../service/audiograph.service';
 import {tunesplaysearchService} from '../../service/tunesplaysearch.service'
+import {bugsService} from '../../service/bugs.service';
 
 declare var $audiograph: any
 
@@ -14,7 +15,7 @@ declare var $audiograph: any
     selector: 'tunesplaylist',
     templateUrl: 'tunesplaylist.component.html',
     styleUrls: ['tunesplaylist.component.scss'],
-     providers:[AudiographService,tunesplaysearchService,searchService]
+     providers:[bugsService,AudiographService,tunesplaysearchService,searchService]
 })
 
 export class tunesplaylistComponent implements OnInit,AfterViewInit { 
@@ -70,8 +71,8 @@ constructor(private store: Store<any>,private _tunesplaysearchService:tunesplays
     toggleMenu(){
         this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.TOGGLE_MENU });
     }
-    toggleArtist(){
-      //  this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.MENU_ARTIST});
+    toggleCharts(){
+       this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.TOGGLE_CHARTS});
      }
      togglePlay() {
          this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.TOGGLE_PLAY });

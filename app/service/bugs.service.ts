@@ -104,6 +104,12 @@ export class bugsService{
         return this._http.post('http://localhost:4100/bugstrack', params, {headers: headers})
             .map(res => res.json());
     }
+    bugsCharts(){
+       var headers = new Headers();
+        headers.append('Content-Type', 'application/X-www-form-urlencoded');
+        return this._http.post('http://localhost:4100/getCharts', {headers: headers})
+            .map(res => res.json());
+    }
 }
 // http://localhost:4100/
 // https://moonedm.herokuapp.com/

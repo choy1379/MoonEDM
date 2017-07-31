@@ -1,0 +1,48 @@
+<div class="chartlist" [ngClass]="{open: (state$ | async)?.chartsOpen}">
+  <div class="heading">
+      <p class = "head">일간</p>
+        <div (click)="add()">
+            <div class="fa fa-plus"></div>
+        </div>
+      <div class="row">
+        <tr>
+            <td class="check">
+                <input type="checkbox"[(ngModel)]="selectedAll" (change)="selectAll();">
+            </td>
+            <td class="rank">
+                <p>순위</p>
+            </td>
+            <td class="track">
+                <p>곡</p>
+            </td>
+            <td class="artist">
+                <p>아티스트</p>
+            </td>
+            <!-- <td class="album">
+                <p>앨범</p>
+            </td> -->
+        </tr>
+      </div>
+      <div *ngFor="let track of tracklist.tracklist"  [ngClass]="{playing: track.playing}">
+      <div class="row">
+            <tr>
+                <td class="check">
+                    <input type="checkbox"  [(ngModel)]="track.selected"  value ="{{track.Rank}}">
+                </td>
+                <td class="rank">
+                   {{track.Rank}}
+                </td>
+                <td class="track_title">
+                    <img src="{{track.albumImg}}">
+                   {{track.albumTitle}}
+                </td>
+                <td class="track_artist">
+                   {{track.artist}}
+                </td>
+                <!-- <td class="track_album">
+                    {{track.album}}
+                </td> -->
+            </tr>
+      </div>
+    </div>  
+</div>

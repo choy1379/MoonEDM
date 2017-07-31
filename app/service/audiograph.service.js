@@ -33,6 +33,7 @@ selectedTracks[0].active = true;
 var initialState = {
     playlist: selectedTracks,
     menuOpen: false,
+    chartsOpen: false,
     playing: true,
     random: false
 };
@@ -51,6 +52,7 @@ exports.AUDIOGRAPH_ACTIONS = {
     REMOVE_TRACK: "[" + CATEGORY + "] REMOVE_TRACK",
     TOGGLE_MENU: "[" + CATEGORY + "] TOGGLE_MENU",
     TOGGLE_PLAY: "[" + CATEGORY + "] TOGGLE_PLAY",
+    TOGGLE_CHARTS: "[" + CATEGORY + "] TOGGLE_CHARTS",
     NEXT_TRACK: "[" + CATEGORY + "] NEXT_TRACK",
     PREV_TRACK: "[" + CATEGORY + "] PREV_TRACK",
     TARGET_TRACK: "[" + CATEGORY + "] TARGET_TRACK",
@@ -156,6 +158,11 @@ exports.audiograph = function (state, action) {
         case exports.AUDIOGRAPH_ACTIONS.TOGGLE_MENU:
             if (typeof action.payload === 'undefined') {
                 action.payload = { menuOpen: !state.menuOpen };
+            }
+            return changeState();
+        case exports.AUDIOGRAPH_ACTIONS.TOGGLE_CHARTS:
+            if (typeof action.payload === 'undefined') {
+                action.payload = { chartsOpen: !state.chartsOpen };
             }
             return changeState();
         case exports.AUDIOGRAPH_ACTIONS.TOGGLE_PLAY:

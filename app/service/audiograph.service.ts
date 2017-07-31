@@ -26,6 +26,7 @@ interface IAUDIOGRAPH_ACTIONS {
   REMOVE_TRACK: string;
   TOGGLE_MENU: string;
   TOGGLE_PLAY: string;
+  TOGGLE_CHARTS : string;
   NEXT_TRACK: string;
   PREV_TRACK: string;
   TARGET_TRACK: string;
@@ -36,6 +37,7 @@ interface IAUDIOGRAPH_ACTIONS {
 export interface IAudiographState {
   playlist?: Array<any>;
   menuOpen?: boolean;
+  chartsOpen?:boolean;
   playing?: boolean;
   random?:boolean;
 }
@@ -58,6 +60,7 @@ selectedTracks[0].active = true;
 const initialState: IAudiographState = {
   playlist: selectedTracks,
   menuOpen: false,
+  chartsOpen: false,
   playing: true,
   random:false
 }  ;
@@ -78,6 +81,7 @@ export const AUDIOGRAPH_ACTIONS: IAUDIOGRAPH_ACTIONS = {
   REMOVE_TRACK: `[${CATEGORY}] REMOVE_TRACK`,
   TOGGLE_MENU: `[${CATEGORY}] TOGGLE_MENU`,
   TOGGLE_PLAY: `[${CATEGORY}] TOGGLE_PLAY`,
+  TOGGLE_CHARTS: `[${CATEGORY}] TOGGLE_CHARTS`,
   NEXT_TRACK: `[${CATEGORY}] NEXT_TRACK`,
   PREV_TRACK: `[${CATEGORY}] PREV_TRACK`,
   TARGET_TRACK: `[${CATEGORY}] TARGET_TRACK`,
@@ -190,6 +194,11 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
     case AUDIOGRAPH_ACTIONS.TOGGLE_MENU:
       if (typeof action.payload === 'undefined') {
         action.payload = { menuOpen: !state.menuOpen };
+      }
+      return changeState();
+      case AUDIOGRAPH_ACTIONS.TOGGLE_CHARTS:
+      if (typeof action.payload === 'undefined') {
+        action.payload = { chartsOpen: !state.chartsOpen };
       }
       return changeState();
     case AUDIOGRAPH_ACTIONS.TOGGLE_PLAY:

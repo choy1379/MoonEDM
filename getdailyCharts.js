@@ -118,6 +118,21 @@ youTube.setKey('AIzaSyB2QPeJGn6xo9rrjjzZrk9OT33aO-Ubzxo');
                                                                                 // res.json({success: true});
                                                                         });      
                                                                 });     
+                        },
+                dailyChartSearch: function(req, res) {
+                        //날짜 가져오는부분중복됨 추후 통합 0731
+                        var dt = new Date();
+                        var day = dt.getDate();
+                        var year = dt.getFullYear();
+                          date = year + '-' + ('0' + (dt.getMonth() + 1)).slice(-2) + '-' + day
+                                                      
+                          db.dailyCharts.find({"date": date },{ "id" : false}, (err, DBresult) => {
+                                if (err) {
+                                return res.send(err);
                         }
+                        res.json({success: true, tracklist:DBresult});
+                  });
+                      
+            }              
  }
 module.exports = functions;
