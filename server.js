@@ -35,6 +35,7 @@ app.post('/temp',functions.temp)
 app.post('/PlaylistDelete',functions.PlaylistDelete)
 app.post('/toMp3',functions.toMp3)
 app.post('/getCharts',getdailyCharts.dailyChartSearch)
+app.post('/addtrackList',getdailyCharts.addtrackList)
 app.use(express.static(__dirname));
 
 // setTimeout(function() {

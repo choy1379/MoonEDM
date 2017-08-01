@@ -1,9 +1,9 @@
 <div class="chartlist" [ngClass]="{open: (state$ | async)?.chartsOpen}">
   <div class="heading">
       <p class = "head">일간</p>
-        <div (click)="add()">
-            <div class="fa fa-plus"></div>
-        </div>
+        <a class="adds" (click)="add()">
+            <div class="fa fa-plus"> 재생목록추가</div>
+        </a>
       <div class="row">
         <tr>
             <td class="check">
@@ -18,13 +18,10 @@
             <td class="artist">
                 <p>아티스트</p>
             </td>
-            <!-- <td class="album">
-                <p>앨범</p>
-            </td> -->
         </tr>
       </div>
       <div *ngFor="let track of tracklist.tracklist"  [ngClass]="{playing: track.playing}">
-      <div class="row">
+      <div class="row" (click) = "selected(track)">
             <tr>
                 <td class="check">
                     <input type="checkbox"  [(ngModel)]="track.selected"  value ="{{track.Rank}}">
@@ -39,9 +36,6 @@
                 <td class="track_artist">
                    {{track.artist}}
                 </td>
-                <!-- <td class="track_album">
-                    {{track.album}}
-                </td> -->
             </tr>
       </div>
     </div>  

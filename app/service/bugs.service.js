@@ -97,6 +97,12 @@ var bugsService = (function () {
         return this._http.post('http://localhost:4100/getCharts', { headers: headers })
             .map(function (res) { return res.json(); });
     };
+    bugsService.prototype.addtrackList = function (params) {
+        var headers = new http_1.Headers();
+        headers.append('Content-Type', 'application/json');
+        return this._http.post('http://localhost:4100/addtrackList', params, { headers: headers })
+            .map(function (res) { return res.json(); });
+    };
     bugsService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http, store_1.Store])

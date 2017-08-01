@@ -13,6 +13,59 @@ var ffmpeg = require('fluent-ffmpeg')
 
 youTube.setKey('AIzaSyB2QPeJGn6xo9rrjjzZrk9OT33aO-Ubzxo');  
  functions = {
+                addtrackList: function(req,res){
+                        tracks = req.body
+                        tracklistarr = new Array();
+                         function youtubesearch(i) {
+                                                        return function(callback) {      
+                                                                youTube.addParam("order", 'relevance');                       
+                                                                youTube.search(tracks[i].artist + ' ' + tracks[i].albumtitle + ' lyrics', 1, function(error, result) {
+                                                                        if (error) {
+                                                                        console.log(error);
+                                                                        }
+                                                                        else {
+                                                                        callback(null,result.items[0])    
+                                                                        }
+                                                                });
+                                                        };
+                                                }
+
+                                                function youtube(callback) {
+                                                try{
+                                                        var endyoutube = function(err, result) {
+                                                                console.log('end')
+                                                                for(var i = 0; i < result.length; i++)
+                                                                {
+                                                                        youtubelist = new Object()
+                                                                        youtubelist.track = result[i].snippet.title, null, 1
+                                                                        youtubelist.AlbumImg = tracks[i].albumImg
+                                                                        youtubelist.videoURL = result[i].id.videoId
+                                                                        youtubelist.Artist = tracks[i].artist
+                                                                        youtubelist.id = tracks[i].id
+                                                                        tracklistarr.push(youtubelist)
+                                                                } 
+                                                                return callback();
+                                                        };
+                                                     }
+                                                     finally{}
+                                                        var youtubeFunctions = [];
+                                                        //2 push youtubesearch function(k)
+                                                        for (var i=0; i < tracks.length; i++) {
+                                                                (function (k) {
+                                                                        youtubeFunctions.push(youtubesearch(k));
+                                                                })(i);
+                                                        }
+                                                        //3 async.parallel youtubeFuncrions --> endyoutube --> callback --> youtube
+                                                        return async.parallel(youtubeFunctions, endyoutube );
+                                                }
+                                                //1 youtube function()
+                                                youtube( function() {
+                                                        db.playlist.save(tracklistarr, function(){
+                                                                res.json({success: true, data:tracklistarr});
+                                                        });     
+                                                });
+
+                },
                 getDaily: function() {
                                 var albumArray = []
                                 var url = 'http://music.bugs.co.kr/chart/track/day/total'

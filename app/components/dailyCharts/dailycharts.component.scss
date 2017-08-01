@@ -1,6 +1,10 @@
 .fa.fa-remove:hover{
   opacity: 1;
 }
+.fa.fa-plus{
+  font-size: 20px;
+  cursor: pointer;
+}
 .head{
   padding-left: 45%;
 }
@@ -24,6 +28,9 @@
 }
 .track_artist{
 
+}
+.adds{
+  padding-left: 70%;
 }
 @media (max-width: 375px) {
   .artist{  
@@ -81,6 +88,7 @@
 
 .row {
     border-bottom: 1px solid #efefef;
+    cursor: pointer;
 }
 
 .control {

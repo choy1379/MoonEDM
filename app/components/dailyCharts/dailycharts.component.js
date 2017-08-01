@@ -12,17 +12,18 @@ var core_1 = require('@angular/core');
 var store_1 = require('@ngrx/store');
 var audiograph_service_1 = require('../../service/audiograph.service');
 var bugs_service_1 = require('../../service/bugs.service');
+var auth_service_1 = require('../../service/auth.service');
 var dailyChartsComponent = (function () {
-    function dailyChartsComponent(_bugsService, audiograph, store) {
+    function dailyChartsComponent(_bugsService, audiograph, store, _auth) {
         this._bugsService = _bugsService;
         this.audiograph = audiograph;
         this.store = store;
+        this._auth = _auth;
         this.tracklist = new Array();
         this.state$ = this.store.select('audiograph');
     }
     dailyChartsComponent.prototype.ngOnInit = function () {
         var _this = this;
-        // 가져온걸 바로 처리해주자...array 받아주자
         var result = this._bugsService.bugsCharts();
         result.subscribe(function (x) {
             _this.tracklist = x;
@@ -39,11 +40,29 @@ var dailyChartsComponent = (function () {
         });
     };
     dailyChartsComponent.prototype.add = function () {
+        var album = new Array();
         this.tracklist["tracklist"].forEach(function (element) {
             if (element.selected == true) {
-                console.log(element);
+                var albumObj = new Object();
+                albumObj['albumtitle'] = element.albumTitle;
+                albumObj['artist'] = element.artist;
+                albumObj['albumImg'] = element.albumImg; //50짜리 500으로 정규식변환..?
+                albumObj['id'] = JSON.parse(localStorage.getItem('profile')).nickname;
+                album.push(albumObj);
             }
         });
+        var addtrackList = this._bugsService.addtrackList(album);
+        addtrackList.subscribe(function (x) {
+            console.log(x);
+        });
+    };
+    dailyChartsComponent.prototype.selected = function (event) {
+        if (event.selected == true) {
+            event.selected = false;
+        }
+        else {
+            event.selected = true;
+        }
     };
     dailyChartsComponent = __decorate([
         core_1.Component({
@@ -53,7 +72,7 @@ var dailyChartsComponent = (function () {
             styleUrls: ['dailyCharts.component.scss'],
             providers: [audiograph_service_1.AudiographService]
         }), 
-        __metadata('design:paramtypes', [bugs_service_1.bugsService, audiograph_service_1.AudiographService, store_1.Store])
+        __metadata('design:paramtypes', [bugs_service_1.bugsService, audiograph_service_1.AudiographService, store_1.Store, auth_service_1.Auth])
     ], dailyChartsComponent);
     return dailyChartsComponent;
 }());
