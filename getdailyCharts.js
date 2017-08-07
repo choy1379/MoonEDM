@@ -37,12 +37,17 @@ youTube.setKey('AIzaSyB2QPeJGn6xo9rrjjzZrk9OT33aO-Ubzxo');
                                                                 for(var i = 0; i < result.length; i++)
                                                                 {
                                                                         youtubelist = new Object()
-                                                                        youtubelist.track = result[i].snippet.title, null, 1
+                                                                        youtubelist.track = tracks[i].albumtitle
                                                                         youtubelist.AlbumImg = tracks[i].albumImg
-                                                                        youtubelist.videoURL = result[i].id.videoId
+                                                                        if(result[i] == undefined){}
+                                                                        else
+                                                                        {
+                                                                         youtubelist.videoURL = result[i].id.videoId
+                                                                        }
                                                                         youtubelist.Artist = tracks[i].artist
                                                                         youtubelist.id = tracks[i].id
                                                                         tracklistarr.push(youtubelist)
+                                                                        config.playlist_ADD.push(youtubelist)
                                                                 } 
                                                                 return callback();
                                                         };
@@ -67,7 +72,13 @@ youTube.setKey('AIzaSyB2QPeJGn6xo9rrjjzZrk9OT33aO-Ubzxo');
 
                 },
                 getDaily: function() {
+                        
                                 var albumArray = []
+                                var dt = new Date();
+                                var day = ('0'+ dt.getDate()).slice(-2);
+                                var year = dt.getFullYear();
+                                date = year + '-' + ('0' + (dt.getMonth() + 1)).slice(-2) + '-' + day
+                                
                                 var url = 'http://music.bugs.co.kr/chart/track/day/total'
                                 var Spooky = require('spooky');
                                 var spooky = new Spooky({
@@ -121,7 +132,7 @@ youTube.setKey('AIzaSyB2QPeJGn6xo9rrjjzZrk9OT33aO-Ubzxo');
                                                          });
                                                 // 아티스트
                                                 artist = this.evaluate(function() {
-                                                                var elements = __utils__.findAll('#CHARTday > table > tbody > tr > td > p > a');
+                                                                var elements = __utils__.findAll('#CHARTday > table > tbody > tr > td > p.artist > a:nth-child(1)');
                                                                 return elements.map(function(e) {
                                                                                 return e.getAttribute('title')
                                                                 });
@@ -138,12 +149,12 @@ youTube.setKey('AIzaSyB2QPeJGn6xo9rrjjzZrk9OT33aO-Ubzxo');
                                                 {
                                                         Albumlist = new Object() 
                                                         Albumlist.Rank = Rank[i]
-                                                        Albumlist.albumImg = albumImg[i]
+                                                        Albumlist.albumImg = albumImg[i].slice(0,38)+'500'+albumImg[i].slice(40,60)
                                                         Albumlist.albumTitle = albumTitle[i]
                                                         Albumlist.artist = artist[i]
                                                         Albumlist.album = album[i]
                                                         var dt = new Date();
-                                                        var day = dt.getDate();
+                                                        var day = ('0'+ dt.getDate()).slice(-2);
                                                         var year = dt.getFullYear();
                                                         Albumlist.date = year + '-' + ('0' + (dt.getMonth() + 1)).slice(-2) + '-' + day
                                                         this.emit('albumarr',Albumlist)
@@ -166,25 +177,25 @@ youTube.setKey('AIzaSyB2QPeJGn6xo9rrjjzZrk9OT33aO-Ubzxo');
                                                                 albumArray.push(Albumlist)
                                                                 });
                                         spooky.on('end', function (end) {
-                                                                // console.log(albumArray)
-                                                                    db.dailyCharts.save(albumArray, function(){
-                                                                                // res.json({success: true});
-                                                                        });      
+                                                                db.dailyCharts.remove({date:{$lte:date}}, (err, collect) => {  
+                                                                                db.dailyCharts.save(albumArray, function(){
+                                                                                });      
+                                                                         });                             
                                                                 });     
                         },
                 dailyChartSearch: function(req, res) {
                         //날짜 가져오는부분중복됨 추후 통합 0731
                         var dt = new Date();
-                        var day = dt.getDate();
+                        var day = ('0'+ dt.getDate()).slice(-2);                                      
                         var year = dt.getFullYear();
                           date = year + '-' + ('0' + (dt.getMonth() + 1)).slice(-2) + '-' + day
                                                       
-                          db.dailyCharts.find({"date": date },{ "id" : false}, (err, DBresult) => {
+                          db.dailyCharts.find({"date": date },{ "id" : false}).sort({ "Rank": 1} , (err, DBresult) => {
                                 if (err) {
                                 return res.send(err);
                         }
                         res.json({success: true, tracklist:DBresult});
-                  });
+                  } );
                       
             }              
  }

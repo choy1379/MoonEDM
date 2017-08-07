@@ -14,9 +14,8 @@ var audiograph_service_1 = require('../../service/audiograph.service');
 var bugs_service_1 = require('../../service/bugs.service');
 var auth_service_1 = require('../../service/auth.service');
 var dailyChartsComponent = (function () {
-    function dailyChartsComponent(_bugsService, audiograph, store, _auth) {
+    function dailyChartsComponent(_bugsService, store, _auth) {
         this._bugsService = _bugsService;
-        this.audiograph = audiograph;
         this.store = store;
         this._auth = _auth;
         this.tracklist = new Array();
@@ -26,6 +25,10 @@ var dailyChartsComponent = (function () {
         var _this = this;
         var result = this._bugsService.bugsCharts();
         result.subscribe(function (x) {
+            var sortingField = "Rank";
+            x.tracklist.sort(function (a, b) {
+                return a[sortingField] - b[sortingField];
+            });
             _this.tracklist = x;
         });
     };
@@ -40,6 +43,7 @@ var dailyChartsComponent = (function () {
         });
     };
     dailyChartsComponent.prototype.add = function () {
+        var _this = this;
         var album = new Array();
         this.tracklist["tracklist"].forEach(function (element) {
             if (element.selected == true) {
@@ -54,6 +58,17 @@ var dailyChartsComponent = (function () {
         var addtrackList = this._bugsService.addtrackList(album);
         addtrackList.subscribe(function (x) {
             console.log(x);
+            // 0801 ~ 내일작업 플레이리스트 추가하면됨 
+            for (var i = 0; i < x.data.length; i++) {
+                var newTrack = {
+                    track: x.data[i].track,
+                    artist: x.data[i].Artist,
+                    albumImg: x.data[i].AlbumImg,
+                    videoURL: x.data[i].videoURL,
+                    frequencies: [[300, 4000], [605, 5000]]
+                };
+                _this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: newTrack });
+            }
         });
     };
     dailyChartsComponent.prototype.selected = function (event) {
@@ -72,7 +87,7 @@ var dailyChartsComponent = (function () {
             styleUrls: ['dailyCharts.component.scss'],
             providers: [audiograph_service_1.AudiographService]
         }), 
-        __metadata('design:paramtypes', [bugs_service_1.bugsService, audiograph_service_1.AudiographService, store_1.Store, auth_service_1.Auth])
+        __metadata('design:paramtypes', [bugs_service_1.bugsService, store_1.Store, auth_service_1.Auth])
     ], dailyChartsComponent);
     return dailyChartsComponent;
 }());

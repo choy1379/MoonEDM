@@ -40,7 +40,7 @@ app.use(express.static(__dirname));
 
 // setTimeout(function() {
 //         getdailyCharts.getDaily()
-// }, 5000);
+// }, 3000);
 
 
 io.of('/stream').on('connection', (socket) => {

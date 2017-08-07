@@ -157,7 +157,12 @@ exports.audiograph = function (state, action) {
             return changeState();
         case exports.AUDIOGRAPH_ACTIONS.TOGGLE_MENU:
             if (typeof action.payload === 'undefined') {
-                action.payload = { menuOpen: !state.menuOpen };
+                if (state.chartsOpen == true) {
+                    action.payload = { menuOpen: !state.menuOpen, chartsOpen: false };
+                }
+                else {
+                    action.payload = { menuOpen: !state.menuOpen };
+                }
             }
             return changeState();
         case exports.AUDIOGRAPH_ACTIONS.TOGGLE_CHARTS:

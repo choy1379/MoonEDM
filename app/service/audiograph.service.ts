@@ -193,12 +193,19 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
       return changeState();
     case AUDIOGRAPH_ACTIONS.TOGGLE_MENU:
       if (typeof action.payload === 'undefined') {
-        action.payload = { menuOpen: !state.menuOpen };
+        if(state.chartsOpen == true)
+          {
+            action.payload = {menuOpen: !state.menuOpen , chartsOpen : false}
+          }
+        else
+          {
+            action.payload = { menuOpen: !state.menuOpen};
+          }
       }
       return changeState();
       case AUDIOGRAPH_ACTIONS.TOGGLE_CHARTS:
       if (typeof action.payload === 'undefined') {
-        action.payload = { chartsOpen: !state.chartsOpen };
+        action.payload = { chartsOpen: !state.chartsOpen};
       }
       return changeState();
     case AUDIOGRAPH_ACTIONS.TOGGLE_PLAY:

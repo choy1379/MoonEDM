@@ -860,15 +860,12 @@ functions = {
                          var result = []
                          config.playlist_ADD = []
                         var id = req.body.id
-                          db.playlist.find({"id": id},{ "id" : false}, (err, DBresult) => {
+                          db.playlist.find({"id": id},{ "id" : false}).sort({"_id":1}, (err, DBresult) => {
                                 if (err) {
                                 return res.send(err);
                         }
                         config.playlist_ADD = DBresult;
                         res.json({success: true, tracklist:config.playlist_ADD});
-                        //2017-04-23
-                        // result = DBresult
-                        // parallelbugs(result,'',0,res,true)
                   });
                       
             },

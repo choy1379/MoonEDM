@@ -21,14 +21,17 @@ export class dailyChartsComponent implements OnInit {
    state$ : Observable<any>
    tracklist = new Array()
    selectedAll: any;
-  constructor(public _bugsService:bugsService,public audiograph: AudiographService,private store: Store<any>,private _auth: Auth) {
+  constructor(public _bugsService:bugsService,private store: Store<any>,private _auth: Auth) {
     this.state$ = this.store.select<any>('audiograph')
-    
-  }
+   }
   ngOnInit(){
         var result = this._bugsService.bugsCharts();
               result.subscribe(x => {
-                           this.tracklist = x
+                var sortingField = "Rank";
+                x.tracklist.sort(function(a, b) { // 오름차순
+                    return a[sortingField] - b[sortingField];
+                });
+                this.tracklist = x
             }); 
   }
   selectAll() {
@@ -59,15 +62,18 @@ export class dailyChartsComponent implements OnInit {
           addtrackList.subscribe(x =>{
               console.log(x)
               // 0801 ~ 내일작업 플레이리스트 추가하면됨 
-              // let newTrack: IPlaylistTrack = {
-              //   track: res.tracks,
-              //   artist: res.Artist,
-              //   albumImg:res.AlbumImg,
-              //   videoURL: res.videoURL[0],
-              //   frequencies: [[145, 5000], [145, 5000]]
-              // };
-              // this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: newTrack });
-          })
+              for(var i = 0; i<x.data.length; i++)
+                {
+                  let newTrack: IPlaylistTrack = {
+                    track: x.data[i].track,
+                    artist: x.data[i].Artist,
+                    albumImg:x.data[i].AlbumImg,
+                    videoURL: x.data[i].videoURL,
+                    frequencies: [[300, 4000], [605, 5000]]
+                  };
+                  this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: newTrack });
+                }
+            })
       }
     selected(event:any){
       if(event.selected == true)
