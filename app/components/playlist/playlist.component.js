@@ -30,20 +30,32 @@ var playlistComponent = (function () {
         }, 100);
     };
     playlistComponent.prototype.remove = function (track) {
-        if (localStorage.getItem('profile') == null) {
-            this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.REMOVE_TRACK, payload: track });
+        var _this = this;
+        try {
+            if (track == undefined) {
+                var query = {
+                    "id": JSON.parse(localStorage.getItem('profile')).nickname,
+                    "track": null,
+                    "videoURL": null
+                };
+                var result = this._searchService.PlaylistDelete(query);
+                result.subscribe(function (x) {
+                    _this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.REMOVE_TRACK, payload: "allremove" });
+                });
+            }
+            else {
+                var query = {
+                    "id": JSON.parse(localStorage.getItem('profile')).nickname,
+                    "track": track.track,
+                    "videoURL": track.videoURL
+                };
+                this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.REMOVE_TRACK, payload: track });
+                var result = this._searchService.PlaylistDelete(query);
+                result.subscribe(function (x) {
+                });
+            }
         }
-        else {
-            this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.REMOVE_TRACK, payload: track });
-            var query = {
-                "track": track.track,
-                "videoURL": track.videoURL,
-                "id": JSON.parse(localStorage.getItem('profile')).nickname,
-            };
-            var result = this._searchService.PlaylistDelete(query);
-            result.subscribe(function (x) {
-            });
-        }
+        finally { }
     };
     playlistComponent.prototype.play = function (index, track) {
         this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.TARGET_TRACK, payload: index });

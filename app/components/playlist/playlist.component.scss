@@ -4,6 +4,13 @@
 .fa.fa-remove{
   opacity: 0.5;
 }
+.fa.fa-remove.head{
+  font-size: 20px;
+}
+.deleteList{
+  padding-left: 200px;
+  cursor: pointer;
+}
 .playlist{
   position: absolute;
   top: 80px;
@@ -116,7 +123,7 @@
 
 .control {
   cursor: pointer;
-  opacity: .3;
+  // opacity: .3;
   transition: opacity .5s;
 }
 
@@ -243,5 +250,8 @@
 @media (max-width: 375px) {
   .player-control {
     bottom:42px;
+  }
+  .fa.fa-remove.head{
+    font-size: 14px;
   }
 }

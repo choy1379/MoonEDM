@@ -185,11 +185,18 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
       action.payload = { playlist: [...state.playlist, action.payload] };
       return changeState();
     case AUDIOGRAPH_ACTIONS.REMOVE_TRACK:
-      action.payload = {
-        playlist: state.playlist.filter((item: IPlaylistTrack) => {
-          return item.videoURL != action.payload.videoURL; //이거도 교체함 src -> videoURL
-        })
-      };
+    if(action.payload == "allremove")
+      {
+        action.payload ={playlist : []}
+      }
+    else
+      {
+        action.payload = {
+          playlist: state.playlist.filter((item: IPlaylistTrack) => {
+            return item.videoURL != action.payload.videoURL; //이거도 교체함 src -> videoURL
+          })
+        };
+      }
       return changeState();
     case AUDIOGRAPH_ACTIONS.TOGGLE_MENU:
       if (typeof action.payload === 'undefined') {

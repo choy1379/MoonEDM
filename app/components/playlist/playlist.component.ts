@@ -35,22 +35,34 @@ export class playlistComponent implements OnInit {
   }
 
   public remove(track: any) {
-    if(localStorage.getItem('profile') == null)
+    try
     {
-        this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.REMOVE_TRACK, payload: track });
+      if(track == undefined)
+        {
+          var query = {
+            "id" : JSON.parse(localStorage.getItem('profile')).nickname,
+            "track" : null,
+            "videoURL" : null
+          }
+          var result = this._searchService.PlaylistDelete(query)
+          result.subscribe(x =>{
+                 this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.REMOVE_TRACK, payload: "allremove" });
+          });   
+        }
+        else
+        {
+          var query = {
+              "id" : JSON.parse(localStorage.getItem('profile')).nickname,
+              "track" : track.track,
+              "videoURL" : track.videoURL
+            }
+          this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.REMOVE_TRACK, payload: track });
+          var result = this._searchService.PlaylistDelete(query)
+          result.subscribe(x =>{
+          });   
+        }
     }
-    else
-    {
-      this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.REMOVE_TRACK, payload: track });
-      var query = {
-                      "track" : track.track,
-                      "videoURL" : track.videoURL,
-                      "id" : JSON.parse(localStorage.getItem('profile')).nickname,
-                    }
-        var result = this._searchService.PlaylistDelete(query)
-        result.subscribe(x =>{
-        });
-    }
+    finally{}
   }
 
   public play(index: number,track : any) {

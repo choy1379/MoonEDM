@@ -149,11 +149,16 @@ exports.audiograph = function (state, action) {
             action.payload = { playlist: state.playlist.concat([action.payload]) };
             return changeState();
         case exports.AUDIOGRAPH_ACTIONS.REMOVE_TRACK:
-            action.payload = {
-                playlist: state.playlist.filter(function (item) {
-                    return item.videoURL != action.payload.videoURL; //이거도 교체함 src -> videoURL
-                })
-            };
+            if (action.payload == "allremove") {
+                action.payload = { playlist: [] };
+            }
+            else {
+                action.payload = {
+                    playlist: state.playlist.filter(function (item) {
+                        return item.videoURL != action.payload.videoURL; //이거도 교체함 src -> videoURL
+                    })
+                };
+            }
             return changeState();
         case exports.AUDIOGRAPH_ACTIONS.TOGGLE_MENU:
             if (typeof action.payload === 'undefined') {

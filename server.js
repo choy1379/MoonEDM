@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 var functions = require('./functions');
 var getdailyCharts = require('./getdailyCharts');
+var dbSearch = require('./dbSearch')
 var app = require('express')();
 var http = require('http')
 var ss = require('socket.io-stream')
@@ -21,6 +22,7 @@ limit: 1024 * 1024 * 10
 }));
 app.use(cors());
 
+//20170810 functions
 app.post('/searchDJ', functions.DJsearch);
 app.post('/searchPlaylist', functions.searchPlaylist)
 app.post('/youtube_dl',functions.youtube_dl)
@@ -29,13 +31,16 @@ app.post('/youtube_dl_multiple',functions.youtube_dl_multiple)
 app.post('/textdownload',functions.textdownload)
 app.post('/bugsartist',functions.bugsartist)
 app.post('/bugstrack',functions.bugstrack)
-app.post('/PlaylistAdd',functions.PlaylistAdd)
-app.post('/PlaylistSearch',functions.PlaylistSearch)
 app.post('/temp',functions.temp)
-app.post('/PlaylistDelete',functions.PlaylistDelete)
 app.post('/toMp3',functions.toMp3)
+
+//20170810 getdailyCharts
 app.post('/getCharts',getdailyCharts.dailyChartSearch)
 app.post('/addtrackList',getdailyCharts.addtrackList)
+//20170810 DB
+app.post('/PlaylistAdd',dbSearch.PlaylistAdd)
+app.post('/PlaylistSearch',dbSearch.PlaylistSearch)
+app.post('/PlaylistDelete',dbSearch.PlaylistDelete)
 app.use(express.static(__dirname));
 
 // setTimeout(function() {
