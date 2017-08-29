@@ -16,6 +16,9 @@ img {
   display: block;
   margin: 0 auto 20px;
 }
+.intro-text{
+    padding-top: 70%;
+}
 .intro-text .name {
      text-align: center;
   display: block;

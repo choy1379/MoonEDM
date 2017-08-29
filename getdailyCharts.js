@@ -19,7 +19,7 @@ youTube.setKey('AIzaSyB2QPeJGn6xo9rrjjzZrk9OT33aO-Ubzxo');
                          function youtubesearch(i) {
                                                         return function(callback) {      
                                                                 youTube.addParam("order", 'relevance');                       
-                                                                youTube.search(tracks[i].artist + ' ' + tracks[i].albumtitle + ' lyrics', 1, function(error, result) {
+                                                                youTube.search(tracks[i].artist + ' ' + tracks[i].albumtitle + ' audio', 1, function(error, result) {
                                                                         if (error) {
                                                                         console.log(error);
                                                                         }

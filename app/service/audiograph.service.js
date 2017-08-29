@@ -115,9 +115,43 @@ exports.audiograph = function (state, action) {
             var payload = data.payload;
             var ms = new MediaSource();
             var url = URL.createObjectURL(ms);
-            getAlbumart(state.playlist[currentTrackIndex].AlbumImg);
+            var songName;
+            songName = state.playlist[currentTrackIndex].Artist + ' - ' + state.playlist[currentTrackIndex].track;
+            setupName('this track', songName);
+            setTimeout(function () {
+                setupName(null, null);
+                getAlbumart(state.playlist[currentTrackIndex].AlbumImg);
+            }, 2000);
             audio.load();
             audio.src = url;
+            audio.ontimeupdate = function () {
+                var duration = audio.duration;
+                var currentTime = audio.currentTime;
+                var dsec;
+                var dmin;
+                var csec;
+                var cmin;
+                var dterm;
+                dsec = Math.floor(duration);
+                dmin = Math.floor(dsec / 60);
+                dmin = dmin >= 10 ? dmin : '0' + dmin;
+                dsec = Math.floor(dsec % 60);
+                dsec = dsec >= 10 ? dsec : '0' + dsec;
+                csec = Math.floor(currentTime);
+                cmin = Math.floor(csec / 60);
+                cmin = cmin >= 10 ? cmin : '0' + cmin;
+                csec = Math.floor(csec % 60);
+                csec = csec >= 10 ? csec : '0' + csec;
+                dterm = csec;
+                var remain = currentTime / duration * 100;
+                if (dsec == "0NaN" && dmin == Infinity) {
+                    dsec = "loading";
+                    dmin = "";
+                }
+                document.querySelector('body > my-app > div > div > tunesplaylist > div.player-c > div.player-timeline > div.bar.bar--elapsed').setAttribute('style', 'width :' + remain + '%');
+                document.querySelector('body > my-app > div > div > tunesplaylist > div.player-c > div.player-timeline > div.bar.bar--buffered.bar--animated').setAttribute('style', 'width :100%');
+                document.getElementById('tracktime').innerHTML = cmin + ':' + csec + ' / ' + dmin + ':' + dsec;
+            };
             ms.addEventListener('sourceopen', callback, false);
             ms.addEventListener('sourceended', function (e) {
                 console.log('mediaSource readystate: ' + this.readystate);
@@ -198,6 +232,7 @@ exports.audiograph = function (state, action) {
                 state.random = true;
             return changeState();
         case exports.AUDIOGRAPH_ACTIONS.NEXT_TRACK:
+            clearAlbumart();
             if (state.random == true) {
                 var random = generateRandom(0, state.playlist.length);
                 changeTrack(random, 0, true);
@@ -253,32 +288,6 @@ var AudiographService = (function () {
         // state <- IAudiographState
         audio.onended = function () {
             $audiograph.playNext();
-        };
-        audio.ontimeupdate = function () {
-            var duration = audio.duration;
-            var currentTime = audio.currentTime;
-            var dsec;
-            var dmin;
-            var csec;
-            var cmin;
-            dsec = Math.floor(duration);
-            dmin = Math.floor(dsec / 60);
-            dmin = dmin >= 10 ? dmin : '0' + dmin;
-            dsec = Math.floor(dsec % 60);
-            dsec = dsec >= 10 ? dsec : '0' + dsec;
-            csec = Math.floor(currentTime);
-            cmin = Math.floor(csec / 60);
-            cmin = cmin >= 10 ? cmin : '0' + cmin;
-            csec = Math.floor(csec % 60);
-            csec = csec >= 10 ? csec : '0' + csec;
-            var remain = currentTime / duration * 100;
-            if (dsec == "0NaN" && dmin == Infinity) {
-                dsec = "loading";
-                dmin = "";
-            }
-            document.querySelector('body > my-app > div > div > tunesplaylist > div.player-c > div.player-timeline > div.bar.bar--elapsed').setAttribute('style', 'width :' + remain + '%');
-            document.querySelector('body > my-app > div > div > tunesplaylist > div.player-c > div.player-timeline > div.bar.bar--buffered.bar--animated').setAttribute('style', 'width :100%');
-            document.getElementById('tracktime').innerHTML = cmin + ':' + csec + ' / ' + dmin + ':' + dsec;
         };
         audio.oncanplaythrough = function () {
             audio.play();
@@ -352,8 +361,24 @@ function getAlbumart(url) {
     //  getImage.innerHTML = '<img src="'+url+'" style="width: 480px;height: 360px;border-bottom-left-radius: 30px 30px;border-bottom-right-radius: 30px 30px;border-top-left-radius: 50px 50px;border-top-right-radius: 50px 50px;opacity: 0.9;">'
     getImage.innerHTML = '<img src="' + url + '" style="width: 60%;height: 60%;border-bottom-left-radius: 30px 30px;border-bottom-right-radius: 30px 30px;border-top-left-radius: 50px 50px;border-top-right-radius: 50px 50px;opacity: 0.9;">';
 }
+function clearAlbumart() {
+    var getImage = document.querySelector('.intro-2');
+    getImage.innerHTML = '';
+}
 function generateRandom(min, max) {
     var ranNum = Math.floor(Math.random() * (max - min + 1)) + min;
     return ranNum;
+}
+function setupName(num, name) {
+    var trackContainer = document.querySelector('.track-aligner');
+    var trackName = document.querySelector('.track-name');
+    var trackNumber = document.querySelector('.track-number');
+    if (!name) {
+        trackContainer.style.display = 'none';
+        return;
+    }
+    trackContainer.style.display = 'table';
+    trackNumber.textContent = num;
+    trackName.textContent = name;
 }
 //# sourceMappingURL=audiograph.service.js.map

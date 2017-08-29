@@ -1878,18 +1878,18 @@ module.exports = function (_ref) {
     //     // return false;
     //   }
     // });
-    // window.addEventListener('keyup', function (ev) {
-    //   if (ev.keyCode === 39 && ret.keyDown) {
-    //     endNextEvent();
-    //     return false;
-    //   } else if (ev.keyCode === 67 && ret.easterEggDown) {
-    //     // ret.easterEggDown = false;
-    //     // controls.position[0] = 0;
-    //     // controls.position[2] = 0;
-    //     // controls.distance = originalDistance;
-    //     // return false;
-    //   }
-    // });
+    // // window.addEventListener('keyup', function (ev) {
+    // //   if (ev.keyCode === 39 && ret.keyDown) {
+    // //     endNextEvent();
+    // //     return false;
+    // //   } else if (ev.keyCode === 67 && ret.easterEggDown) {
+    // //     // ret.easterEggDown = false;
+    // //     // controls.position[0] = 0;
+    // //     // controls.position[2] = 0;
+    // //     // controls.distance = originalDistance;
+    // //     // return false;
+    // //   }
+    // // });
 
     // window.addEventListener('keydown', function (ev) {
     //   if (ev.keyCode === 37 && !ret.keyDown) {
@@ -1930,12 +1930,12 @@ module.exports = function (_ref) {
     ret.keyDown = true;
 
     isLoaded = false;
-    audio.once('ready', function () {
-      isLoaded = true;
-    }); 
-    var name = audio.queue();
-    setupName('next track', name);
-    audio.effect = 1;
+    // audio.once('ready', function () {
+    //   isLoaded = true;
+    // }); 
+    // var name = audio.queue();
+    // setupName('next track', name);
+    // audio.effect = 1;
     geo.globalSpeed = 0.75;
     controls.position[1] = -1;
   }
@@ -1945,8 +1945,8 @@ module.exports = function (_ref) {
     ret.keyDown = false;
     setupName(null, null);
     geo.setPalette(previousPalette);
-    audio.playQueued();
-    audio.effect = 0;
+    // audio.playQueued();
+    // audio.effect = 0;
     controls.position[1] = 1;
     controls.distance = originalDistance;
     geo.globalSpeed = 1;
