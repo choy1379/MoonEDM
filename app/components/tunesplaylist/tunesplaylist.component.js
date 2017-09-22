@@ -31,8 +31,8 @@ var tunesplaylistComponent = (function () {
         this.state$ = this.store.select('audiograph');
         //서버업로드할떄 필수 
         location.onPopState(function () {
-            // window.location.replace('https://moonedm.herokuapp.com/')
-            window.location.replace('http://localhost:3000/');
+            window.location.replace('https://moonedm.herokuapp.com/');
+            // window.location.replace('http://localhost:3000/')
         });
     }
     tunesplaylistComponent.prototype.ngOnInit = function () {
