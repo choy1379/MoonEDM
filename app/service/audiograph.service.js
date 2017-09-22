@@ -359,7 +359,7 @@ function shuffle(array) {
 function getAlbumart(url) {
     var getImage = document.querySelector('.intro-2');
     //  getImage.innerHTML = '<img src="'+url+'" style="width: 480px;height: 360px;border-bottom-left-radius: 30px 30px;border-bottom-right-radius: 30px 30px;border-top-left-radius: 50px 50px;border-top-right-radius: 50px 50px;opacity: 0.9;">'
-    getImage.innerHTML = '<img src="' + url + '" style="width: 60%;height: 60%;border-bottom-left-radius: 30px 30px;border-bottom-right-radius: 30px 30px;border-top-left-radius: 50px 50px;border-top-right-radius: 50px 50px;opacity: 0.9;">';
+    getImage.innerHTML = '<img src="' + url + '" style="border-bottom-left-radius: 30px 30px;border-bottom-right-radius: 30px 30px;border-top-left-radius: 50px 50px;border-top-right-radius: 50px 50px;opacity: 0.9;">';
 }
 function clearAlbumart() {
     var getImage = document.querySelector('.intro-2');

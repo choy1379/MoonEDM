@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import {AUDIOGRAPH_ACTIONS,AudiographService } from '../../service/audiograph.service';
 import {tunesplaysearchService} from '../../service/tunesplaysearch.service'
 import {bugsService} from '../../service/bugs.service';
+import { PlatformLocation } from '@angular/common';
 
 declare var $audiograph: any
 
@@ -22,14 +23,20 @@ export class tunesplaylistComponent implements OnInit,AfterViewInit {
  state$ : Observable<any>
  audio : any
 click:boolean = false;
-constructor(private store: Store<any>,private _tunesplaysearchService:tunesplaysearchService,private router:ActivatedRoute,private http:Http,private _searchService: searchService){
+constructor(location: PlatformLocation ,private store: Store<any>,private _tunesplaysearchService:tunesplaysearchService,private router:ActivatedRoute,private http:Http,private _searchService: searchService){
     //audiograph.service.js 에서 state 변경하지않는한 Observable 리턴시  changeState() 값 그대로 리턴
     //만약 변경할 사항있을시 .subscribe 에서 (state: IAudiographState) 처리후 리턴 
     //return Object.assign({}, state, action.payload) -> observable state$
     this.state$ = this.store.select<any>('audiograph')
+
+    //서버업로드할떄 필수 
+    location.onPopState(() => {
+              // window.location.replace('https://moonedm.herokuapp.com/')
+              window.location.replace('http://localhost:3000/')
+          });
  }
     ngOnInit(){
-
+   
       this.init()
 
       if(localStorage.getItem('track') == null)
@@ -44,6 +51,7 @@ constructor(private store: Store<any>,private _tunesplaysearchService:tunesplays
               result.subscribe(x => {
                             var query = {  "videoURL" : ''  }
                             this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.REMOVE_TRACK, payload: query });                      
+                    
                             for(var i = 0; i<x.tracklist.length; i++)
                             {
                               this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.ADD_TRACK, payload: x.tracklist[i] }); 
@@ -57,7 +65,6 @@ constructor(private store: Store<any>,private _tunesplaysearchService:tunesplays
             //로그인을 한후 다시 플레이리스트에 들어올시 목록을 DB 에서 받지않고 config.playlist_ADD 환경변수값을 가져와 처리한다.
              var result = this._searchService.temp();
               result.subscribe(x => {
-                            //처음 노래 지우는 목적
                             var query = {  "videoURL" : ''  }
                             this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.REMOVE_TRACK, payload: query });
                        
@@ -73,8 +80,8 @@ constructor(private store: Store<any>,private _tunesplaysearchService:tunesplays
         this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.TOGGLE_MENU });
     }
     toggleCharts(){
-       this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.TOGGLE_CHARTS});
-     }
+      this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.TOGGLE_CHARTS});
+    }
      togglePlay() {
          this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.TOGGLE_PLAY });
     }

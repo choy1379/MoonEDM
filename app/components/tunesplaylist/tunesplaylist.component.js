@@ -16,8 +16,9 @@ var store_1 = require('@ngrx/store');
 var audiograph_service_1 = require('../../service/audiograph.service');
 var tunesplaysearch_service_1 = require('../../service/tunesplaysearch.service');
 var bugs_service_1 = require('../../service/bugs.service');
+var common_1 = require('@angular/common');
 var tunesplaylistComponent = (function () {
-    function tunesplaylistComponent(store, _tunesplaysearchService, router, http, _searchService) {
+    function tunesplaylistComponent(location, store, _tunesplaysearchService, router, http, _searchService) {
         this.store = store;
         this._tunesplaysearchService = _tunesplaysearchService;
         this.router = router;
@@ -28,6 +29,11 @@ var tunesplaylistComponent = (function () {
         //만약 변경할 사항있을시 .subscribe 에서 (state: IAudiographState) 처리후 리턴 
         //return Object.assign({}, state, action.payload) -> observable state$
         this.state$ = this.store.select('audiograph');
+        //서버업로드할떄 필수 
+        location.onPopState(function () {
+            // window.location.replace('https://moonedm.herokuapp.com/')
+            window.location.replace('http://localhost:3000/');
+        });
     }
     tunesplaylistComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -52,7 +58,6 @@ var tunesplaylistComponent = (function () {
             //로그인을 한후 다시 플레이리스트에 들어올시 목록을 DB 에서 받지않고 config.playlist_ADD 환경변수값을 가져와 처리한다.
             var result = this._searchService.temp();
             result.subscribe(function (x) {
-                //처음 노래 지우는 목적
                 var query = { "videoURL": '' };
                 _this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.REMOVE_TRACK, payload: query });
                 for (var i = 0; i < x.tracklist.length; i++) {
@@ -118,7 +123,7 @@ var tunesplaylistComponent = (function () {
             styleUrls: ['tunesplaylist.component.scss'],
             providers: [bugs_service_1.bugsService, audiograph_service_1.AudiographService, tunesplaysearch_service_1.tunesplaysearchService, search_service_1.searchService]
         }), 
-        __metadata('design:paramtypes', [store_1.Store, tunesplaysearch_service_1.tunesplaysearchService, router_1.ActivatedRoute, http_1.Http, search_service_1.searchService])
+        __metadata('design:paramtypes', [common_1.PlatformLocation, store_1.Store, tunesplaysearch_service_1.tunesplaysearchService, router_1.ActivatedRoute, http_1.Http, search_service_1.searchService])
     ], tunesplaylistComponent);
     return tunesplaylistComponent;
 }());
