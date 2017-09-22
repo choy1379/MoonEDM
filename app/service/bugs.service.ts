@@ -95,25 +95,25 @@ export class bugsService{
     bugsartist(params){
             var headers = new Headers();
             headers.append('Content-Type', 'application/json');
-            return this._http.post('http://localhost:4100/bugsartist', params, {headers: headers})
+            return this._http.post('https://moonedm.herokuapp.com/bugsartist', params, {headers: headers})
                 .map(res => res.json());
         }
     bugstrack(params){
         var headers = new Headers();
         headers.append('Content-Type', 'application/X-www-form-urlencoded');
-        return this._http.post('http://localhost:4100/bugstrack', params, {headers: headers})
+        return this._http.post('https://moonedm.herokuapp.com/bugstrack', params, {headers: headers})
             .map(res => res.json());
     }
     bugsCharts(){
        var headers = new Headers();
         headers.append('Content-Type', 'application/X-www-form-urlencoded');
-        return this._http.post('http://localhost:4100/getCharts', {headers: headers})
+        return this._http.post('https://moonedm.herokuapp.com/getCharts', {headers: headers})
             .map(res => res.json());
     }
     addtrackList(params){
        var headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        return this._http.post('http://localhost:4100/addtrackList', params,{headers: headers})
+        return this._http.post('https://moonedm.herokuapp.com/addtrackList', params,{headers: headers})
             .map(res => res.json());
     }
 }

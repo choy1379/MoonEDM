@@ -136,7 +136,7 @@ export const audiograph: ActionReducer<IAudiographState> = (state: IAudiographSt
     state.playlist[currentTrackIndex].playing = true;
 
     //socket stream
-    var socket = io.connect('http://localhost:4100/stream')
+    var socket = io.connect('https://moonedm.herokuapp.com/stream')
     var stream = ss.createStream()
     ss(socket).emit('PlayTrack',stream,{track:state.playlist[currentTrackIndex].videoURL})
     

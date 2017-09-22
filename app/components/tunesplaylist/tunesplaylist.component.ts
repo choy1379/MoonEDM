@@ -31,8 +31,8 @@ constructor(location: PlatformLocation ,private store: Store<any>,private _tunes
 
     //서버업로드할떄 필수 
     location.onPopState(() => {
-              // window.location.replace('https://moonedm.herokuapp.com/')
-              window.location.replace('http://localhost:3000/')
+              window.location.replace('https://moonedm.herokuapp.com/')
+              // window.location.replace('http://localhost:3000/')
           });
  }
     ngOnInit(){
