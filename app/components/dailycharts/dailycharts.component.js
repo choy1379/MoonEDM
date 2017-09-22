@@ -13,15 +13,15 @@ var store_1 = require('@ngrx/store');
 var audiograph_service_1 = require('../../service/audiograph.service');
 var bugs_service_1 = require('../../service/bugs.service');
 var auth_service_1 = require('../../service/auth.service');
-var dailyChartsComponent = (function () {
-    function dailyChartsComponent(_bugsService, store, _auth) {
+var dailychartsComponent = (function () {
+    function dailychartsComponent(_bugsService, store, _auth) {
         this._bugsService = _bugsService;
         this.store = store;
         this._auth = _auth;
         this.tracklist = new Array();
         this.state$ = this.store.select('audiograph');
     }
-    dailyChartsComponent.prototype.ngOnInit = function () {
+    dailychartsComponent.prototype.ngOnInit = function () {
         var _this = this;
         //..
         var result = this._bugsService.bugsCharts();
@@ -33,17 +33,17 @@ var dailyChartsComponent = (function () {
             _this.tracklist = x;
         });
     };
-    dailyChartsComponent.prototype.selectAll = function () {
+    dailychartsComponent.prototype.selectAll = function () {
         for (var i = 0; i < this.tracklist["tracklist"].length; i++) {
             this.tracklist["tracklist"][i].selected = this.selectedAll;
         }
     };
-    dailyChartsComponent.prototype.checkIfAllSelected = function () {
+    dailychartsComponent.prototype.checkIfAllSelected = function () {
         this.selectedAll = this.tracklist.every(function (item) {
             return item.selected == true;
         });
     };
-    dailyChartsComponent.prototype.add = function () {
+    dailychartsComponent.prototype.add = function () {
         var _this = this;
         var album = new Array();
         this.tracklist["tracklist"].forEach(function (element) {
@@ -72,7 +72,7 @@ var dailyChartsComponent = (function () {
             }
         });
     };
-    dailyChartsComponent.prototype.selected = function (event) {
+    dailychartsComponent.prototype.selected = function (event) {
         if (event.selected == true) {
             event.selected = false;
         }
@@ -80,19 +80,19 @@ var dailyChartsComponent = (function () {
             event.selected = true;
         }
     };
-    dailyChartsComponent = __decorate([
+    dailychartsComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
-            selector: 'dailyCharts',
-            templateUrl: 'dailyCharts.component.html',
-            styleUrls: ['dailyCharts.component.scss'],
+            selector: 'dailycharts',
+            templateUrl: 'dailycharts.component.html',
+            styleUrls: ['dailycharts.component.scss'],
             providers: [audiograph_service_1.AudiographService]
         }), 
         __metadata('design:paramtypes', [bugs_service_1.bugsService, store_1.Store, auth_service_1.Auth])
-    ], dailyChartsComponent);
-    return dailyChartsComponent;
+    ], dailychartsComponent);
+    return dailychartsComponent;
 }());
-exports.dailyChartsComponent = dailyChartsComponent;
+exports.dailychartsComponent = dailychartsComponent;
 // this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.TARGET_TRACK, payload: index});
 // this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.TARGET_TRACK, payload:{index :index , URL : x.URL}}); 
 //# sourceMappingURL=dailycharts.component.js.map

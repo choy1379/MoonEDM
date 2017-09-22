@@ -10,14 +10,14 @@ import {Auth} from '../../service/auth.service';
 declare var $audiograph: any;
 @Component({
     moduleId:module.id,
-    selector: 'dailyCharts',
-    templateUrl: 'dailyCharts.component.html',
-    styleUrls: ['dailyCharts.component.scss'],
+    selector: 'dailycharts',
+    templateUrl: 'dailycharts.component.html',
+    styleUrls: ['dailycharts.component.scss'],
     providers:[AudiographService]
 })
 
 
-export class dailyChartsComponent implements OnInit {
+export class dailychartsComponent implements OnInit {
    state$ : Observable<any>
    tracklist = new Array()
    selectedAll: any;

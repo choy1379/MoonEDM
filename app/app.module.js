@@ -56,7 +56,7 @@ var AppModule = (function () {
                 tunesplaysearchResult_component_1.tunesplaysearchResultComponent,
                 bugsartist_component_1.bugsartistComponent,
                 bugssearchResult_component_1.bugssearchResultComponent,
-                dailycharts_component_1.dailyChartsComponent
+                dailycharts_component_1.dailychartsComponent
             ],
             providers: [angular2_jwt_1.AUTH_PROVIDERS, auth_service_1.Auth],
             bootstrap: [app_component_1.AppComponent]
