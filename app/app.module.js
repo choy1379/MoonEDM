@@ -35,7 +35,7 @@ var tunesplaysearchResult_component_1 = require('./components/tunesplaysearchRes
 var app_routing_1 = require('./app.routing');
 var bugsartist_component_1 = require('./components/bugsartist/bugsartist.component');
 var bugssearchResult_component_1 = require('./components/bugssearchResult/bugssearchResult.component');
-var dailycharts_component_1 = require('./components/dailyCharts/dailycharts.component');
+var dailycharts_component_1 = require('./components/dailycharts/dailycharts.component');
 var AppModule = (function () {
     function AppModule() {
     }

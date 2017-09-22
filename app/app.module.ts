@@ -25,7 +25,7 @@ import {tunesplaysearchResultComponent} from './components/tunesplaysearchResult
 import {routing} from './app.routing';
 import{bugsartistComponent} from './components/bugsartist/bugsartist.component'
 import{bugssearchResultComponent} from './components/bugssearchResult/bugssearchResult.component'
-import{dailyChartsComponent} from './components/dailyCharts/dailycharts.component'
+import{dailyChartsComponent} from './components/dailycharts/dailycharts.component'
 
 @NgModule({
   imports:      [ BrowserModule,routing,HttpModule,FormsModule,ReactiveFormsModule,Ng2PaginationModule,
