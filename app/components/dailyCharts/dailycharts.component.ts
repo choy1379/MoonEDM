@@ -25,6 +25,7 @@ export class dailyChartsComponent implements OnInit {
     this.state$ = this.store.select<any>('audiograph')
    }
   ngOnInit(){
+    //..
         var result = this._bugsService.bugsCharts();
               result.subscribe(x => {
                 var sortingField = "Rank";

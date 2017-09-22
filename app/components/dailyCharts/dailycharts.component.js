@@ -23,6 +23,7 @@ var dailyChartsComponent = (function () {
     }
     dailyChartsComponent.prototype.ngOnInit = function () {
         var _this = this;
+        //..
         var result = this._bugsService.bugsCharts();
         result.subscribe(function (x) {
             var sortingField = "Rank";
