@@ -1,3 +1,7 @@
+.item.none{
+  display: none;
+}
+
 .fa.fa-remove:hover{
   opacity: 1;
 }
@@ -5,7 +9,7 @@
   opacity: 0.5;
 }
 .fa.fa-remove.head{
-  font-size: 20px;
+  font-size: 18px;
 }
 .deleteList{
   padding-left: 200px;

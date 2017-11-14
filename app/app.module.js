@@ -21,6 +21,7 @@ var DJ_service_1 = require('./service/DJ.service');
 var ng2_pagination_1 = require('ng2-pagination');
 var angular2_jwt_1 = require('angular2-jwt');
 var auth_service_1 = require('./service/auth.service');
+var ng2_dnd_1 = require('ng2-dnd');
 // component
 var app_component_1 = require('./app.component');
 var navbar_component_1 = require('./components/navbar/navbar.component');
@@ -42,7 +43,8 @@ var AppModule = (function () {
     AppModule = __decorate([
         core_1.NgModule({
             imports: [platform_browser_1.BrowserModule, app_routing_1.routing, http_1.HttpModule, forms_1.FormsModule, forms_1.ReactiveFormsModule, ng2_pagination_1.Ng2PaginationModule,
-                store_1.StoreModule.provideStore({ audiograph: audiograph_service_1.audiograph, tunesplaysearch: tunesplaysearch_service_1.tunesplaysearchReducer, bugs: bugs_service_1.bugsReducer, DJ: DJ_service_1.DJReducer })
+                store_1.StoreModule.provideStore({ audiograph: audiograph_service_1.audiograph, tunesplaysearch: tunesplaysearch_service_1.tunesplaysearchReducer, bugs: bugs_service_1.bugsReducer, DJ: DJ_service_1.DJReducer }),
+                ng2_dnd_1.DndModule.forRoot()
             ],
             declarations: [app_component_1.AppComponent,
                 navbar_component_1.NavbarComponent,
@@ -54,8 +56,8 @@ var AppModule = (function () {
                 playlist_component_1.playlistComponent,
                 tunesplaysearch_component_1.tunesplaysearchComponent,
                 tunesplaysearchResult_component_1.tunesplaysearchResultComponent,
-                bugsartist_component_1.bugsartistComponent,
                 bugssearchResult_component_1.bugssearchResultComponent,
+                bugsartist_component_1.bugsartistComponent,
                 dailycharts_component_1.dailychartsComponent
             ],
             providers: [angular2_jwt_1.AUTH_PROVIDERS, auth_service_1.Auth],

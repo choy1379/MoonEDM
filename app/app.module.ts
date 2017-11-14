@@ -11,6 +11,7 @@ import {DJReducer} from'./service/DJ.service'
 import {Ng2PaginationModule} from 'ng2-pagination';
 import {AUTH_PROVIDERS} from 'angular2-jwt';
 import {Auth} from './service/auth.service';
+import {DndModule} from 'ng2-dnd';
 // component
 import { AppComponent }  from './app.component';
 import {NavbarComponent} from './components/navbar/navbar.component';
@@ -30,6 +31,7 @@ import{dailychartsComponent} from './components/dailycharts/dailycharts.componen
 @NgModule({
   imports:      [ BrowserModule,routing,HttpModule,FormsModule,ReactiveFormsModule,Ng2PaginationModule,
  StoreModule.provideStore({ audiograph: audiograph,tunesplaysearch:tunesplaysearchReducer,bugs:bugsReducer,DJ:DJReducer})
+, DndModule.forRoot()
 ],
   declarations: [ AppComponent,
                    NavbarComponent,
@@ -41,8 +43,8 @@ import{dailychartsComponent} from './components/dailycharts/dailycharts.componen
                    playlistComponent,
                    tunesplaysearchComponent,
                    tunesplaysearchResultComponent,
-                   bugsartistComponent,
                    bugssearchResultComponent,
+                   bugsartistComponent,
                    dailychartsComponent
                     ],
   providers:[AUTH_PROVIDERS,Auth],

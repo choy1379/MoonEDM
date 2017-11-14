@@ -15,6 +15,8 @@ var search_service_1 = require('../service/search.service');
 var ss = require('node_modules/socket.io-stream/socket.io-stream.js');
 var CATEGORY = 'Audiograph';
 var audio = new Audio();
+var trackCount = 1;
+var searchTrack = new Array();
 audio.controls = true;
 var selectedTracks = shuffle([
     {
@@ -35,7 +37,8 @@ var initialState = {
     menuOpen: false,
     chartsOpen: false,
     playing: true,
-    random: false
+    random: false,
+    searchtrack: false
 };
 window.addEventListener('keydown', function (ev) {
     if (ev.keyCode === 39) {
@@ -58,7 +61,8 @@ exports.AUDIOGRAPH_ACTIONS = {
     TARGET_TRACK: "[" + CATEGORY + "] TARGET_TRACK",
     VOLUME_CONTROL: "[" + CATEGORY + "] VOLUME_CONTROL",
     RANDOM_TRACK: "[" + CATEGORY + "] RANDOM_TRACK",
-    CURRENT_CLICK: "[" + CATEGORY + "] CURRENT_CLICK"
+    CURRENT_CLICK: "[" + CATEGORY + "] CURRENT_CLICK",
+    SEARCH_TRACK: "[" + CATEGORY + "] SEARCH_TRACK"
 };
 exports.audiograph = function (state, action) {
     if (state === void 0) { state = initialState; }
@@ -76,7 +80,7 @@ exports.audiograph = function (state, action) {
         }
         return currentTrackIndex;
     };
-    var changeTrack = function (direction, index, random) {
+    var changeTrack = function (direction, index, random, searchTrack) {
         var currentTrackIndex = resetPlaying();
         state.playlist[currentTrackIndex].active = false;
         if (typeof index !== 'undefined') {
@@ -104,10 +108,14 @@ exports.audiograph = function (state, action) {
                 currentTrackIndex++;
             }
         }
+        //20171012
+        if (searchTrack == true) {
+            currentTrackIndex = direction;
+        }
         state.playlist[currentTrackIndex].active = true;
         state.playlist[currentTrackIndex].playing = true;
         //socket stream
-        var socket = io.connect('https://moonedm.herokuapp.com/stream');
+        var socket = io.connect('http://localhost:4100/stream');
         var stream = ss.createStream();
         ss(socket).emit('PlayTrack', stream, { track: state.playlist[currentTrackIndex].videoURL });
         ss(socket).on('result', function (data) {
@@ -225,15 +233,37 @@ exports.audiograph = function (state, action) {
                 audio.pause();
             }
             return changeState();
+        case exports.AUDIOGRAPH_ACTIONS.SEARCH_TRACK:
+            if (state.searchtrack == true) {
+                state.searchtrack = false;
+            }
+            else {
+                state.searchtrack = true;
+                searchTrack = action.payload;
+            }
+            return changeState();
         case exports.AUDIOGRAPH_ACTIONS.RANDOM_TRACK:
-            if (state.random == true)
+            if (state.random == true) {
                 state.random = false;
-            else
+            }
+            else {
                 state.random = true;
+            }
             return changeState();
         case exports.AUDIOGRAPH_ACTIONS.NEXT_TRACK:
             clearAlbumart();
-            if (state.random == true) {
+            if (state.searchtrack == true) {
+                //초기화 20171012
+                if (trackCount > searchTrack.length - 1) {
+                    trackCount = 0;
+                    changeTrack(searchTrack[trackCount], 0, true);
+                }
+                else {
+                    changeTrack(searchTrack[trackCount], 0, true);
+                    trackCount++;
+                }
+            }
+            else if (state.random == true) {
                 var random = generateRandom(0, state.playlist.length);
                 changeTrack(random, 0, true);
             }
@@ -359,7 +389,7 @@ function shuffle(array) {
 function getAlbumart(url) {
     var getImage = document.querySelector('.intro-2');
     //  getImage.innerHTML = '<img src="'+url+'" style="width: 480px;height: 360px;border-bottom-left-radius: 30px 30px;border-bottom-right-radius: 30px 30px;border-top-left-radius: 50px 50px;border-top-right-radius: 50px 50px;opacity: 0.9;">'
-    getImage.innerHTML = '<img src="' + url + '" style="border-bottom-left-radius: 30px 30px;border-bottom-right-radius: 30px 30px;border-top-left-radius: 50px 50px;border-top-right-radius: 50px 50px;opacity: 0.9;">';
+    getImage.innerHTML = '<img class = "mobile" src="' + url + '" style="border-bottom-left-radius: 30px 30px;border-bottom-right-radius: 30px 30px;border-top-left-radius: 50px 50px;border-top-right-radius: 50px 50px; width: 500px; opacity: 0.9;">';
 }
 function clearAlbumart() {
     var getImage = document.querySelector('.intro-2');
@@ -381,4 +411,38 @@ function setupName(num, name) {
     trackNumber.textContent = num;
     trackName.textContent = name;
 }
+// function searchTrackIndex(){
+//     var count = 0
+//     var ul = document.getElementById("playUL");
+//     var li = ul.getElementsByTagName('li');
+//       for (var i = 0; i < li.length; i++) {
+//         var trackClass = li[i].className
+//         if(trackClass != "item none" && trackClass != "item playing")
+//         {
+//           trackIndex[count] = i
+//           count++
+//         } 
+//     }
+// }
+//  //20171012
+//  searchTrackIndex()      
+//  if(trackIndex != null)
+//  {
+//    currentTrackIndex = trackIndex[trackCount]
+//    trackCount++
+//    //초기화
+//    if(trackCount > trackIndex.length)
+//    {
+//      trackCount = 0
+//      currentTrackIndex = trackIndex[trackCount]
+//    }            
+//  }
+//  else
+//  {
+//    if (direction > 0) {
+//      currentTrackIndex++;
+//    } else {
+//      currentTrackIndex--;
+//    }
+//  } 
 //# sourceMappingURL=audiograph.service.js.map

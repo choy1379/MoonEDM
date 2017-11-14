@@ -31,8 +31,8 @@ constructor(location: PlatformLocation ,private store: Store<any>,private _tunes
 
     //서버업로드할떄 필수 
     location.onPopState(() => {
-              window.location.replace('https://moonedm.herokuapp.com/')
-              // window.location.replace('http://localhost:3000/')
+              // window.location.replace('https://moonedm.herokuapp.com/')
+              window.location.replace('http://localhost:3000/')
           });
  }
     ngOnInit(){
@@ -90,11 +90,12 @@ constructor(location: PlatformLocation ,private store: Store<any>,private _tunes
     public controlTrack(direction: number) {
     // let type = direction > 0 ? AUDIOGRAPH_ACTIONS.NEXT_TRACK : AUDIOGRAPH_ACTIONS.PREV_TRACK;
     // this.store.dispatch({ type });
-    if (direction > 0) {
-      $audiograph.playNext();
-    } else {
-      $audiograph.playPrevious();
-    }
+        // this.searchTrackIndex()
+        if (direction > 0) {
+          $audiograph.playNext();
+        } else {
+          $audiograph.playPrevious();
+      }
   }
   public currentclick(event : any){
     var currentLeft = (event.pageX - event.currentTarget.getBoundingClientRect().left)

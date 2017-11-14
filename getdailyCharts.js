@@ -149,7 +149,7 @@ youTube.setKey('AIzaSyB2QPeJGn6xo9rrjjzZrk9OT33aO-Ubzxo');
                                                 {
                                                         Albumlist = new Object() 
                                                         Albumlist.Rank = Rank[i]
-                                                        Albumlist.albumImg = albumImg[i].slice(0,38)+'500'+albumImg[i].slice(40,60)
+                                                        Albumlist.albumImg = albumImg[i].slice(0,38)+'/50'+albumImg[i].slice(40)
                                                         Albumlist.albumTitle = albumTitle[i]
                                                         Albumlist.artist = artist[i]
                                                         Albumlist.album = album[i]

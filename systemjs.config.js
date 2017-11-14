@@ -32,6 +32,7 @@
        'ng2-pagination': 'node_modules/ng2-pagination',
       'angular2-jwt':               'node_modules/angular2-jwt/angular2-jwt.js',
       "socket.io-stream": "node_modules/socket.io-stream/socket.io-stream.js",
+      'ng2-dnd': 'node_modules/ng2-dnd/bundles/index.umd.js'
 },
     
     // packages tells the System loader how to load when no filename and/or no extension

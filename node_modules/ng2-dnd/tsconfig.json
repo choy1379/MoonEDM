@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "module": "es2015",
+    "target": "es5",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "declaration": true,
+    "moduleResolution": "node",
+    "types": [
+      "hammerjs",
+      "jasmine",
+      "node"
+    ],
+    "lib": ["es2015", "dom"]
+  },
+  "files": [
+    "index.ts",
+    "./src/abstract.component.ts",
+    "./src/dnd.config.ts",
+    "./src/dnd.service.ts",
+    "./src/dnd.utils.ts",
+    "./src/draggable.component.ts",
+    "./src/droppable.component.ts",
+    "./src/sortable.component.ts",
+
+    "./tests/dnd.component.factory.ts",
+    "./tests/dnd.sortable.spec.ts",
+    "./tests/dnd.with.draggable.data.spec.ts",
+    "./tests/dnd.without.draggable.data.spec.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "bundles"
+  ],
+  "angularCompilerOptions": {
+    "strictMetadataEmit": true,
+    "skipTemplateCodegen": true
+  }
+}

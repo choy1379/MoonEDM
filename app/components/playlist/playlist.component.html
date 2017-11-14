@@ -6,9 +6,11 @@
             <i class="fa fa-remove head">목록전체 삭제</i>
           </a>
       </div>
-    <input class = "form-control" type="text" #searchInput (keyup.enter)="search(myInput.value)" (keyup)="search($event)" placeholder="Search for Song..">
-  <ul id ="playUL" class="playlist-list">
-    <li *ngFor="let track of (state$ | async)?.playlist; let i = index" class="item" (click)="play(i,track)" [ngClass]="{playing: track.playing}">
+      <!-- 20171012 -->
+      <!-- <input class = "form-control" type="text" #searchInput (keyup.enter)="search($event)" (keyup)="search($event)" placeholder="Search for Song..">      -->
+    <input class = "form-control" type="text" #searchInput (keyup.enter)="search($event)" placeholder="Search for Song..">
+  <ul id ="playUL" class="playlist-list" dnd-sortable-container [sortableData]="(state$ | async)?.playlist">
+    <li *ngFor="let track of (state$ | async)?.playlist; let i = index" dnd-sortable [sortableIndex]="i" class="item" (click)="play(i,track)" [ngClass]="{playing: track.playing}">
       <div class="row">
         <div class="col-xs-11">
           <i *ngIf="track.playing" class="playing-indicator fa" [ngClass]="{'fa-volume-off': volumeLevel===0, 'fa-volume-down': volumeLevel===1, 'fa-volume-up': volumeLevel===2}"></i>

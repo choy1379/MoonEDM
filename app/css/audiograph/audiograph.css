@@ -327,6 +327,7 @@ a:hover::after {
   }
 }
 
+
 @media only screen and (max-width: 480px) {
   .header {
     font-size: 40px;
@@ -335,5 +336,10 @@ a:hover::after {
   }
   .subheader {
     font-size: 9.5px;
+  }
+}
+@media (max-width: 375px) {
+  .mobile{
+    width:90%;
   }
 }

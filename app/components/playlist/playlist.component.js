@@ -61,9 +61,11 @@ var playlistComponent = (function () {
         this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.TARGET_TRACK, payload: index });
     };
     playlistComponent.prototype.search = function (search) {
+        var el = document.getElementById('items');
         // Declare variables
-        var input, filter, ul, li, a, i;
-        input = document.getElementById('searchInput');
+        var filter, ul, li, a, i;
+        var trackIndex = new Array();
+        var count = 0;
         if (search.target.value != '') {
             filter = search.target.value;
         }
@@ -79,12 +81,22 @@ var playlistComponent = (function () {
         for (i = 0; i < li.length; i++) {
             a = li[i].getElementsByTagName("div")[0];
             if (a.innerHTML.toLowerCase().indexOf(filter) > -1) {
-                li[i].style.display = "";
+                // li[i].style.display = "";
+                li[i].className = "item";
             }
             else {
-                li[i].style.display = "none";
+                // li[i].style.display = "none";
+                li[i].className = "item none";
             }
         }
+        for (i = 0; i < li.length; i++) {
+            var trackClass = li[i].className;
+            if (trackClass != "item none") {
+                trackIndex[count] = i;
+                count++;
+            }
+        }
+        this.store.dispatch({ type: audiograph_service_1.AUDIOGRAPH_ACTIONS.SEARCH_TRACK, payload: trackIndex });
     };
     playlistComponent = __decorate([
         core_1.Component({

@@ -5,6 +5,7 @@ import {Observable} from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { AUDIOGRAPH_ACTIONS,AudiographService } from '../../service/audiograph.service';
 import {searchService} from '../../service/search.service';
+
 declare var $audiograph: any;
 @Component({
     moduleId:module.id,
@@ -19,8 +20,7 @@ export class playlistComponent implements OnInit {
   
    state$ : Observable<any>
    volumeLevel: number = 0;
-
-
+   
   constructor(public _searchService:searchService,public audiograph: AudiographService,private store: Store<any>) {
     this.state$ = this.store.select<any>('audiograph')
     
@@ -69,9 +69,12 @@ export class playlistComponent implements OnInit {
          this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.TARGET_TRACK, payload: index});
   }
   private search(search:any){
+    var el = document.getElementById('items');
      // Declare variables
-    var input, filter, ul, li, a, i;
-    input = document.getElementById('searchInput');
+    var  filter, ul, li, a, i;
+    var trackIndex = new Array()
+    var count = 0
+
     if(search.target.value != '')
     {
       filter = search.target.value
@@ -79,10 +82,12 @@ export class playlistComponent implements OnInit {
     else if (typeof filter === 'undefined')
     {
       filter = '' 
+       
     }
     else
     {
       filter = search
+         
     }
     ul = document.getElementById("playUL");
     li = ul.getElementsByTagName('li');
@@ -91,11 +96,22 @@ export class playlistComponent implements OnInit {
     for (i = 0; i < li.length; i++) {
         a = li[i].getElementsByTagName("div")[0];
         if (a.innerHTML.toLowerCase().indexOf(filter) > -1) {
-            li[i].style.display = "";
+            // li[i].style.display = "";
+            li[i].className = "item"
         } else {
-            li[i].style.display = "none";
+            // li[i].style.display = "none";
+            li[i].className = "item none"
         }
     }
+    for (i = 0; i < li.length; i++) {
+      var trackClass = li[i].className
+      if(trackClass != "item none")
+      {
+        trackIndex[count] = i
+        count++
+      } 
+    }
+    this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.SEARCH_TRACK,payload:trackIndex});   
   }
 }
   // this.store.dispatch({ type: AUDIOGRAPH_ACTIONS.TARGET_TRACK, payload: index});

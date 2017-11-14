@@ -31,8 +31,8 @@ var tunesplaylistComponent = (function () {
         this.state$ = this.store.select('audiograph');
         //서버업로드할떄 필수 
         location.onPopState(function () {
-            window.location.replace('https://moonedm.herokuapp.com/');
-            // window.location.replace('http://localhost:3000/')
+            // window.location.replace('https://moonedm.herokuapp.com/')
+            window.location.replace('http://localhost:3000/');
         });
     }
     tunesplaylistComponent.prototype.ngOnInit = function () {
@@ -78,6 +78,7 @@ var tunesplaylistComponent = (function () {
     tunesplaylistComponent.prototype.controlTrack = function (direction) {
         // let type = direction > 0 ? AUDIOGRAPH_ACTIONS.NEXT_TRACK : AUDIOGRAPH_ACTIONS.PREV_TRACK;
         // this.store.dispatch({ type });
+        // this.searchTrackIndex()
         if (direction > 0) {
             $audiograph.playNext();
         }
